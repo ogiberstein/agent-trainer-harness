@@ -3,7 +3,7 @@
 ## Sources
 
 ### Source 1: Product Agent Team architecture document
-- Path: `/Users/ogiberstein/Documents/Coding/agent_trainer/# Product Agent Team — Architecture & Sp.md`
+- Path: `architecture-spec.md` (originally `# Product Agent Team — Architecture & Sp.md`)
 - Key points:
   - Includes new comprehensive harness extension section.
   - Defines starter directories for harness, profiles, memory, evaluation, and operations.

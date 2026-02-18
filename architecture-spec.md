@@ -12,8 +12,9 @@ This document is the original **vision and architecture narrative** for the Prod
 
 The system has moved from concept-only planning into an operational scaffold with:
 
-- Role definitions in `harness/agents/` (including optional Growth Strategist and Setup Engineer)
-- Runbooks and pseudo-commands in `Day 0 Start with this Prompt.md`, `Lite Mode Start Checklist.md`, `Existing Project Migration Checklist.md`, and `COMMANDS.md`
+- Role definitions in `harness/agents/` (including optional Growth Strategist, Domain SME, and Setup Engineer)
+- Runbooks and pseudo-commands in `day-0-start.md`, `lite-mode-checklist.md`, `migration-checklist.md`, and `COMMANDS.md`
+- Framework-agnostic bootstrap in `AGENTS.md` with optional framework shims
 - Operational control layer in `operations/` (board, dashboard, runbook, context-efficiency, workflow-state, inbox, concurrency policy, SLAs)
 - Modular private skills system in `skills/` with packs, registry, and review/security policies
 - Evaluation and release governance in `evaluation/`
@@ -200,13 +201,13 @@ You coordinate these agents:
 
 Workflow phases (default, adapt as needed):
 0. RESEARCH (OPTIONAL) — Opportunity/domain research kickoff (for example `specs/market-research.md`) before scope lock
-1. REQUIREMENTS — Product Manager interviews user, produces specs/requirements.md
+1. REQUIREMENTS — Product Manager interviews user, produces specs/requirements.md. If growth is relevant, Growth Strategist provides early input (SEO/GEO/analytics requirements) before requirements lock.
 2. DESIGN — Designer produces specs/ui-spec.md and specs/architecture.md
 3. PLANNING — You break design into implementation tasks, assign to engineers
 4. IMPLEMENTATION — Engineers build. Fullstack does backend first, Frontend does UI.
 5. QA — QA Engineer tests against acceptance criteria from requirements
 6. DOCUMENTATION — Doc Writer produces all docs
-7. GROWTH (OPTIONAL) — Growth Strategist defines acquisition plan, SEO/GEO requirements, landing content strategy, and experiment roadmap
+7. GROWTH EXECUTION (OPTIONAL) — Growth Strategist produces full execution plan (SEO/GEO strategy, landing pages, social distribution, experiment backlog) grounded in implemented product
 8. REVIEW — You compile final deliverables, present to user
 
 Rules:
@@ -783,21 +784,27 @@ Rules:
 
 **Role:** Translate product capabilities into growth execution plans across SEO/GEO, landing pages, social distribution, and experiment design.
 
+**Activation model:** The Growth Strategist operates at two touchpoints:
+1. **Growth Requirements Input (Phase 1)** — provides SEO/GEO requirements, analytics needs, and landing page constraints to the PM before requirements are locked.
+2. **Growth Execution Plan (Phase 7)** — produces the full execution plan grounded in the implemented product.
+
 #### System Prompt
 
 ```text
 You are the Growth Strategist on a software product team. Your job is to:
 
-1. Turn product positioning and features into growth channels and campaigns.
-2. Define SEO and GEO strategy (keyword intent clusters, content structure, technical prerequisites).
-3. Create conversion-focused landing page plans and message hierarchy.
-4. Define social distribution strategy (channel fit, cadence, content angles).
-5. Build an experimentation roadmap (hypotheses, metrics, guardrails, stopping rules).
-6. Align growth work to implementation realities and analytics instrumentation.
-7. Own growth analytics strategy: event taxonomy, funnel definitions, KPI logic, attribution assumptions, and experiment readouts.
+1. Identify growth-relevant requirements early and feed them to the Product Manager during the requirements phase.
+2. Turn product positioning and features into growth channels and campaigns.
+3. Define SEO and GEO strategy (keyword intent clusters, content structure, technical prerequisites).
+4. Create conversion-focused landing page plans and message hierarchy.
+5. Define social distribution strategy (channel fit, cadence, content angles).
+6. Build an experimentation roadmap (hypotheses, metrics, guardrails, stopping rules).
+7. Align growth work to implementation realities and analytics instrumentation.
+8. Own growth analytics strategy: event taxonomy, funnel definitions, KPI logic, attribution assumptions, and experiment readouts.
 
 Rules:
-- Ground all growth proposals in actual implemented product capabilities.
+- Provide growth requirements input BEFORE requirements lock, not after implementation.
+- Ground all growth execution proposals in actual implemented product capabilities.
 - No vanity tactics without measurement plans.
 - Every recommendation must include owner, expected impact, and success metric.
 - Growth Strategist owns measurement design and interpretation.
@@ -815,12 +822,14 @@ Rules:
 - Optional analytics baselines if available
 
 #### Output Contract
-- `specs/growth-plan.md`
+- Growth requirements input to `specs/requirements.md` (during requirements phase)
+- `specs/growth-plan.md` (during growth execution phase)
 - `handoffs/growth-to-engineering.md` (tracking/instrumentation needs)
 - `handoffs/growth-to-documentation.md` (content/positioning updates)
 - Updates to `STATUS.md`
 
 #### Quality Criteria
+- Growth requirements captured before requirements lock (if applicable)
 - Strategy covers SEO/GEO, landing pages, and distribution channels
 - Prioritized experiment backlog with success metrics
 - Clear instrumentation requirements for experiment measurement
@@ -828,14 +837,15 @@ Rules:
 
 ---
 
-### 8. Domain SME (Optional Pattern)
+### 8. Domain SME (Optional)
 
-**Role:** Provide deep domain interpretation (for example finance/trading, healthcare, regulatory context) to reduce assumption risk in requirements and acceptance criteria.
+**Role:** Provide deep domain interpretation (for example finance/trading, healthcare, regulatory context) to reduce assumption risk in requirements and acceptance criteria. See also `harness/agents/domain-sme.md`.
 
 When to activate:
 - Domain correctness is critical to product value.
 - Regulatory/compliance ambiguity is high.
 - Rework loops are caused by domain misunderstanding.
+- Prefer enabling domain skills first; promote to full Domain SME agent only if repeated ambiguity causes rework.
 
 Suggested outputs:
 - `specs/market-research.md` (if project starts with opportunity validation)
@@ -945,13 +955,14 @@ This architecture is designed to work with several existing multi-agent framewor
 
 For the simplest possible setup (e.g., a single Claude conversation or a Claude Project):
 
-1. **Copy BRIEF.md template** — paste user's request into it.
-2. **Run agents sequentially** — paste each agent's system prompt as your instruction, one at a time.
-3. **Use the shared directory structure** — create the files as you go.
-4. **Use handoff documents** — write them between phases to preserve context.
-5. **You are the orchestrator** — use the Orchestrator prompt as your mental checklist.
+1. **Include `AGENTS.md`** — this bootstraps any agent into the harness workflow.
+2. **Fill in `BRIEF.md`** — paste user's request into it with concrete scope and constraints.
+3. **Run agents sequentially** — paste each agent's system prompt as your instruction, one at a time.
+4. **Use the shared directory structure** — create the files as you go.
+5. **Use handoff documents** — write them between phases to preserve context.
+6. **You are the orchestrator** — use the Orchestrator prompt as your mental checklist.
 
-For a fully automated setup, use one of the harness frameworks above and wire the agents together programmatically.
+For a fully automated setup, use one of the harness frameworks above and wire the agents together programmatically. For an end-to-end example, see `docs/walkthrough.md`.
 
 ---
 
@@ -965,7 +976,8 @@ For a fully automated setup, use one of the harness frameworks above and wire th
 | **Frontend Engineer** | specs/ui-spec.md | src/, tests/ | UI components, accessibility | Magic numbers, missing states |
 | **QA Engineer** | All specs, src/ | qa/ | Adversarial testing | Happy-path-only testing |
 | **Doc Writer** | All specs, src/, qa/ | docs/ | Clear writing, examples | Documenting the spec, not the code |
-| **Growth Strategist (Optional)** | brief/specs/docs | specs/growth-plan.md, handoffs/ | SEO/GEO, positioning, experiments | Vanity tactics without metrics |
+| **Growth Strategist (Optional)** | brief/specs/docs | specs/requirements.md (early input), specs/growth-plan.md, handoffs/ | SEO/GEO, positioning, experiments | Vanity tactics without metrics; adding growth after implementation |
+| **Domain SME (Optional)** | BRIEF.md, specs/ | specs/requirements.md (domain notes), DECISIONS.md | Domain correctness, risk flagging | Guessing on regulatory/compliance questions |
 | **Orchestrator** | Everything | STATUS.md, DECISIONS.md | Coordination, quality gating | Rubber-stamping bad output |
 
 ---
@@ -978,6 +990,7 @@ This section turns the architecture into a reusable harness that can be dropped 
 
 ```text
 /project
+├── AGENTS.md                      # Framework-agnostic agent bootstrap
 ├── BRIEF.md
 ├── STATUS.md
 ├── DECISIONS.md
@@ -1001,7 +1014,8 @@ This section turns the architecture into a reusable harness that can be dropped 
 │   │   ├── frontend-engineer.md
 │   │   ├── qa-engineer.md
 │   │   ├── documentation-writer.md
-│   │   ├── growth-strategist.md # Optional growth specialist
+│   │   ├── growth-strategist.md # Optional (two-phase: early input + late execution)
+│   │   ├── domain-sme.md        # Optional domain specialist
 │   │   └── setup-engineer.md    # Bootstrap/configuration agent
 │   ├── adapter-contract.md      # Canonical harness adapter API
 │   ├── routing-policy.md        # Scheduling, retries, escalation
@@ -1187,10 +1201,12 @@ Define role permissions in `harness/permissions-matrix.md`:
 | Orchestrator | all project files | STATUS.md, DECISIONS.md, handoffs/ | route, escalate, approve | direct code edits in `src/` unless emergency override |
 | Product Manager | BRIEF.md, STATUS.md, DECISIONS.md | specs/requirements.md, product handoffs | clarify, structure requirements | editing implementation code |
 | Designer | requirements + handoffs | ui-spec, architecture, design handoffs | design/spec tools | writing production code |
-| Fullstack Engineer | specs + handoffs | backend code/tests, eng handoffs | code, test, migrate | editing UI spec requirements |
+| Fullstack Engineer | specs + handoffs | backend code/tests, eng handoffs | code, test, migrate | editing requirements or UI spec directly |
 | Frontend Engineer | specs + handoffs | frontend code/tests, eng handoffs | code, test, a11y checks | editing backend contracts without approval |
 | QA Engineer | all specs + code + tests | qa/*, qa handoffs | test execution, audits | marking pass without evidence |
 | Documentation Writer | code/specs/qa | docs/* | docs generation, command checks | documenting unimplemented features |
+| Growth Strategist | brief/specs/docs | specs/requirements.md (growth input), specs/growth-plan.md, growth handoffs | analytics design, growth strategy | modifying non-growth requirements or code |
+| Domain SME | BRIEF.md, specs, DECISIONS.md | domain notes in specs/requirements.md, DECISIONS.md | domain validation, risk assessment | making implementation or architecture decisions |
 | Setup Engineer | profiles + base prompts | merged profiles, generated prompts, adapter config | prompt generation, validation | bypassing mandatory constraints |
 
 Mandatory controls:
@@ -1323,5 +1339,6 @@ For each new project:
 2. Copy `profiles/project-profile.yaml` template and customize
 3. Run Setup Engineer to generate merged profile + agent prompts
 4. Validate adapter config for your chosen framework
-5. Run a smoke benchmark from `evaluation/golden-tasks.md` (small scenario)
-6. Start orchestrated delivery workflow
+5. Optionally install a framework shim from `starter_kit_existing_projects/framework-shims/`
+6. Run a smoke benchmark from `evaluation/golden-tasks.md` (small scenario)
+7. Start orchestrated delivery workflow (see `day-0-start.md` or `lite-mode-checklist.md`)

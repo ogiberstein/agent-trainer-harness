@@ -6,6 +6,26 @@
   "summaries": [],
   "meta": {
     "last_compaction_at": null,
+    "handoff_count_since_compaction": 0,
     "retention_days": 30
+  },
+  "_schema": {
+    "lock": {
+      "owner": "role name (e.g., 'product-manager')",
+      "path": "file path being locked (e.g., 'specs/requirements.md')",
+      "started_at": "ISO 8601 timestamp",
+      "ttl_seconds": 1800,
+      "reason": "brief description of the write operation"
+    },
+    "record": {
+      "record_id": "unique ID (e.g., 'REC-001')",
+      "type": "handoff | snapshot | summary | decision",
+      "source": "agent role that created it",
+      "timestamp": "ISO 8601 timestamp",
+      "ttl": "ISO 8601 duration or null for permanent",
+      "tags": ["phase:requirements", "role:product-manager"],
+      "content_hash": "SHA-256 of referenced content",
+      "content_ref": "file path to the actual content"
+    }
   }
 }

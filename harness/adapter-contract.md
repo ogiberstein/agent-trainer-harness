@@ -2,6 +2,16 @@
 
 This contract defines the minimum interface every framework adapter must implement.
 
+## Framework Auto-Discovery (Shim Pattern)
+
+The canonical agent bootstrap lives in `AGENTS.md` at the repo root. For specific frameworks, thin shim files can be installed to enable auto-discovery:
+
+- Cursor: `.cursor/rules/harness.mdc`
+- Claude Code: `CLAUDE.md`
+- GitHub Copilot: `.github/copilot-instructions.md`
+
+Each shim delegates to `AGENTS.md`. Templates are available in `starter_kit_existing_projects/framework-shims/`.
+
 ## Required Operations
 
 ```text

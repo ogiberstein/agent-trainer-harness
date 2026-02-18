@@ -44,7 +44,7 @@ Runs:
 4. Initialize `STATUS.md` to requirements.
 
 Primary files:
-- `Day 0 Start with this Prompt.md`
+- `day-0-start.md`
 - `profiles/project-profile.yaml`
 - `profiles/active-skills.yaml`
 - `STATUS.md`
@@ -58,9 +58,24 @@ Runs:
 3. Use shortened phase flow (requirements -> implementation -> QA -> review).
 
 Primary files:
-- `Lite Mode Start Checklist.md`
+- `lite-mode-checklist.md`
 - `profiles/active-skills.lite.yaml`
 - `STATUS.md`
+
+### `/align-existing-project`
+Purpose: Hand over an existing project to the harness team by aligning current docs/specs in place.
+
+Runs:
+1. Copy core harness files (`starter_kit_existing_projects/core/`).
+2. Execute alignment prompt from `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_PROMPT.md`.
+3. Track progress via `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_CHECKLIST.md`.
+
+Primary files:
+- `migration-checklist.md`
+- `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_PROMPT.md`
+- `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_CHECKLIST.md`
+- `STATUS.md`
+- `DECISIONS.md`
 
 ### `/phase-next`
 Purpose: Advance exactly one phase with gate enforcement.
@@ -156,3 +171,51 @@ Primary files:
 - `operations/dashboard.md`
 - `STATUS.md`
 - `DECISIONS.md`
+
+## Feedback and Validation
+
+### `/retrospective`
+Purpose: Run a structured post-project or post-phase retrospective.
+
+Runs:
+1. Read `evaluation/scorecard.md` and `qa/audit-report.md`.
+2. Identify where rework loops occurred (from `operations/board.md` history and `qa/issues.md`).
+3. Assess which gates caught issues vs. missed them.
+4. Produce a retrospective summary:
+   - What worked well
+   - What caused friction or rework
+   - Gate effectiveness (caught / missed / false positive)
+   - Scorecard results vs. targets
+   - Recommended harness or process improvements
+5. Log actionable improvements in `DECISIONS.md`.
+6. If improvements affect harness files, add entries to `FUTURE_IMPROVEMENTS.md`.
+
+Primary files:
+- `evaluation/scorecard.md`
+- `qa/audit-report.md`
+- `qa/issues.md`
+- `operations/board.md`
+- `DECISIONS.md`
+- `FUTURE_IMPROVEMENTS.md`
+
+### `/validate-harness`
+Purpose: Check internal consistency of harness files.
+
+Runs:
+1. Verify every skill referenced in `profiles/active-skills.yaml` exists in `skills/`.
+2. Verify every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
+3. Verify handoff templates in `handoffs/` cover the workflow edges defined in `harness/routing-policy.md`.
+4. Verify `AGENTS.md` references match actual file paths.
+5. Verify `COMMANDS.md` primary file references exist.
+6. Report:
+   - PASS: all checks green
+   - FAIL: list of inconsistencies with file paths and suggested fixes
+
+Primary files:
+- `AGENTS.md`
+- `COMMANDS.md`
+- `profiles/active-skills.yaml`
+- `harness/permissions-matrix.md`
+- `harness/agents/*.md`
+- `handoffs/*.md`
+- `harness/routing-policy.md`

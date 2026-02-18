@@ -1,6 +1,6 @@
-# Day 0 Start with this Prompt
+# Day 0 Start Prompt
 
-Use this file to launch a new project with the harness in Cursor (manual mode, human-as-orchestrator).
+Use this file to launch a new project with the harness in any AI IDE (Cursor, Claude Code, Windsurf, etc.) in manual mode (human-as-orchestrator).
 
 ## How to use this
 
@@ -8,8 +8,8 @@ Use this file to launch a new project with the harness in Cursor (manual mode, h
 2. Copy the prompt block below.
 3. Paste it into your agent chat as your first message for a new project.
 4. Follow the checkpoints and phase order exactly.
-5. For migrating an existing codebase, run `Existing Project Migration Checklist.md` first.
-6. For small projects, use `Lite Mode Start Checklist.md` first.
+5. For migrating an existing codebase, run `migration-checklist.md` first.
+6. For small projects, use `lite-mode-checklist.md` instead.
 
 ---
 
@@ -29,6 +29,7 @@ Operating mode:
 
 First actions (in order):
 1. Read:
+   - AGENTS.md
    - BRIEF.md
    - profiles/org-profile.yaml
    - profiles/project-profile.yaml
@@ -48,6 +49,7 @@ First actions (in order):
    - Produce/update harness/generated-agents/qa-engineer.md
    - Produce/update harness/generated-agents/documentation-writer.md
    - Optionally produce/update harness/generated-agents/growth-strategist.md for acquisition-focused projects
+   - Optionally produce/update harness/generated-agents/domain-sme.md for domain-heavy projects
    - Validate harness/adapter-config.yaml
 3. Update STATUS.md:
    - Current Phase = requirements
@@ -70,12 +72,14 @@ Then run this exact phase sequence with gate checks:
 
 PHASE 1 - REQUIREMENTS
 - Active role prompt: harness/generated-agents/product-manager.md
+- If growth is relevant: run Growth Strategist input pass to capture SEO/GEO/analytics requirements
 - Produce specs/requirements.md
 - Write handoffs/product-to-design.md
 - Gate to pass:
   - Every FR has user story + at least 2 acceptance criteria
   - Edge cases and out-of-scope are explicit
   - Open questions listed
+  - Growth requirements captured (if applicable)
 - Human approval required before moving forward.
 
 PHASE 2 - DESIGN
@@ -123,8 +127,10 @@ PHASE 5 - DOCUMENTATION
   - Setup steps are explicit and coherent
   - Known issues/workarounds reflected from QA
 
-PHASE 5.5 - GROWTH (OPTIONAL)
+PHASE 6 - GROWTH (OPTIONAL)
 - Active role prompt: harness/generated-agents/growth-strategist.md
+- Note: Growth requirements input should have already happened in Phase 1.
+  This phase produces the full execution plan based on the implemented product.
 - Produce/update:
   - specs/growth-plan.md
   - handoffs/growth-to-engineering.md
@@ -134,7 +140,7 @@ PHASE 5.5 - GROWTH (OPTIONAL)
   - Landing and social strategy tied to actual product capabilities
   - Experiment backlog includes hypothesis + metric + owner
 
-PHASE 6 - FINAL REVIEW
+PHASE 7 - FINAL REVIEW
 - Orchestrator compiles final delivery summary:
   - What was built
   - What is deferred
@@ -177,7 +183,7 @@ For each phase:
 - `BRIEF.md` completed with concrete scope and constraints.
 - `profiles/project-profile.yaml` customized.
 - `profiles/merged-profile.yaml` generated.
-- `harness/generated-agents/` populated for core roles (+ growth role when applicable).
+- `harness/generated-agents/` populated for core roles (+ growth/domain-sme when applicable).
 - `STATUS.md` set to `requirements`.
 - `DECISIONS.md` has setup decisions logged.
 - First handoff file exists (`handoffs/product-to-design.md`).

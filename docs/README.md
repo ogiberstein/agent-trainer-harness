@@ -3,10 +3,16 @@
 File-first multi-agent harness for running product delivery workflows from brief to release, with optional growth and domain skill packs.
 
 ## Start Here
-- Full mode: `Day 0 Start with this Prompt.md`
-- Lite mode (small projects): `Lite Mode Start Checklist.md`
-- Existing repo onboarding: `Existing Project Migration Checklist.md`
+- Bootstrap instructions for agents: `AGENTS.md`
+- Full mode: `day-0-start.md`
+- Lite mode (small projects): `lite-mode-checklist.md`
+- Existing repo onboarding: `migration-checklist.md`
 - Command runbooks: `COMMANDS.md`
+- End-to-end example: `docs/walkthrough.md`
+- Future roadmap: `FUTURE_IMPROVEMENTS.md`
+- Existing-project drop-in bundle (alignment-first): `starter_kit_existing_projects/`
+- Framework-specific shims: `starter_kit_existing_projects/framework-shims/`
+- Vision and architecture narrative: `architecture-spec.md`
 
 ## Optional Domain SME Pattern
 - Keep core team lean by default.
@@ -30,6 +36,7 @@ The initial scaffold is complete and includes:
 - Base role prompts and generated-agent destination
 - Memory policies and retention structure
 - QA, docs, operations, and governance templates
+- Framework-agnostic bootstrap (`AGENTS.md`) with optional framework shims
 
 ## Historical Setup Notes
 Initial setup artifacts have been archived for reference in:

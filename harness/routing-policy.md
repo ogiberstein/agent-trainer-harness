@@ -5,6 +5,7 @@
 - Parallelism is allowed only inside implementation and bounded by `merged-profile.workflow_policy.max_parallel_tasks`.
 - Orchestrator must checkpoint `STATUS.md` before and after each phase transition.
 - Use ready-queue dispatch: only tasks that are unblocked, scoped, and unassigned can be claimed.
+- Optional Growth Strategist has two touchpoints: (1) growth requirements input during the requirements phase, and (2) growth execution plan after QA. See `harness/agents/growth-strategist.md`.
 
 ## Ready-Task Dispatch
 - A task is **Ready** only if:

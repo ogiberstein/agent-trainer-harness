@@ -4,18 +4,17 @@ Use this file to make multi-step workflows resumable.
 
 ## Active Workflow
 - Workflow ID: WF-001
-- Name: [feature or initiative]
+- Name: <!-- feature or initiative name -->
 - Status: running | blocked | completed
-- Current step: [step-id]
+- Current step: <!-- step-id -->
 - Last checkpoint: YYYY-MM-DD HH:MM UTC
-- Owner: [role]
+- Owner: <!-- role -->
 
 ## Steps
+
 | Step ID | Description | Owner | Status | Evidence | Next Action |
 |---|---|---|---|---|---|
-| STEP-001 | Requirements baseline | Product Manager | completed | `specs/requirements.md` | Move to design |
-| STEP-002 | Design package | Designer | running | `specs/ui-spec.md`, `specs/architecture.md` | Complete gate checks |
-| STEP-003 | Backend implementation | Fullstack Engineer | pending |  | Await STEP-002 |
+| STEP-001 | <!-- description --> | <!-- role --> | pending | | |
 
 ## Resume Rules
 - Resume from the first non-completed step.
