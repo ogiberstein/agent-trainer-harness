@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "locks": [],
+  "records": [],
+  "snapshots": [],
+  "summaries": [],
+  "meta": {
+    "last_compaction_at": null,
+    "retention_days": 30
+  }
+}

@@ -1,0 +1,58 @@
+version: "1.0.0"
+project:
+  name: "Example Project"
+  domain: "saas"
+  objective: "One sentence business goal"
+  delivery_mode: "mvp" # mvp | production
+
+constraints:
+  tech_stack:
+    frontend: "react"
+    backend: "node"
+    database: "postgres"
+  hosting: "vercel+railway"
+  compliance:
+    - "gdpr"
+  non_negotiables:
+    - "No hardcoded secrets"
+    - "WCAG 2.1 AA minimum"
+
+quality_bars:
+  test_coverage_min_percent: 80
+  perf_targets:
+    p95_api_ms: 500
+    lcp_ms: 2500
+  qa_gate:
+    block_on_severity:
+      - "Critical"
+      - "Major"
+
+workflow_policy:
+  require_human_approval_at:
+    - "requirements"
+    - "design"
+    - "release"
+  max_parallel_tasks: 3
+  max_retry_per_task: 2
+
+communication_style:
+  tone: "concise"
+  report_frequency: "per-phase"
+  decision_log_required: true
+
+agent_overrides:
+  orchestrator:
+    emphasis:
+      - "risk management"
+      - "small increments"
+  fullstack_engineer:
+    standards:
+      - "strict input validation"
+      - "idempotent APIs"
+  frontend_engineer:
+    standards:
+      - "a11y-first"
+      - "token-only styling"
+  # growth_strategist:
+  #   channels: ["seo", "geo", "landing-pages", "social"]
+  #   cadence: "weekly"

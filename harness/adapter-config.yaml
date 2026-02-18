@@ -1,0 +1,31 @@
+version: "1.0.0"
+target_harness: "replace-me" # crewai | langgraph | autogen | assistants | custom
+
+adapter:
+  implementation: "path-or-module"
+  timeout_seconds:
+    soft: 120
+    hard: 300
+  retry:
+    transient_only: true
+    max_retries: 2
+
+agents:
+  orchestrator: "harness/generated-agents/orchestrator.md"
+  product_manager: "harness/generated-agents/product-manager.md"
+  designer: "harness/generated-agents/designer.md"
+  fullstack_engineer: "harness/generated-agents/fullstack-engineer.md"
+  frontend_engineer: "harness/generated-agents/frontend-engineer.md"
+  qa_engineer: "harness/generated-agents/qa-engineer.md"
+  documentation_writer: "harness/generated-agents/documentation-writer.md"
+  # Optional growth role:
+  # growth_strategist: "harness/generated-agents/growth-strategist.md"
+
+memory:
+  index_path: "memory/index.json"
+  summaries_path: "memory/summaries"
+  snapshots_path: "memory/snapshots"
+
+policy_files:
+  routing_policy: "harness/routing-policy.md"
+  permissions_matrix: "harness/permissions-matrix.md"
