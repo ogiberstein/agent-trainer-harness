@@ -3,34 +3,45 @@
 This repository uses a structured multi-agent harness for product delivery.
 Treat these harness files as the primary operating instructions — do not invent ad-hoc workflows.
 
-## Protected Infrastructure (Do Not Delete)
+## Protected Infrastructure
 
-Do **not** delete, remove, or replace these harness assets. Align or update their *contents* only; do not remove the files or folders themselves.
+### Always protected (never delete)
+
+These files and directories are the harness backbone. Do **not** delete, remove, or replace them. Update their *contents* only.
 
 - `AGENTS.md` (this file)
-- `harness/` (role prompts, routing, permissions, adapter)
-- `profiles/` (org/project profiles, active skills)
-- `memory/` (policies, index, snapshots, summaries)
-- `evaluation/` (gates, scorecard, regressions)
-- `operations/` (runbook, board, dashboard, SLAs, guidelines)
-- `skills/` (skill library, registry, packs)
-- `handoffs/` (handoff templates)
-- Root runbooks: `COMMANDS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`
+- `BRIEF.md`, `STATUS.md`, `DECISIONS.md`
+- `harness/` directory (routing, permissions, adapter)
+- `profiles/` directory
+- `memory/` directory
 
-If a task says "clean up," "simplify," or "remove scaffolding," it still applies to *project* cruft only — never to the list above.
+### Removable if irrelevant to this project
+
+Agents **may** delete individual files from the lists below when they are clearly not applicable (e.g., `specs/ui-spec.md` in a headless project, `harness/agents/designer.md` when there is no design role). When removing, log the reason in `DECISIONS.md`.
+
+- Individual template files in `specs/`, `qa/`, `docs/`
+- Individual agent prompts in `harness/agents/` for unused roles
+- Individual handoff templates in `handoffs/` for unused role transitions
+- Individual skill directories in `skills/` that are not activated
+- Operations templates for team workflows in solo projects (e.g., `operations/tracker.md`, `operations/team-concurrency-policy.md`)
+- Root runbooks that don't apply: `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`
+
+**Rule of thumb:** keep the directory structure; prune the files that add noise. If in doubt, keep it.
 
 ## First Actions
 
-1. Read `docs/README.md` for system overview and entry points.
-2. Read `STATUS.md` for current phase and progress.
-3. Read `COMMANDS.md` for available runbook commands.
-4. Follow the appropriate start checklist:
-   - New project (full): `day-0-start.md`
-   - New project (lite): `lite-mode-checklist.md`
-   - Existing project onboarding: `migration-checklist.md`
+1. Read `STATUS.md` — current phase and what's in progress.
+2. Read `BRIEF.md` — what the project is and key constraints.
+3. Load other files only when entering a phase that needs them (specs before requirements work, qa/ before QA, etc.).
+
+Start checklists (read only if relevant):
+- New project (full): `day-0-start.md`
+- New project (lite): `lite-mode-checklist.md`
+- Existing project onboarding: `migration-checklist.md`
 
 ## Execution Behavior
 
+- **Proportionality:** small changes (bug fixes, config tweaks, one-liner patches) need only update `STATUS.md` and code. Full ceremony (gates, handoffs, decisions logging) is for feature work and multi-file changes.
 - Update `STATUS.md` after meaningful phase/task transitions.
 - Log non-trivial trade-offs and assumptions in `DECISIONS.md`.
 - Follow `operations/context-efficiency-guidelines.md` to keep context scoped and concise.
@@ -38,7 +49,7 @@ If a task says "clean up," "simplify," or "remove scaffolding," it still applies
 - Do not bypass gate checks silently; report PASS/FAIL with concrete evidence and next action.
 - Prefer the smallest valid workflow (lite before full when appropriate).
 - Load only phase-relevant artifacts instead of full project history.
-- Use command-style runbooks from `COMMANDS.md` when present.
+- Use runbook playbooks from `COMMANDS.md` when present.
 
 ## Key References
 
@@ -46,7 +57,7 @@ If a task says "clean up," "simplify," or "remove scaffolding," it still applies
 |------|---------|
 | `STATUS.md` | Current phase, progress, blockers |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
-| `COMMANDS.md` | Pseudo-command runbooks for repeatable actions |
+| `COMMANDS.md` | Runbook playbooks for repeatable actions |
 | `BRIEF.md` | Original project request (immutable once locked) |
 | `harness/routing-policy.md` | Scheduling, retries, escalation |
 | `harness/permissions-matrix.md` | Tool/file access by role |

@@ -1,6 +1,6 @@
-# Harness Commands (Pseudo-Slash)
+# Harness Runbook Playbooks
 
-Use these command aliases as repeatable runbooks in manual orchestration mode.
+These are **manual playbook descriptions**, not executable commands. Read the steps and execute them yourself (or paste to an agent). They exist for consistency and repeatability, not automation.
 
 ## Core Lifecycle
 
@@ -101,7 +101,7 @@ Runs:
 
 Primary files:
 - `STATUS.md`
-- `operations/dashboard.md`
+- `operations/tracker.md`
 - Phase-specific artifacts in `specs/`, `qa/`, `docs/`
 
 ## Task and Execution Operations
@@ -110,12 +110,12 @@ Primary files:
 Purpose: Assign only ready tasks from board queue.
 
 Runs:
-1. Read `operations/board.md` Ready Queue.
+1. Read `operations/tracker.md` Ready Queue.
 2. Confirm dependencies, owner, file scope, and acceptance criteria.
 3. Move selected tasks to Assigned/In Progress.
 
 Primary files:
-- `operations/board.md`
+- `operations/tracker.md`
 - `harness/routing-policy.md`
 
 ### `/merge-steward`
@@ -127,7 +127,7 @@ Runs:
 3. Approve merge or create linked fix task with evidence.
 
 Primary files:
-- `operations/board.md`
+- `operations/tracker.md`
 - `operations/runbook.md`
 - `evaluation/release-gates.md`
 
@@ -135,13 +135,12 @@ Primary files:
 Purpose: Resume from the first incomplete workflow step.
 
 Runs:
-1. Read `operations/workflow-state.md`.
+1. Read `operations/tracker.md` Workflow State section.
 2. Identify first non-completed step.
 3. Continue from checkpoint only.
 
 Primary files:
-- `operations/workflow-state.md`
-- `operations/inbox.md`
+- `operations/tracker.md`
 
 ## Review and Hardening
 
@@ -167,8 +166,7 @@ Runs:
 3. Ensure status and decisions align with latest phase.
 
 Primary files:
-- `operations/board.md`
-- `operations/dashboard.md`
+- `operations/tracker.md`
 - `STATUS.md`
 - `DECISIONS.md`
 
@@ -179,7 +177,7 @@ Purpose: Run a structured post-project or post-phase retrospective.
 
 Runs:
 1. Read `evaluation/scorecard.md` and `qa/audit-report.md`.
-2. Identify where rework loops occurred (from `operations/board.md` history and `qa/issues.md`).
+2. Identify where rework loops occurred (from `operations/tracker.md` history and `qa/issues.md`).
 3. Assess which gates caught issues vs. missed them.
 4. Produce a retrospective summary:
    - What worked well
@@ -194,7 +192,7 @@ Primary files:
 - `evaluation/scorecard.md`
 - `qa/audit-report.md`
 - `qa/issues.md`
-- `operations/board.md`
+- `operations/tracker.md`
 - `DECISIONS.md`
 - `FUTURE_IMPROVEMENTS.md`
 

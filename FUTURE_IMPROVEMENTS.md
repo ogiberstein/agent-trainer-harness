@@ -42,9 +42,20 @@ This document tracks future upgrades for evolving the harness from manual orches
 - Keep command whitelist and file-first governance.
 - Best for: mobile/remote interaction and asynchronous supervision.
 
+## Executable Runbook Commands
+
+`COMMANDS.md` currently contains manual playbook descriptions. A natural next step is wiring them to actual scripts so that `/phase-next`, `/gate-check`, `/dispatch-ready`, `/validate-harness`, etc. are executable from the terminal or an agent tool call rather than requiring a human to read and manually follow the steps.
+
+Approach options:
+- **Shell scripts:** one script per command in a `bin/` directory, reading/writing the harness markdown files directly.
+- **Framework plugin:** expose commands as MCP tools or LangGraph nodes so agents can invoke them natively.
+- **Hybrid:** keep markdown as the spec; auto-generate thin script wrappers that parse the "Runs:" steps.
+
+Priority: near-term, after manual mode is stable and patterns are validated on real projects.
+
 ## Recommended Evolution Path
-1. **Now:** Stay in manual mode with Lite/Full presets.
-2. **Near term:** Script command runbooks (`/dispatch-ready`, `/merge-steward`, `/phase-next`) locally.
+1. **Now:** Stay in manual mode with Lite/Full/Backend presets.
+2. **Near term:** Wire runbook playbooks to executable scripts (see above).
 3. **Next:** Prototype local concurrent runtime on one project with 2-3 parallel workers.
 4. **Later:** Add observability/evals and optional remote control interfaces.
 

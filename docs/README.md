@@ -7,7 +7,7 @@ File-first multi-agent harness for running product delivery workflows from brief
 - Full mode: `day-0-start.md`
 - Lite mode (small projects): `lite-mode-checklist.md`
 - Existing repo onboarding: `migration-checklist.md`
-- Command runbooks: `COMMANDS.md`
+- Runbook playbooks: `COMMANDS.md`
 - End-to-end example: `docs/walkthrough.md`
 - Future roadmap: `FUTURE_IMPROVEMENTS.md`
 - Existing-project drop-in bundle (alignment-first): `starter_kit_existing_projects/`
@@ -24,7 +24,7 @@ File-first multi-agent harness for running product delivery workflows from brief
 ## Core System Areas
 - `harness/`: role prompts, routing policy, permissions, adapter contract
 - `profiles/`: org/project merged profiles and active skill selection
-- `operations/`: board, dashboard, runbook, SLAs, workflow-state, inbox
+- `operations/`: tracker (board + dashboard + workflow + inbox), runbook (+ SLAs), guidelines
 - `skills/`: private skill library, packs, registry, review/security policy
 - `evaluation/`: release gates, scorecard, regressions, golden tasks
 - `handoffs/`: structured agent-to-agent handoff templates

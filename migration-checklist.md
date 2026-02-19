@@ -13,7 +13,8 @@ Use this checklist to add the harness into an already-active codebase without di
 
 ## Phase 1: Copy Harness (Non-Destructive)
 - [ ] Recommended path: run starter kit scripts from this repository:
-  - `bash starter_kit_existing_projects/core/copy_core.sh "/path/to/target-repo"`
+  - `bash copy_core.sh [--preset full|backend|minimal] [--source /path/to/harness] "/path/to/target-repo"`
+  - Pick preset based on project type (see `starter_kit_existing_projects/core/FILE_LIST.md`).
 - [ ] `copy_core.sh` is safe mode: it aborts on existing harness paths and does not overwrite.
 - [ ] In target repo, run alignment handover:
   - Use `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_PROMPT.md`
@@ -32,11 +33,15 @@ Use this checklist to add the harness into an already-active codebase without di
   - `STATUS.md`
   - `DECISIONS.md`
   - `COMMANDS.md`
-  - `day-0-start.md`
-  - `lite-mode-checklist.md`
 - [ ] Optionally install a framework shim from `starter_kit_existing_projects/framework-shims/`.
 - [ ] Do **not** copy/overwrite existing `specs/`, `qa/`, or `docs/`; align those in place via the alignment flow.
 - [ ] Do **not** overwrite existing `src/` or `tests/` content.
+
+### Reconciling Existing Files
+If the target project already has files that overlap with harness names (e.g., `BRIEF.md`, `docs/`, `.gitignore`), do **not** overwrite them. Instead:
+- **BRIEF.md:** If the project already uses `BRIEF.md` as a session log, roadmap, or different-purpose doc, keep it as-is. Optionally add a `## Harness Metadata` section at the top or bottom with the harness template fields (Goal, Scope, Constraints, Success Criteria) — but do not replace the existing content.
+- **docs/, specs/, qa/:** Align existing content to harness expectations in place. Do not copy blank templates over populated files.
+- **.gitignore:** Append harness-specific ignores to the existing file rather than replacing it.
 
 ## Phase 2: Reconcile Project Reality
 - [ ] Update `profiles/project-profile.yaml` with real stack, constraints, and quality bars.
@@ -52,10 +57,9 @@ Use this checklist to add the harness into an already-active codebase without di
 - [ ] Set `STATUS.md` current phase to where reality is today (often implementation, QA, or documentation).
 - [ ] Log migration assumptions in `DECISIONS.md`.
 
-## Phase 4: Day 0 Setup in Existing Repo
-- [ ] Run Setup Engineer flow from `day-0-start.md`.
+## Phase 4: Generate Only Relevant Roles
 - [ ] Generate/refresh `profiles/merged-profile.yaml`.
-- [ ] Generate role prompts in `harness/generated-agents/`.
+- [ ] Generate role prompts in `harness/generated-agents/` **only for roles this project will actually use** (e.g., a headless backend project skips designer, frontend-engineer, growth-strategist).
 - [ ] Validate skills with `skills/skill-review-checklist.md` before enabling non-core skills.
 
 ## Phase 5: Controlled Rollout
@@ -73,11 +77,12 @@ Use this checklist to add the harness into an already-active codebase without di
 - [ ] Run `/validate-harness` to confirm internal consistency.
 
 ## Common Pitfalls to Avoid
-- **Deleting or removing harness infrastructure** (AGENTS.md, harness/, profiles/, operations/, skills/, handoffs/, etc.) when "cleaning up," "simplifying," or "aligning." These must stay; only their contents may be updated.
+- **Deleting always-protected harness infrastructure** (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `harness/` dir, `profiles/` dir, `memory/` dir). See `AGENTS.md` "Protected Infrastructure" for the full policy — individual irrelevant template files *may* be removed if logged in `DECISIONS.md`.
 - Copying full architecture text into every prompt instead of referencing files.
 - Activating too many optional skills/agents on the first run.
 - Re-running whole phases instead of targeted retries after gate failures.
-- Overwriting mature project docs/specs instead of merging carefully.
+- Overwriting mature project docs/specs instead of aligning carefully.
+- Generating role prompts for roles the project doesn't need.
 
 ## Definition of Done
 - [ ] Harness is present and configured without breaking existing project workflows.

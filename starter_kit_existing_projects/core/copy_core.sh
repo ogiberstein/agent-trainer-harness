@@ -1,23 +1,67 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "$#" -ne 1 ]; then
-  echo "Usage: bash starter_kit_existing_projects/core/copy_core.sh /path/to/target-repo"
-  exit 1
+usage() {
+  cat <<'USAGE'
+Usage: bash copy_core.sh [OPTIONS] /path/to/target-repo
+
+Options:
+  --preset <full|backend|minimal>   Control which files are copied (default: full)
+  --source /path/to/harness-repo    Explicit path to harness source repo
+  -h, --help                        Show this help
+
+Presets:
+  full      All harness files (SaaS, multi-role teams)
+  backend   Skips UI specs, designer/frontend/growth agents, growth skills/handoffs
+  minimal   Bare essentials only (AGENTS.md, BRIEF.md, STATUS.md, DECISIONS.md,
+            specs/requirements.md, core agent prompts, profiles, memory)
+
+Examples:
+  bash copy_core.sh /path/to/target
+  bash copy_core.sh --preset backend /path/to/target
+  bash copy_core.sh --preset minimal --source ~/harness /path/to/target
+USAGE
+  exit 0
+}
+
+PRESET="full"
+EXPLICIT_SOURCE=""
+TARGET=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --preset) PRESET="$2"; shift 2 ;;
+    --source) EXPLICIT_SOURCE="$2"; shift 2 ;;
+    -h|--help) usage ;;
+    -*) echo "Unknown option: $1"; usage ;;
+    *) TARGET="$1"; shift ;;
+  esac
+done
+
+if [ -z "$TARGET" ]; then
+  echo "Error: target directory is required."
+  usage
 fi
 
-TARGET="$1"
 if [ ! -d "$TARGET" ]; then
   echo "Target directory does not exist: $TARGET"
   exit 1
 fi
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-SOURCE_ROOT="$ROOT"
-TEMP_CLONE_DIR=""
+if [[ "$PRESET" != "full" && "$PRESET" != "backend" && "$PRESET" != "minimal" ]]; then
+  echo "Unknown preset: $PRESET (expected: full, backend, minimal)"
+  exit 1
+fi
 
-# Fallback source configuration
-DEFAULT_GH_REPO="ogiberstein/agent_trainer"
+if [ -n "$EXPLICIT_SOURCE" ]; then
+  SOURCE_ROOT="$EXPLICIT_SOURCE"
+else
+  ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+  SOURCE_ROOT="$ROOT"
+fi
+
+TEMP_CLONE_DIR=""
+DEFAULT_GH_REPO="ogiberstein/agent-trainer-harness"
 SOURCE_REPO="${HARNESS_SOURCE_REPO:-$DEFAULT_GH_REPO}"
 SOURCE_REPO_URL="${HARNESS_SOURCE_REPO_URL:-}"
 
@@ -29,16 +73,14 @@ cleanup() {
 trap cleanup EXIT
 
 has_local_source() {
-  [ -f "$1/AGENTS.md" ] && [ -d "$1/starter_kit_existing_projects/core" ]
+  [ -f "$1/AGENTS.md" ] && [ -d "$1/harness/agents" ]
 }
 
 if ! has_local_source "$SOURCE_ROOT"; then
-  echo "Local harness source not found at expected path: $SOURCE_ROOT"
+  echo "Local harness source not found at: $SOURCE_ROOT"
   echo "Attempting GitHub fallback..."
-
   TEMP_CLONE_DIR="$(mktemp -d)"
 
-  # Prefer gh for private repos (uses existing GitHub CLI auth)
   if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
     if gh repo clone "$SOURCE_REPO" "$TEMP_CLONE_DIR/source" >/dev/null 2>&1; then
       SOURCE_ROOT="$TEMP_CLONE_DIR/source"
@@ -46,7 +88,6 @@ if ! has_local_source "$SOURCE_ROOT"; then
     fi
   fi
 
-  # Fallback to explicit repo URL if provided
   if ! has_local_source "$SOURCE_ROOT" && [ -n "$SOURCE_REPO_URL" ]; then
     if git clone --depth 1 "$SOURCE_REPO_URL" "$TEMP_CLONE_DIR/source" >/dev/null 2>&1; then
       SOURCE_ROOT="$TEMP_CLONE_DIR/source"
@@ -57,27 +98,40 @@ if ! has_local_source "$SOURCE_ROOT"; then
   if ! has_local_source "$SOURCE_ROOT"; then
     echo "Unable to resolve harness source."
     echo "Options:"
-    echo "  1) Run script from within a full harness repo clone."
-    echo "  2) Authenticate GitHub CLI and set HARNESS_SOURCE_REPO (default: $DEFAULT_GH_REPO)."
-    echo "  3) Set HARNESS_SOURCE_REPO_URL to a cloneable git URL."
+    echo "  1) Pass --source /path/to/harness-repo"
+    echo "  2) Run from within a full harness repo clone."
+    echo "  3) Set HARNESS_SOURCE_REPO (default: $DEFAULT_GH_REPO) with gh auth."
+    echo "  4) Set HARNESS_SOURCE_REPO_URL to a cloneable git URL."
     exit 3
   fi
 fi
 
-echo "Copying core harness files to: $TARGET"
+echo "Preset: $PRESET"
+echo "Source: $SOURCE_ROOT"
+echo "Target: $TARGET"
+echo ""
 
-# Root files: exclude new-project-only docs (day-0-start, lite-mode) for existing-project use
-FILES=(
+# --- Define what each preset includes ---
+
+FILES_ALWAYS=(
   "AGENTS.md"
   "BRIEF.md"
   "STATUS.md"
   "DECISIONS.md"
+)
+
+FILES_FULL=(
+  "${FILES_ALWAYS[@]}"
   "COMMANDS.md"
   "FUTURE_IMPROVEMENTS.md"
   "migration-checklist.md"
 )
 
-DIRS=(
+FILES_BACKEND=("${FILES_FULL[@]}")
+
+FILES_MINIMAL=("${FILES_ALWAYS[@]}")
+
+DIRS_FULL=(
   "harness"
   "profiles"
   "memory"
@@ -90,16 +144,35 @@ DIRS=(
   "docs"
 )
 
+DIRS_BACKEND=(
+  "harness"
+  "profiles"
+  "memory"
+  "evaluation"
+  "operations"
+  "skills"
+  "handoffs"
+)
+
+DIRS_MINIMAL=(
+  "profiles"
+  "memory"
+)
+
+case "$PRESET" in
+  full)    FILES=("${FILES_FULL[@]}");    DIRS=("${DIRS_FULL[@]}") ;;
+  backend) FILES=("${FILES_BACKEND[@]}"); DIRS=("${DIRS_BACKEND[@]}") ;;
+  minimal) FILES=("${FILES_MINIMAL[@]}"); DIRS=("${DIRS_MINIMAL[@]}") ;;
+esac
+
+# --- Conflict check ---
+
 CONFLICTS=()
 for f in "${FILES[@]}"; do
-  if [ -e "$TARGET/$f" ]; then
-    CONFLICTS+=("$TARGET/$f")
-  fi
+  [ -e "$TARGET/$f" ] && CONFLICTS+=("$TARGET/$f")
 done
 for d in "${DIRS[@]}"; do
-  if [ -e "$TARGET/$d" ]; then
-    CONFLICTS+=("$TARGET/$d")
-  fi
+  [ -e "$TARGET/$d" ] && CONFLICTS+=("$TARGET/$d")
 done
 
 if [ "${#CONFLICTS[@]}" -gt 0 ]; then
@@ -111,6 +184,8 @@ if [ "${#CONFLICTS[@]}" -gt 0 ]; then
   exit 2
 fi
 
+# --- Copy ---
+
 for f in "${FILES[@]}"; do
   cp "$SOURCE_ROOT/$f" "$TARGET/$f"
 done
@@ -119,12 +194,38 @@ for d in "${DIRS[@]}"; do
   cp -R "$SOURCE_ROOT/$d" "$TARGET/"
 done
 
-# Copy .gitignore separately (dotfile)
+# --- Preset-specific post-copy cleanup ---
+
+if [ "$PRESET" = "backend" ]; then
+  rm -f "$TARGET/specs/ui-spec.md" 2>/dev/null || true
+  rm -f "$TARGET/specs/growth-plan.md" 2>/dev/null || true
+  rm -f "$TARGET/specs/user-research.md" 2>/dev/null || true
+  rm -f "$TARGET/specs/market-research.md" 2>/dev/null || true
+  rm -f "$TARGET/harness/agents/designer.md" 2>/dev/null || true
+  rm -f "$TARGET/harness/agents/frontend-engineer.md" 2>/dev/null || true
+  rm -f "$TARGET/harness/agents/growth-strategist.md" 2>/dev/null || true
+  rm -f "$TARGET/handoffs/design-to-engineering.md" 2>/dev/null || true
+  rm -f "$TARGET/handoffs/product-to-design.md" 2>/dev/null || true
+  rm -f "$TARGET/handoffs/growth-to-engineering.md" 2>/dev/null || true
+  rm -f "$TARGET/handoffs/growth-to-documentation.md" 2>/dev/null || true
+  rm -rf "$TARGET/skills/growth-"* 2>/dev/null || true
+fi
+
+if [ "$PRESET" = "minimal" ]; then
+  mkdir -p "$TARGET/specs"
+  cp "$SOURCE_ROOT/specs/requirements.md" "$TARGET/specs/requirements.md"
+  mkdir -p "$TARGET/harness/agents"
+  cp "$SOURCE_ROOT/harness/agents/orchestrator.md" "$TARGET/harness/agents/orchestrator.md"
+  cp "$SOURCE_ROOT/harness/agents/fullstack-engineer.md" "$TARGET/harness/agents/fullstack-engineer.md"
+  cp "$SOURCE_ROOT/harness/agents/qa-engineer.md" "$TARGET/harness/agents/qa-engineer.md"
+fi
+
 if [ ! -e "$TARGET/.gitignore" ]; then
   cp "$SOURCE_ROOT/.gitignore" "$TARGET/.gitignore"
 fi
 
-echo "Core copy complete."
+echo ""
+echo "Core copy complete (preset: $PRESET)."
 echo "Copied: ${#FILES[@]} root files, ${#DIRS[@]} directories, .gitignore"
 echo ""
 echo "Next steps:"

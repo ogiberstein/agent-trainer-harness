@@ -15,7 +15,7 @@ Use this policy when multiple humans or agents operate on the same project.
 5. Merge steward checks are required before integration to main branch.
 
 ## Assignment Protocol
-- Pull work only from `Unassigned (Ready Queue)` in `operations/board.md`.
+- Pull work only from `Ready Queue` in `operations/tracker.md`.
 - A task is assignable only if dependencies are complete and acceptance criteria are defined.
 - Move task state transitions explicitly: Unassigned -> Assigned -> In Progress -> Awaiting Merge -> Done.
 
@@ -25,6 +25,6 @@ Use this policy when multiple humans or agents operate on the same project.
 - Log decisions in `DECISIONS.md`.
 
 ## Minimum Artifacts per Task
-- Card in `operations/board.md`
+- Card in `operations/tracker.md`
 - Handoff or implementation note in relevant `handoffs/` file
 - Status update in `STATUS.md`
