@@ -3,6 +3,22 @@
 This repository uses a structured multi-agent harness for product delivery.
 Treat these harness files as the primary operating instructions — do not invent ad-hoc workflows.
 
+## Protected Infrastructure (Do Not Delete)
+
+Do **not** delete, remove, or replace these harness assets. Align or update their *contents* only; do not remove the files or folders themselves.
+
+- `AGENTS.md` (this file)
+- `harness/` (role prompts, routing, permissions, adapter)
+- `profiles/` (org/project profiles, active skills)
+- `memory/` (policies, index, snapshots, summaries)
+- `evaluation/` (gates, scorecard, regressions)
+- `operations/` (runbook, board, dashboard, SLAs, guidelines)
+- `skills/` (skill library, registry, packs)
+- `handoffs/` (handoff templates)
+- Root runbooks: `COMMANDS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`
+
+If a task says "clean up," "simplify," or "remove scaffolding," it still applies to *project* cruft only — never to the list above.
+
 ## First Actions
 
 1. Read `docs/README.md` for system overview and entry points.

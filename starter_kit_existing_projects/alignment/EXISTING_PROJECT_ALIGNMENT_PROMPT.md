@@ -15,6 +15,7 @@ First actions:
 3. Read operations/context-efficiency-guidelines.md for context discipline.
 
 Operating rules:
+0. **Do not delete or remove harness infrastructure.** Preserve all of: AGENTS.md, harness/, profiles/, memory/, evaluation/, operations/, skills/, handoffs/, and root runbook files (COMMANDS.md, BRIEF.md, STATUS.md, DECISIONS.md, FUTURE_IMPROVEMENTS.md, migration-checklist.md). Align or edit their contents only; never remove these files or folders, even if the task says "clean up" or "simplify."
 1. Start from current repository reality, not from blank templates.
 2. Update files incrementally and explain each change.
 3. Use existing paths/commands where possible; avoid introducing unnecessary structure.

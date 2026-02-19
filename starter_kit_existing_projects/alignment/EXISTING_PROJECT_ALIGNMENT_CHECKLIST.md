@@ -2,6 +2,8 @@
 
 Use this after core harness files are copied into the target repo.
 
+**Do not delete harness infrastructure.** Preserve AGENTS.md, harness/, profiles/, memory/, evaluation/, operations/, skills/, handoffs/, and root runbooks. Align contents only.
+
 ## Phase A: Discovery and Mapping
 - [ ] Verify `AGENTS.md` is present at repo root and readable by the agent.
 - [ ] Inventory existing docs/specs and map to harness expectations.

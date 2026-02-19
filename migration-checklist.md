@@ -73,6 +73,7 @@ Use this checklist to add the harness into an already-active codebase without di
 - [ ] Run `/validate-harness` to confirm internal consistency.
 
 ## Common Pitfalls to Avoid
+- **Deleting or removing harness infrastructure** (AGENTS.md, harness/, profiles/, operations/, skills/, handoffs/, etc.) when "cleaning up," "simplifying," or "aligning." These must stay; only their contents may be updated.
 - Copying full architecture text into every prompt instead of referencing files.
 - Activating too many optional skills/agents on the first run.
 - Re-running whole phases instead of targeted retries after gate failures.
