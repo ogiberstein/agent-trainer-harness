@@ -45,10 +45,13 @@ Phase C - Core Alignment
 Phase D - Operational Alignment
 - Align handoffs to real workflows and file paths.
 - Align profiles/project-profile.yaml and profiles/active-skills.yaml.
-- Confirm COMMANDS.md runbook playbooks can be executed against this repo.
+- Update STATUS.md to the project's actual current phase.
+- Confirm COMMANDS.md runbook playbooks can be followed against this repo.
 - Optionally install a framework shim from starter_kit_existing_projects/framework-shims/.
 
-Phase E - Validation
+Phase E - Quality, Documentation, and Validation
+- Align docs/README.md, docs/SETUP.md, docs/API.md to implementation reality (or remove if not applicable).
+- Align qa/test-plan.md, qa/issues.md, qa/audit-report.md to current quality process (or remove if not applicable).
 - Run one small feature/fix through a single harness cycle.
 - Run /validate-harness to confirm internal consistency.
 - Report gate result and any remaining alignment gaps.

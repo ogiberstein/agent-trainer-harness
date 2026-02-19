@@ -28,7 +28,7 @@ Bare essentials. Use for solo dev, small existing projects.
 
 **Directories:** `profiles/`, `memory/`
 
-**Additionally copied:** `specs/requirements.md`, `harness/agents/orchestrator.md`, `harness/agents/fullstack-engineer.md`, `harness/agents/qa-engineer.md`
+**Additionally copied:** `specs/requirements.md`, `harness/agents/orchestrator.md`, `harness/agents/fullstack-engineer.md`, `harness/agents/qa-engineer.md`, `harness/routing-policy.md`, `harness/permissions-matrix.md`
 
 ## Excluded from all presets
 

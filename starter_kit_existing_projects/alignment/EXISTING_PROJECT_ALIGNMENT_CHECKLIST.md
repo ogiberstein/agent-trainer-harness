@@ -25,11 +25,14 @@ Use this after core harness files are copied into the target repo.
 - [ ] Update `STATUS.md` to actual current phase.
 - [ ] Ensure `profiles/project-profile.yaml` reflects true stack/constraints.
 - [ ] Pin minimal skill set in `profiles/active-skills.yaml`.
+- [ ] Confirm `COMMANDS.md` runbook playbooks can be followed against this repo.
+- [ ] Optionally install a framework shim from `starter_kit_existing_projects/framework-shims/`.
 
-## Phase E: Quality and Documentation Alignment
+## Phase E: Quality, Documentation, and Validation
 - [ ] Align `docs/README.md`, `docs/SETUP.md`, and `docs/API.md` to implementation reality (or remove if not applicable).
 - [ ] Align `qa/test-plan.md`, `qa/issues.md`, `qa/audit-report.md` to current quality process (or remove if not applicable).
 - [ ] Run one small end-to-end harness cycle to validate alignment.
+- [ ] Run `/validate-harness` to confirm internal consistency.
 
 ## Done Criteria
 - [ ] `AGENTS.md` is present and accessible as the agent bootstrap entry point.

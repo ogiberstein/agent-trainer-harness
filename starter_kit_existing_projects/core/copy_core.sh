@@ -165,6 +165,17 @@ case "$PRESET" in
   minimal) FILES=("${FILES_MINIMAL[@]}"); DIRS=("${DIRS_MINIMAL[@]}") ;;
 esac
 
+# --- Minimal preset: extra individual files to copy (and conflict-check) ---
+
+EXTRA_FILES_MINIMAL=(
+  "specs/requirements.md"
+  "harness/agents/orchestrator.md"
+  "harness/agents/fullstack-engineer.md"
+  "harness/agents/qa-engineer.md"
+  "harness/routing-policy.md"
+  "harness/permissions-matrix.md"
+)
+
 # --- Conflict check ---
 
 CONFLICTS=()
@@ -174,6 +185,11 @@ done
 for d in "${DIRS[@]}"; do
   [ -e "$TARGET/$d" ] && CONFLICTS+=("$TARGET/$d")
 done
+if [ "$PRESET" = "minimal" ]; then
+  for ef in "${EXTRA_FILES_MINIMAL[@]}"; do
+    [ -e "$TARGET/$ef" ] && CONFLICTS+=("$TARGET/$ef")
+  done
+fi
 
 if [ "${#CONFLICTS[@]}" -gt 0 ]; then
   echo "Aborting: existing files/folders detected (safe mode, no overwrite)."
@@ -194,13 +210,9 @@ for d in "${DIRS[@]}"; do
   cp -R "$SOURCE_ROOT/$d" "$TARGET/"
 done
 
-# --- Preset-specific post-copy cleanup ---
+# --- Preset-specific post-copy ---
 
 if [ "$PRESET" = "backend" ]; then
-  rm -f "$TARGET/specs/ui-spec.md" 2>/dev/null || true
-  rm -f "$TARGET/specs/growth-plan.md" 2>/dev/null || true
-  rm -f "$TARGET/specs/user-research.md" 2>/dev/null || true
-  rm -f "$TARGET/specs/market-research.md" 2>/dev/null || true
   rm -f "$TARGET/harness/agents/designer.md" 2>/dev/null || true
   rm -f "$TARGET/harness/agents/frontend-engineer.md" 2>/dev/null || true
   rm -f "$TARGET/harness/agents/growth-strategist.md" 2>/dev/null || true
@@ -212,12 +224,10 @@ if [ "$PRESET" = "backend" ]; then
 fi
 
 if [ "$PRESET" = "minimal" ]; then
-  mkdir -p "$TARGET/specs"
-  cp "$SOURCE_ROOT/specs/requirements.md" "$TARGET/specs/requirements.md"
-  mkdir -p "$TARGET/harness/agents"
-  cp "$SOURCE_ROOT/harness/agents/orchestrator.md" "$TARGET/harness/agents/orchestrator.md"
-  cp "$SOURCE_ROOT/harness/agents/fullstack-engineer.md" "$TARGET/harness/agents/fullstack-engineer.md"
-  cp "$SOURCE_ROOT/harness/agents/qa-engineer.md" "$TARGET/harness/agents/qa-engineer.md"
+  for ef in "${EXTRA_FILES_MINIMAL[@]}"; do
+    mkdir -p "$TARGET/$(dirname "$ef")"
+    cp "$SOURCE_ROOT/$ef" "$TARGET/$ef"
+  done
 fi
 
 if [ ! -e "$TARGET/.gitignore" ]; then

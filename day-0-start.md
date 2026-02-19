@@ -28,8 +28,11 @@ Operating mode:
 - Small increments, explicit handoffs, and no hidden assumptions.
 
 First actions (in order):
+Note: Day 0 setup is the exception to lazy-loading — the Setup Engineer needs
+infrastructure files upfront to generate profiles and role prompts.
 1. Read:
    - AGENTS.md
+   - STATUS.md
    - BRIEF.md
    - profiles/org-profile.yaml
    - profiles/project-profile.yaml
@@ -37,7 +40,6 @@ First actions (in order):
    - harness/routing-policy.md
    - harness/permissions-matrix.md
    - operations/context-efficiency-guidelines.md
-   - operations/team-concurrency-policy.md
    - skills/skill-review-checklist.md (before enabling non-core or external-imported skills)
 2. Perform Setup Engineer workflow using harness/agents/setup-engineer.md:
    - Produce/update profiles/merged-profile.yaml

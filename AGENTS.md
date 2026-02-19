@@ -14,6 +14,9 @@ These files and directories are the harness backbone. Do **not** delete, remove,
 - `harness/` directory (routing, permissions, adapter)
 - `profiles/` directory
 - `memory/` directory
+- `evaluation/` directory (release gates, scorecard, regressions)
+- `operations/context-efficiency-guidelines.md` (mandatory operational policy)
+- `operations/runbook.md` (incident response and SLAs)
 
 ### Removable if irrelevant to this project
 
@@ -24,7 +27,7 @@ Agents **may** delete individual files from the lists below when they are clearl
 - Individual handoff templates in `handoffs/` for unused role transitions
 - Individual skill directories in `skills/` that are not activated
 - Operations templates for team workflows in solo projects (e.g., `operations/tracker.md`, `operations/team-concurrency-policy.md`)
-- Root runbooks that don't apply: `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`
+- Root files that don't apply: `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`, `day-0-start.md`, `lite-mode-checklist.md`
 
 **Rule of thumb:** keep the directory structure; prune the files that add noise. If in doubt, keep it.
 

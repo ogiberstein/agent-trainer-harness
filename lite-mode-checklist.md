@@ -55,9 +55,10 @@ Operating mode:
 
 First actions (in order):
 1. Read:
-   - BRIEF.md
+   - AGENTS.md (protection policy and execution rules)
+   - STATUS.md (current phase)
+   - BRIEF.md (project scope and constraints)
    - profiles/active-skills.lite.yaml
-   - COMMANDS.md
    - operations/context-efficiency-guidelines.md
 2. Perform lightweight Setup Engineer flow:
    - Produce/update profiles/merged-profile.yaml (minimal)

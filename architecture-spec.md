@@ -1034,9 +1034,9 @@ This section turns the architecture into a reusable harness that can be dropped 
 │   └── release-gates.md         # Promotion criteria for agent/profile versions
 │
 ├── operations/
-│   ├── runbook.md               # Incidents, rollback, and troubleshooting
+│   ├── runbook.md               # Incidents, rollback, SLAs, and troubleshooting
 │   ├── changelog.md             # Agent/profile version history
-│   └── slas.md                  # Response and escalation targets
+│   └── tracker.md               # Board, dashboard, workflow state, and inbox
 │
 ├── src/
 ├── tests/
