@@ -44,3 +44,6 @@ Initial setup artifacts have been archived for reference in:
 
 ## Contributing
 See `docs/CONTRIBUTING.md`.
+
+## License
+This project is licensed under the MIT License – see `LICENSE` at the repository root.
