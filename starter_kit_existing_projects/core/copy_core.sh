@@ -66,6 +66,7 @@ fi
 
 echo "Copying core harness files to: $TARGET"
 
+# Root files: exclude new-project-only docs (day-0-start, lite-mode) for existing-project use
 FILES=(
   "AGENTS.md"
   "BRIEF.md"
@@ -73,8 +74,6 @@ FILES=(
   "DECISIONS.md"
   "COMMANDS.md"
   "FUTURE_IMPROVEMENTS.md"
-  "day-0-start.md"
-  "lite-mode-checklist.md"
   "migration-checklist.md"
 )
 
