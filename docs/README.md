@@ -44,7 +44,7 @@ The orchestrator spawns parallel Claude Code CLI workers, each in its own git wo
 Use the starter kit to drop harness files into a project that already has code, docs, and history.
 
 ```bash
-bash copy_core.sh --preset <preset> /path/to/your-project
+bash starter_kit_existing_projects/core/copy_core.sh --preset <preset> /path/to/your-project
 ```
 
 | Preset | Use for | What it copies |

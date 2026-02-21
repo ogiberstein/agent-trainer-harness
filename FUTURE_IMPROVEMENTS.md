@@ -13,7 +13,7 @@ This document tracks future upgrades for evolving the harness from manual orches
 - ~~Dispatch assigns only ready/unblocked work.~~ **Scaffolded** in `runtime/orchestrator.py`.
 - ~~Merge/review is automated or semi-automated.~~ **Scaffolded** in `runtime/merge.py` + `runtime/gates.py`.
 - ~~Workflow state is resumable without restarting failed runs.~~ **Scaffolded** via checkpoint files and `--resume` flag.
-- **Remaining:** real-world testing, full tracker.md card parsing, STATUS.md incremental updates, observability dashboard.
+- **Remaining:** real-world testing, observability dashboard.
 
 ## What Concurrency Enables
 - Faster cycle times for independent tasks (backend/frontend/docs in parallel).
@@ -59,7 +59,7 @@ Priority: near-term, after manual mode is stable and patterns are validated on r
 1. **Done:** Stay in manual mode with Lite/Full/Backend presets. ✓
 2. **Done:** Scaffold Concurrent mode runtime (`runtime/`). ✓
 3. **Near term:** Wire runbook playbooks to executable scripts (see above).
-4. **Near term:** Test Concurrent mode on a real project; harden `state.py` card parsing and `STATUS.md` incremental writes.
+4. **Near term:** Test Concurrent mode on a real project; harden `state.py` round-trip parsing under edge cases.
 5. **Next:** Add observability dashboard (cost, gate pass/fail rates, rework loops).
 6. **Later:** Add optional remote control interfaces (Telegram, Slack).
 

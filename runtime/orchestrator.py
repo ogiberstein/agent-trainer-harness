@@ -8,7 +8,7 @@ import os
 import time
 
 from config import Config
-from gates import gate_check, GateResult
+from gates import gate_check
 from merge import merge_branch, cleanup_worktree, MergeConflict
 from notifier import notify
 from state import State, Task, PHASE_ORDER

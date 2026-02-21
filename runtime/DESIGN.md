@@ -377,8 +377,8 @@ python runtime/run.py --project . --resume
 ### Quick start — existing project
 
 ```bash
-# 1. Copy harness + runtime into your existing project
-bash copy_core.sh --preset full --source /path/to/harness-repo /path/to/my-project
+# 1. Copy harness + runtime into your existing project (run from harness repo root)
+bash starter_kit_existing_projects/core/copy_core.sh --preset full /path/to/my-project
 cd /path/to/my-project
 
 # 2. Fill in BRIEF.md, edit runtime/config.yaml
