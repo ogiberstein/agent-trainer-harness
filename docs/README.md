@@ -1,27 +1,66 @@
 # Agent Trainer Harness
 
-File-first multi-agent harness for running product delivery workflows from brief to release, with optional growth and domain skill packs.
+File-first multi-agent harness for running product delivery workflows from brief to release. Framework-agnostic — works with Claude Code, Cursor, Copilot, or any AI IDE.
 
-## Start Here
-- Bootstrap instructions for agents: `AGENTS.md`
-- Full mode: `day-0-start.md`
-- Lite mode (small projects): `lite-mode-checklist.md`
-- Existing repo onboarding: `migration-checklist.md`
-- Runbook playbooks: `COMMANDS.md`
-- End-to-end example: `docs/walkthrough.md`
-- Future roadmap: `FUTURE_IMPROVEMENTS.md`
-- Existing-project drop-in bundle (alignment-first): `starter_kit_existing_projects/`
-- Framework-specific shims: `starter_kit_existing_projects/framework-shims/`
-- Vision and architecture narrative: `architecture-spec.md`
+## Quick Start: Pick Your Path
 
-## Optional Domain SME Pattern
-- Keep core team lean by default.
-- Add a Domain SME role only when domain complexity/risk is high (finance, healthcare, regulated workflows).
-- Prefer enabling domain skills first; promote to a full Domain SME agent only if repeated domain ambiguity causes rework.
-- Recommended kickoff for domain-heavy projects: run `market-opportunity-research` and write `specs/market-research.md` before finalizing scope.
-- For user-need clarity, run `user-research-discovery` and write `specs/user-research.md` before locking requirements.
+### New project
+
+| Project size | Start with | What you get |
+|---|---|---|
+| **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony |
+| **Lite** (solo dev, small scope, < 2 weeks) | `lite-mode-checklist.md` | 3 roles (Orchestrator, Engineer, QA), 4 phases, minimal overhead |
+
+Both start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
+
+### Existing project
+
+Use the starter kit to drop harness files into a project that already has code, docs, and history.
+
+```bash
+bash copy_core.sh --preset <preset> /path/to/your-project
+```
+
+| Preset | Use for | What it copies |
+|---|---|---|
+| `full` | SaaS, multi-role teams | Everything |
+| `backend` | APIs, bots, headless services | Skips UI specs, designer/frontend/growth files |
+| `minimal` | Solo dev, small existing projects | Just core files + 3 agent prompts + profiles + memory |
+
+After copying, run the alignment flow to reconcile your existing docs/specs with the harness:
+
+1. Paste `starter_kit_existing_projects/alignment/EXISTING_PROJECT_ALIGNMENT_PROMPT.md` into your IDE
+2. Follow `migration-checklist.md` for the full onboarding checklist
+
+The copy script is safe-mode: it aborts on any existing conflicts and never overwrites your files. Existing `specs/`, `docs/`, and `qa/` are aligned in place, not replaced.
+
+### Already using `CLAUDE.md` or similar agent config?
+
+The harness coexists with agent-level configs like `~/.claude/CLAUDE.md` or `.cursorrules`:
+
+- **Your agent config** defines *how the agent works* — behavior, delegation, verification, tone, coding standards.
+- **The harness (`AGENTS.md`)** defines *what the agent works on* — project phase, which files to read, quality gates, protection rules.
+
+Both apply simultaneously. Add a "Harness-Aware Mode" trigger to your agent config that activates when `AGENTS.md` exists at repo root. See the harness's `AGENTS.md` "Coexistence with Agent-Level Configs" section for the integration contract.
+
+Key integration points:
+- **Task tracking:** use your agent config's todos for granular within-session steps; use `STATUS.md` for cross-session phase state.
+- **Skills:** agent-config skills (coding standards, PR review) and harness skills (`skills/` directory) are complementary — process vs. domain.
+- **Delegation:** agent-config tool-agents (explore, librarian) run alongside harness role-personas (PM, Engineer, QA).
+- **Proportionality:** small changes skip full harness ceremony — aligns with typical Trivial/Explicit request classification.
+
+## How It Works
+
+`AGENTS.md` is the single entry point. Every framework shim (Cursor rules, Claude Code, Copilot instructions) points to it. The agent reads `STATUS.md` and `BRIEF.md` first, then loads only phase-relevant files.
+
+**Roles:** Product Manager, Designer, Fullstack Engineer, Frontend Engineer, QA Engineer, Documentation Writer, optional Growth Strategist and Domain SME.
+
+**Phases:** Requirements → Design → Implementation → QA → Documentation → Growth (optional) → Final Review. Each phase has explicit gate criteria that must pass before advancing.
+
+**Protection:** Core infrastructure files (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `harness/`, `profiles/`, `memory/`, `evaluation/`) are always protected. Irrelevant template files can be pruned if logged in `DECISIONS.md`.
 
 ## Core System Areas
+
 - `harness/`: role prompts, routing policy, permissions, adapter contract
 - `profiles/`: org/project merged profiles and active skill selection
 - `operations/`: tracker (board + dashboard + workflow + inbox), runbook (+ SLAs), guidelines
@@ -29,21 +68,19 @@ File-first multi-agent harness for running product delivery workflows from brief
 - `evaluation/`: release gates, scorecard, regressions, golden tasks
 - `handoffs/`: structured agent-to-agent handoff templates
 
-## Starter Scaffold Status
-The initial scaffold is complete and includes:
-- Core templates (`BRIEF.md`, `STATUS.md`, `DECISIONS.md`)
-- Specs templates (`specs/requirements.md`, `specs/ui-spec.md`, `specs/architecture.md`, optional `specs/growth-plan.md`)
-- Base role prompts and generated-agent destination
-- Memory policies and retention structure
-- QA, docs, operations, and governance templates
-- Framework-agnostic bootstrap (`AGENTS.md`) with optional framework shims
+## Reference
 
-## Historical Setup Notes
-Initial setup artifacts have been archived for reference in:
-- `docs/archive/initial-setup/`
+- Bootstrap instructions for agents: `AGENTS.md`
+- Runbook playbooks: `COMMANDS.md`
+- Vision and architecture narrative: `architecture-spec.md`
+- Future roadmap: `FUTURE_IMPROVEMENTS.md`
+- Framework-specific shims: `starter_kit_existing_projects/framework-shims/`
+- Optional Domain SME pattern: see `harness/agents/domain-sme.md`
 
 ## Contributing
+
 See `docs/CONTRIBUTING.md`.
 
 ## License
+
 This project is licensed under the MIT License – see `LICENSE` at the repository root.
