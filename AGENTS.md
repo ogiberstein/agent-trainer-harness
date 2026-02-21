@@ -54,6 +54,15 @@ Start checklists (read only if relevant):
 - Load only phase-relevant artifacts instead of full project history.
 - Use runbook playbooks from `COMMANDS.md` when present.
 
+## Coexistence with Agent-Level Configs
+
+If this repository is used with an agent-level config (e.g., `CLAUDE.md`, `.cursorrules`, or similar):
+- The agent config defines **how you work** (behavior, delegation, verification, tone).
+- This file and the harness define **what you work on** (project phase, files, quality gates).
+- Both apply. Use the agent config for process; use the harness for workflow.
+- Agent-config skills (coding standards, PR review, etc.) and harness skills (`skills/` directory) are complementary, not conflicting.
+- Agent-config task tracking (todos) handles granular steps; `STATUS.md` handles cross-session phase state.
+
 ## Key References
 
 | File | Purpose |
