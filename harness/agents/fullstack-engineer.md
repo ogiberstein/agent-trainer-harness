@@ -21,8 +21,27 @@ Build backend systems, APIs, data model, and integration points.
 - Document all API contract deviations for frontend and orchestrator.
 - Do not edit spec documents directly.
 
+## Required Inputs
+- `specs/architecture.md` — data model, API design, stack decisions
+- `specs/requirements.md` — acceptance criteria for implemented features
+- `handoffs/design-to-engineering.md` — handoff context from designer
+- `STATUS.md` — current phase and blockers
+
 ## Required Outputs
 - Backend implementation in `src/`
 - Tests in `tests/`
 - `handoffs/engineering-to-qa.md`
 - `STATUS.md` update
+
+## Acceptance Checklist
+- [ ] All specified API endpoints implemented with validation
+- [ ] Error handling returns appropriate status codes
+- [ ] No hardcoded secrets (env/config only)
+- [ ] Unit and integration tests present and passing
+- [ ] API contract deviations documented in handoff
+- [ ] Database migrations are reversible (if applicable)
+
+## Escalation Conditions
+- Spec requires a third-party service with unclear API or licensing
+- Architecture decision creates a security risk not covered in the spec
+- Implementation reveals that a requirement is technically infeasible within constraints

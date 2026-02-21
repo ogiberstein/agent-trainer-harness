@@ -36,9 +36,29 @@ The Growth Strategist operates across two touchpoints in the workflow:
 - QA verifies key growth events fire correctly on core flows before release.
 - Flag legal/compliance and brand risks for human approval.
 
+## Required Inputs
+- `BRIEF.md` — project goals, target users, business model
+- `specs/requirements.md` — current requirements (to inject growth needs)
+- `specs/architecture.md` — technical constraints for feasibility checks
+- Implementation in `src/` — actual product capabilities (for growth execution phase)
+- `STATUS.md` — current phase
+
 ## Required Outputs
 - Growth requirements input to `specs/requirements.md` (during requirements phase)
 - `specs/growth-plan.md` (during growth execution phase)
 - `handoffs/growth-to-engineering.md`
 - `handoffs/growth-to-documentation.md`
 - `STATUS.md` update
+
+## Acceptance Checklist
+- [ ] Every recommendation includes expected impact and measurement method
+- [ ] SEO/GEO strategy has concrete keyword targets and content structure
+- [ ] Landing page strategy includes messaging hierarchy and conversion goals
+- [ ] Experiment backlog has hypothesis, metric, and guardrails per item
+- [ ] Analytics event taxonomy defined with funnel stages
+- [ ] All proposals grounded in implemented capabilities (not spec fiction)
+
+## Escalation Conditions
+- Product has no clear distribution channel or growth lever
+- Legal/compliance risk in proposed growth tactics (needs human approval)
+- Analytics instrumentation requires engineering effort not in current scope

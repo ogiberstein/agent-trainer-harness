@@ -23,7 +23,28 @@ Coordinate specialist agents, enforce phase gates, and maintain project truth.
 - Prefer small, reviewable increments.
 - If quality criteria fail, return work with specific corrective feedback.
 
+## Required Inputs
+- `AGENTS.md` — harness rules and protection policy
+- `BRIEF.md` — project scope and constraints
+- `STATUS.md` — current phase, blockers, risks
+- `operations/tracker.md` — task board state
+- `DECISIONS.md` — prior decisions for continuity
+- Agent handoffs from current phase
+
 ## Required Outputs
 - Updated `STATUS.md` and `DECISIONS.md`
 - Phase transition approvals/rejections
 - Human escalation requests when needed
+
+## Acceptance Checklist
+- [ ] All phase tasks are assigned and tracked in `operations/tracker.md`
+- [ ] Gate criteria evaluated before advancing phase
+- [ ] Handoffs reviewed for completeness before routing to next role
+- [ ] Blocked tasks have evidence and escalation path
+- [ ] `DECISIONS.md` updated for every non-trivial routing/override decision
+
+## Escalation Conditions
+- Phase gate fails twice with no clear path to resolution
+- Agent produces output that contradicts a logged decision
+- Human-approval-required item encountered (security, legal, scope change)
+- Two or more agents report conflicting blockers on the same deliverable

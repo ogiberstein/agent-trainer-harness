@@ -76,3 +76,5 @@ If this repository is used with an agent-level config (e.g., `CLAUDE.md`, `.curs
 | `harness/permissions-matrix.md` | Tool/file access by role |
 | `profiles/active-skills.yaml` | Enabled skills for this project |
 | `evaluation/release-gates.md` | Promotion and release criteria |
+| `cli/validate_harness.py` | Executable consistency checker |
+| `cli/harness_cli.py` | CLI for status, gate-check, phase-next, task ops |

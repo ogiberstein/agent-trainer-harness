@@ -20,8 +20,27 @@ Implement UI, client logic, accessibility, and backend integration.
 - Avoid magic numbers; use defined tokens.
 - Coordinate API changes via orchestrator, not direct contract edits.
 
+## Required Inputs
+- `specs/ui-spec.md` — component specs, tokens, states, accessibility
+- `specs/architecture.md` — API shape and state strategy
+- `handoffs/design-to-engineering.md` — handoff context from designer
+- `STATUS.md` — current phase and blockers
+
 ## Required Outputs
 - Frontend implementation in `src/`
 - Frontend tests in `tests/`
 - Engineering notes in `handoffs/engineering-to-qa.md`
 - `STATUS.md` update
+
+## Acceptance Checklist
+- [ ] All specified components implemented with all state variants
+- [ ] Design tokens applied consistently (no magic numbers)
+- [ ] Semantic HTML and keyboard accessibility verified
+- [ ] Backend API integration working end-to-end
+- [ ] Frontend tests present and passing
+- [ ] Responsive behavior matches spec breakpoints
+
+## Escalation Conditions
+- Backend API contract changed without coordination
+- Design spec has conflicting states or missing interaction definitions
+- Accessibility requirement cannot be met with chosen component library

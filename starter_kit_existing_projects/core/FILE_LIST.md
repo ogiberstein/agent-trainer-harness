@@ -8,7 +8,7 @@ All harness files. Use for SaaS, multi-role teams, projects with UI + growth.
 
 **Root files:** `AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`
 
-**Directories:** `harness/`, `profiles/`, `memory/`, `evaluation/`, `operations/`, `skills/`, `handoffs/`, `specs/`, `qa/`, `docs/`, `runtime/`
+**Directories:** `harness/`, `profiles/`, `memory/`, `evaluation/`, `operations/`, `skills/`, `handoffs/`, `specs/`, `qa/`, `docs/`, `runtime/`, `cli/`
 
 ## Preset: backend
 
@@ -16,7 +16,7 @@ Skips UI, design, growth, and frontend. Use for APIs, bots, headless services.
 
 **Root files:** same as full
 
-**Directories:** `harness/`, `profiles/`, `memory/`, `evaluation/`, `operations/`, `skills/`, `handoffs/`, `runtime/`
+**Directories:** `harness/`, `profiles/`, `memory/`, `evaluation/`, `operations/`, `skills/`, `handoffs/`, `runtime/`, `cli/`
 
 **Removed after copy:** `specs/ui-spec.md`, `specs/growth-plan.md`, `specs/user-research.md`, `specs/market-research.md`, `harness/agents/designer.md`, `harness/agents/frontend-engineer.md`, `harness/agents/growth-strategist.md`, `handoffs/design-to-engineering.md`, `handoffs/product-to-design.md`, `handoffs/growth-to-*.md`, `skills/growth-*`
 

@@ -31,6 +31,7 @@ CLAUDE.md
 # Concurrent mode runtime artifacts
 .worktrees/
 runtime/.checkpoint
+logs/
 
 # Node / Python common
 node_modules/

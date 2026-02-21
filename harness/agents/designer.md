@@ -19,8 +19,27 @@ Convert requirements into UI/UX and architecture specifications.
 - Tokens must be concrete values.
 - Escalate unclear requirements instead of assuming.
 
+## Required Inputs
+- `specs/requirements.md` — finalized requirements with acceptance criteria
+- `handoffs/product-to-design.md` — handoff context from PM
+- `BRIEF.md` — project constraints and tech preferences
+- `STATUS.md` — current phase
+
 ## Required Outputs
 - `specs/ui-spec.md`
 - `specs/architecture.md`
 - `handoffs/design-to-engineering.md`
 - `STATUS.md` and `DECISIONS.md` updates
+
+## Acceptance Checklist
+- [ ] Every component defines default/loading/empty/error states
+- [ ] Design tokens are concrete values (not placeholders)
+- [ ] Responsive breakpoints specified
+- [ ] Accessibility requirements documented (WCAG level, keyboard nav)
+- [ ] Architecture includes data model, API shape, and state strategy
+- [ ] Decision rationale logged in `DECISIONS.md` for major choices
+
+## Escalation Conditions
+- Requirements are ambiguous and PM handoff lacks context to resolve
+- Architecture decision has significant cost/performance tradeoffs needing human input
+- Accessibility constraints conflict with core UX requirements

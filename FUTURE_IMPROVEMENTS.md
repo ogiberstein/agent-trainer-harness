@@ -7,6 +7,9 @@ This document tracks future upgrades for evolving the harness from manual orches
 - Team workflow runs reliably in manual/semi-manual mode via role switching and handoffs.
 - Governance, quality gates, and skill controls are in place.
 - **Concurrent mode scaffolded** (`runtime/`): Python orchestrator, Claude Code CLI workers, LLM-based gate evaluation, merge steward, notification layer. See `runtime/DESIGN.md` for full architecture.
+- **CLI tooling** (`cli/`): `validate_harness.py` for consistency checks, `harness_cli.py` for status/gate-check/phase-next/task operations.
+- **Role prompt contracts**: All 8 agent prompts have Required Inputs, Acceptance Checklist, and Escalation Conditions.
+- **Run telemetry**: JSONL event logging in `logs/runs.jsonl` wired into the concurrent orchestrator.
 
 ## Target State (Concurrency) — IN PROGRESS
 - ~~Multiple workers run in parallel on isolated tasks.~~ **Scaffolded** in `runtime/orchestrator.py` + `runtime/worker.py`.
@@ -46,22 +49,29 @@ This document tracks future upgrades for evolving the harness from manual orches
 
 ## Executable Runbook Commands
 
-`COMMANDS.md` currently contains manual playbook descriptions. A natural next step is wiring them to actual scripts so that `/phase-next`, `/gate-check`, `/dispatch-ready`, `/validate-harness`, etc. are executable from the terminal or an agent tool call rather than requiring a human to read and manually follow the steps.
+**Implemented:** Core playbooks are now executable via `cli/harness_cli.py` and `cli/validate_harness.py`:
+- `/validate-harness` → `python3 cli/validate_harness.py --project .`
+- `/status` → `python3 cli/harness_cli.py --project . status`
+- `/gate-check` → `python3 cli/harness_cli.py --project . gate-check`
+- `/phase-next` → `python3 cli/harness_cli.py --project . phase-next`
+- `/task-list` → `python3 cli/harness_cli.py --project . task list`
+- `/task-add` → `python3 cli/harness_cli.py --project . task add --title "..." --role "..." --phase "..."`
 
-Approach options:
-- **Shell scripts:** one script per command in a `bin/` directory, reading/writing the harness markdown files directly.
+**Remaining (not yet wired):** `/dispatch-ready`, `/merge-steward`, `/resume-workflow`, `/security-gate`, `/ops-sync`, `/retrospective`.
+
+Future approach options for remaining commands:
 - **Framework plugin:** expose commands as MCP tools or LangGraph nodes so agents can invoke them natively.
 - **Hybrid:** keep markdown as the spec; auto-generate thin script wrappers that parse the "Runs:" steps.
-
-Priority: near-term, after manual mode is stable and patterns are validated on real projects.
 
 ## Recommended Evolution Path
 1. **Done:** Stay in manual mode with Lite/Full/Backend presets. ✓
 2. **Done:** Scaffold Concurrent mode runtime (`runtime/`). ✓
-3. **Near term:** Wire runbook playbooks to executable scripts (see above).
-4. **Near term:** Test Concurrent mode on a real project; harden `state.py` round-trip parsing under edge cases.
-5. **Next:** Add observability dashboard (cost, gate pass/fail rates, rework loops).
-6. **Later:** Add optional remote control interfaces (Telegram, Slack).
+3. **Done:** Wire core playbooks to executable CLI scripts (`cli/validate_harness.py`, `cli/harness_cli.py`). ✓
+4. **Done:** Add role prompt I/O contracts (Required Inputs, Acceptance Checklist, Escalation Conditions) to all agent prompts. ✓
+5. **Done:** Add JSONL run telemetry (`runtime/telemetry.py`) wired into orchestrator. ✓
+6. **Near term:** Test Concurrent mode on a real project; harden `state.py` round-trip parsing under edge cases.
+7. **Next:** Add observability dashboard (cost, gate pass/fail rates, rework loops) — can now build on `logs/runs.jsonl` telemetry.
+8. **Later:** Add optional remote control interfaces (Telegram, Slack).
 
 ## Readiness Criteria Before Moving to Concurrency
 - Stable gate pass/fail behavior in manual mode.

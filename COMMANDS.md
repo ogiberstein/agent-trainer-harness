@@ -80,31 +80,50 @@ Primary files:
 ### `/phase-next`
 Purpose: Advance exactly one phase with gate enforcement.
 
+**Executable:** `python3 cli/harness_cli.py --project . phase-next` (add `--force` to skip gate)
+
 Runs:
 1. Read current phase from `STATUS.md`.
-2. Execute only the next role prompt.
-3. Check gate criteria.
-4. Update `STATUS.md` and `DECISIONS.md`.
+2. Run LLM gate evaluation for current phase.
+3. If gate passes, advance phase in `STATUS.md`.
+4. If gate fails, report missing criteria (use `--force` to override).
 
 Primary files:
+- `cli/harness_cli.py`
 - `STATUS.md`
 - `DECISIONS.md`
-- `harness/generated-agents/*.md`
 
 ### `/gate-check`
 Purpose: Run gate review without doing implementation work.
 
+**Executable:** `python3 cli/harness_cli.py --project . gate-check [--phase <phase>]`
+
 Runs:
-1. Validate required artifacts for current phase.
-2. Return PASS/FAIL with missing items.
-3. Record outcome and next action.
+1. Evaluate LLM gate criteria for the specified or current phase.
+2. Return PASS/FAIL with summary, evidence, and missing items.
 
 Primary files:
+- `cli/harness_cli.py`
 - `STATUS.md`
 - `operations/tracker.md`
 - Phase-specific artifacts in `specs/`, `qa/`, `docs/`
 
 ## Task and Execution Operations
+
+### `/status`
+Purpose: Show current phase and task summary.
+
+**Executable:** `python3 cli/harness_cli.py --project . status` (add `--json` for structured output)
+
+### `/task-list`
+Purpose: List all tasks from `operations/tracker.md`.
+
+**Executable:** `python3 cli/harness_cli.py --project . task list` (add `--json` for structured output)
+
+### `/task-add`
+Purpose: Add a new task card to `operations/tracker.md`.
+
+**Executable:** `python3 cli/harness_cli.py --project . task add --title "..." --role "..." [--phase "..."] [--priority P1]`
 
 ### `/dispatch-ready`
 Purpose: Assign only ready tasks from board queue.
@@ -221,21 +240,23 @@ Primary files:
 ### `/validate-harness`
 Purpose: Check internal consistency of harness files.
 
-Runs:
-1. Verify every skill referenced in `profiles/active-skills.yaml` exists in `skills/`.
-2. Verify every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
-3. Verify handoff templates in `handoffs/` cover the workflow edges defined in `harness/routing-policy.md`.
-4. Verify `AGENTS.md` references match actual file paths.
-5. Verify `COMMANDS.md` primary file references exist.
-6. Report:
-   - PASS: all checks green
-   - FAIL: list of inconsistencies with file paths and suggested fixes
+**Executable:** `python3 cli/validate_harness.py --project .` (add `--json` for CI output)
+
+Checks:
+1. Core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`).
+2. Every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
+3. Every active skill in `profiles/active-skills.yaml` exists in `skills/`.
+4. Handoff templates have required sections (status, context, deliverables, acceptance criteria).
+5. Backtick-quoted file paths in `AGENTS.md` and `COMMANDS.md` exist on disk.
+6. `runtime/config.yaml` is valid YAML (if present).
+
+Output: human-readable report or JSON. Exit code 0 = pass, 1 = fail.
 
 Primary files:
+- `cli/validate_harness.py`
 - `AGENTS.md`
 - `COMMANDS.md`
 - `profiles/active-skills.yaml`
 - `harness/permissions-matrix.md`
 - `harness/agents/*.md`
 - `handoffs/*.md`
-- `harness/routing-policy.md`

@@ -22,8 +22,27 @@ Translate project goals into concrete requirements.
 - Every requirement must include at least 1 edge case.
 - Do not make implementation-level technology decisions.
 
+## Required Inputs
+- `BRIEF.md` — project scope, users, constraints
+- `STATUS.md` — current phase and blockers
+- Stakeholder answers to clarifying questions
+- Prior discovery artifacts (if resuming)
+
 ## Required Outputs
 - `specs/requirements.md`
 - `specs/user-research.md` (optional, when discovery is run)
 - `handoffs/product-to-design.md`
 - `STATUS.md` update
+
+## Acceptance Checklist
+- [ ] Every user story has ≥ 2 acceptance criteria
+- [ ] Every requirement has ≥ 1 edge case documented
+- [ ] MoSCoW priority assigned to all items
+- [ ] Out-of-scope section is explicit
+- [ ] Open questions are listed (or explicitly "none")
+- [ ] Handoff to design is complete with deliverables and context
+
+## Escalation Conditions
+- Stakeholder is unresponsive after two clarification attempts
+- Conflicting requirements with no clear priority signal
+- Discovery reveals the project scope is fundamentally misaligned with stated goals
