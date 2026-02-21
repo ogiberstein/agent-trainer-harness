@@ -27,7 +27,7 @@ Agents **may** delete individual files from the lists below when they are clearl
 - Individual handoff templates in `handoffs/` for unused role transitions
 - Individual skill directories in `skills/` that are not activated
 - Operations templates for team workflows in solo projects (e.g., `operations/tracker.md`, `operations/team-concurrency-policy.md`)
-- Root files that don't apply: `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`, `day-0-start.md`, `lite-mode-checklist.md`
+- Root files that don't apply: `COMMANDS.md`, `FUTURE_IMPROVEMENTS.md`, `migration-checklist.md`, `day-0-start.md`, `lite-mode-checklist.md`, `concurrent-start-checklist.md`
 
 **Rule of thumb:** keep the directory structure; prune the files that add noise. If in doubt, keep it.
 

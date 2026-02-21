@@ -49,9 +49,9 @@ bash starter_kit_existing_projects/core/copy_core.sh --preset <preset> /path/to/
 
 | Preset | Use for | What it copies |
 |---|---|---|
-| `full` | SaaS, multi-role teams | Everything including `runtime/` for Concurrent mode |
-| `backend` | APIs, bots, headless services | Skips UI specs, designer/frontend/growth files; includes `runtime/` |
-| `minimal` | Solo dev, small existing projects | Just core files + 3 agent prompts + profiles + memory (no runtime) |
+| `full` | SaaS, multi-role teams | Everything including `runtime/` and `cli/` for Concurrent mode + CLI tools |
+| `backend` | APIs, bots, headless services | Skips UI specs, designer/frontend/growth files; includes `runtime/` and `cli/` |
+| `minimal` | Solo dev, small existing projects | Just core files + 3 agent prompts + profiles + memory (no runtime or cli) |
 
 After copying, run the alignment flow to reconcile your existing docs/specs with the harness:
 
