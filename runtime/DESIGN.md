@@ -410,6 +410,20 @@ python runtime/run.py --project . --dry-run
 - To abort: kill the orchestrator process (workers will finish their current task).
 - To resume after a pause: `python runtime/run.py --project . --resume`
 
+## Notification Webhook Setup
+
+The orchestrator notifies you when it needs attention (requirements review) or finishes. Notifications are optional but recommended for autonomous runs.
+
+**Slack:** Create an incoming webhook at [api.slack.com/messaging/webhooks](https://api.slack.com/messaging/webhooks), copy the URL, paste into `runtime/config.yaml` as `notification_webhook`.
+
+**Telegram:** Create a bot via [@BotFather](https://t.me/BotFather), get your chat ID via `https://api.telegram.org/bot<TOKEN>/getUpdates`, then set `notification_webhook` to `https://api.telegram.org/bot<TOKEN>/sendMessage?chat_id=<CHAT_ID>`.
+
+**Generic:** Any endpoint that accepts `POST` with JSON body `{text, project, level, timestamp}`.
+
+**None:** Leave `notification_webhook: ""` — notifications print to terminal only.
+
+See `concurrent-start-checklist.md` for detailed setup instructions with links.
+
 ## Upgrade Path: LangGraph
 
 The orchestrator can be upgraded to a LangGraph StateGraph for:

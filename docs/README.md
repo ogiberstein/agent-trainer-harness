@@ -10,7 +10,7 @@ File-first multi-agent harness for running product delivery workflows from brief
 |---|---|---|
 | **Lite** (solo dev, small scope, < 2 weeks) | `lite-mode-checklist.md` | 3 roles, 4 phases, minimal overhead |
 | **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony, human-in-the-loop |
-| **Concurrent** (autonomous, parallel workers) | `runtime/run.py` | All roles run as parallel Claude Code workers; you define scope and walk away |
+| **Concurrent** (autonomous, parallel workers) | `concurrent-start-checklist.md` | All roles run as parallel Claude Code workers; you define scope and walk away |
 
 **Lite and Full** start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
 

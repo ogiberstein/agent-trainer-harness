@@ -194,6 +194,8 @@ Primary files:
 ### `/run-concurrent`
 Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers.
 
+**Step-by-step checklist:** `concurrent-start-checklist.md`
+
 Runs:
 1. Verify `BRIEF.md` and `profiles/project-profile.yaml` are filled in.
 2. Set `runtime/config.yaml` (model, max workers, notification webhook, phases to skip).
@@ -204,6 +206,7 @@ Runs:
 7. Notifies on completion or blocking failure.
 
 Primary files:
+- `concurrent-start-checklist.md`
 - `runtime/DESIGN.md`
 - `runtime/config.yaml`
 - `runtime/run.py`
