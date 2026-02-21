@@ -11,8 +11,13 @@ import argparse
 import os
 import sys
 
-from orchestrator import run
-from config import load_config
+# Ensure runtime/ modules are importable regardless of CWD
+_RUNTIME_DIR = os.path.dirname(os.path.abspath(__file__))
+if _RUNTIME_DIR not in sys.path:
+    sys.path.insert(0, _RUNTIME_DIR)
+
+from orchestrator import run  # noqa: E402
+from config import load_config  # noqa: E402
 
 
 def main():
@@ -27,12 +32,17 @@ def main():
 
     project = os.path.abspath(args.project)
     if not os.path.isdir(project):
-        print(f"Project directory not found: {project}")
+        print(f"Error: Project directory not found: {project}")
         sys.exit(1)
 
     agents_md = os.path.join(project, "AGENTS.md")
     if not os.path.isfile(agents_md):
-        print(f"Not a harness project (AGENTS.md missing): {project}")
+        print(f"Error: Not a harness project (AGENTS.md missing): {project}")
+        sys.exit(1)
+
+    brief_md = os.path.join(project, "BRIEF.md")
+    if not os.path.isfile(brief_md):
+        print(f"Error: BRIEF.md missing — fill it in before starting concurrent mode: {project}")
         sys.exit(1)
 
     config_path = args.config or os.path.join(project, "runtime", "config.yaml")

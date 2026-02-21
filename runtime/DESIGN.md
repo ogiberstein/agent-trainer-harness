@@ -339,32 +339,68 @@ if __name__ == "__main__":
 
 - Python 3.10+
 - Claude Code CLI installed and authenticated (`claude --version`)
-- Git
+- Git (project must be a git repo with at least one commit)
 - `pip install -r runtime/requirements.txt`
 
-### Quick start
+### Where the code lives
+
+The runtime Python files (`run.py`, `orchestrator.py`, etc.) live inside the project's `runtime/` directory. The orchestrator reads harness files (`AGENTS.md`, `STATUS.md`, `BRIEF.md`, `harness/agents/`, etc.) from the same project.
+
+- **New project:** clone/fork this repo and it's all in one place.
+- **Existing project:** `copy_core.sh --preset full` or `--preset backend` copies `runtime/` into your project alongside the other harness files.
+- **Minimal preset** does not include `runtime/` — use `full` or `backend` for Concurrent mode.
+
+### Quick start — new project
 
 ```bash
-# 1. Set up your project with the harness (Full or Backend preset)
-bash copy_core.sh --preset backend /path/to/my-project
+# 1. Clone the harness repo as your project starting point
+git clone https://github.com/ogiberstein/agent-trainer-harness.git my-project
+cd my-project
 
-# 2. Fill in BRIEF.md and project-profile.yaml
-# 3. Edit runtime/config.yaml (model, webhook, max_workers)
+# 2. Fill in BRIEF.md (what to build, for whom, constraints, success criteria)
+# 3. Edit profiles/project-profile.yaml (tech stack, quality bars)
+# 4. Edit runtime/config.yaml (model, max_workers, notification webhook)
+
+# 5. Install Python deps
+pip install -r runtime/requirements.txt
+
+# 6. Start the orchestrator
+python runtime/run.py --project .
+
+# 7. Wait for Requirements notification, review specs/requirements.md
+# 8. Resume
+python runtime/run.py --project . --resume
+
+# 9. Come back when you get the "complete" notification
+```
+
+### Quick start — existing project
+
+```bash
+# 1. Copy harness + runtime into your existing project
+bash copy_core.sh --preset full --source /path/to/harness-repo /path/to/my-project
+cd /path/to/my-project
+
+# 2. Fill in BRIEF.md, edit runtime/config.yaml
+# 3. Install Python deps
+pip install -r runtime/requirements.txt
 
 # 4. Start
-python runtime/run.py --project /path/to/my-project
+python runtime/run.py --project .
+```
 
-# 5. Wait for Requirements notification, review specs/requirements.md
-# 6. Resume
-python runtime/run.py --project /path/to/my-project --resume
+### Dry run
 
-# 7. Come back when you get the "complete" notification
+Preview what the orchestrator will dispatch without actually running workers:
+
+```bash
+python runtime/run.py --project . --dry-run
 ```
 
 ### Monitoring
 
 - Watch `STATUS.md` for current phase.
-- Watch `operations/tracker.md` for task progress.
+- Watch `operations/tracker.md` for task progress (updated live by the orchestrator).
 - Watch `DECISIONS.md` for orchestrator decisions.
 - Worker output is in `.worktrees/<task-id>/.worker_output.txt`.
 
@@ -372,6 +408,7 @@ python runtime/run.py --project /path/to/my-project --resume
 
 - To pause gracefully: `touch /path/to/project/runtime/.checkpoint`
 - To abort: kill the orchestrator process (workers will finish their current task).
+- To resume after a pause: `python runtime/run.py --project . --resume`
 
 ## Upgrade Path: LangGraph
 

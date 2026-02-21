@@ -14,7 +14,30 @@ File-first multi-agent harness for running product delivery workflows from brief
 
 **Lite and Full** start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
 
-**Concurrent** is fully autonomous: you fill in `BRIEF.md` and `runtime/config.yaml`, start the orchestrator (`python runtime/run.py --project .`), review requirements when prompted, then let the agents build, test, and merge through all phases. See `runtime/DESIGN.md` for the full architecture.
+**Concurrent** is fully autonomous. Setup for a new project:
+
+```bash
+# 1. Fork/clone this repo, or copy harness files into a fresh project
+git clone https://github.com/ogiberstein/agent-trainer-harness.git my-project
+cd my-project
+
+# 2. Fill in BRIEF.md (project scope, users, constraints, success criteria)
+# 3. Edit profiles/project-profile.yaml (tech stack, quality bars)
+# 4. Edit runtime/config.yaml (model, max_workers, notification webhook)
+
+# 5. Install Python deps
+pip install -r runtime/requirements.txt
+
+# 6. Start the orchestrator (from anywhere — path to run.py is explicit)
+python runtime/run.py --project .
+
+# 7. Review requirements when notified, then resume
+python runtime/run.py --project . --resume
+```
+
+The orchestrator spawns parallel Claude Code CLI workers, each in its own git worktree. It enforces LLM-based gate checks, merges branches, and notifies you on completion or failure. See `runtime/DESIGN.md` for the full architecture.
+
+**Prerequisites:** Python 3.10+, Claude Code CLI installed and authenticated (`claude --version`), Git.
 
 ### Existing project
 
@@ -26,9 +49,9 @@ bash copy_core.sh --preset <preset> /path/to/your-project
 
 | Preset | Use for | What it copies |
 |---|---|---|
-| `full` | SaaS, multi-role teams | Everything |
-| `backend` | APIs, bots, headless services | Skips UI specs, designer/frontend/growth files |
-| `minimal` | Solo dev, small existing projects | Just core files + 3 agent prompts + profiles + memory |
+| `full` | SaaS, multi-role teams | Everything including `runtime/` for Concurrent mode |
+| `backend` | APIs, bots, headless services | Skips UI specs, designer/frontend/growth files; includes `runtime/` |
+| `minimal` | Solo dev, small existing projects | Just core files + 3 agent prompts + profiles + memory (no runtime) |
 
 After copying, run the alignment flow to reconcile your existing docs/specs with the harness:
 

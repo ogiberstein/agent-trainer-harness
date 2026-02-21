@@ -142,6 +142,7 @@ DIRS_FULL=(
   "specs"
   "qa"
   "docs"
+  "runtime"
 )
 
 DIRS_BACKEND=(
@@ -152,6 +153,7 @@ DIRS_BACKEND=(
   "operations"
   "skills"
   "handoffs"
+  "runtime"
 )
 
 DIRS_MINIMAL=(

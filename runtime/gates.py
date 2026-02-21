@@ -1,6 +1,7 @@
 """LLM-based gate evaluation for phase transitions."""
 
 import json
+import os
 import subprocess
 from dataclasses import dataclass
 from typing import Optional
@@ -56,11 +57,23 @@ class GateResult:
             self.missing = []
 
 
-def gate_check(task: Task, output_path: str, config: Config) -> GateResult:
+PHASE_ARTIFACTS = {
+    "requirements": ["specs/requirements.md"],
+    "design": ["specs/architecture.md", "specs/ui-spec.md"],
+    "implementation": ["src/", "tests/"],
+    "qa": ["qa/test-plan.md", "qa/issues.md"],
+    "documentation": ["docs/README.md", "docs/SETUP.md", "docs/API.md"],
+    "growth": ["specs/growth-plan.md"],
+    "review": ["STATUS.md", "DECISIONS.md"],
+}
+
+
+def gate_check(task: Task, output_path: str, config: Config, project_path: str = "") -> GateResult:
     """Evaluate gate criteria by sending artifacts + criteria to an LLM judge."""
     criteria = GATE_CRITERIA.get(task.phase, "All acceptance criteria for this task are met.")
 
-    worker_output = _read_truncated(output_path, max_chars=4000)
+    worker_output = _read_truncated(output_path, max_chars=3000)
+    artifacts_summary = _collect_artifacts(task, project_path) if project_path else ""
 
     prompt = f"""You are a quality gate reviewer for an automated software delivery pipeline.
 
@@ -73,10 +86,13 @@ Gate criteria:
 Task acceptance criteria:
 {task.acceptance}
 
-Worker output (last 4000 chars):
+Artifact files produced (first 500 chars each):
+{artifacts_summary or "(no artifacts found)"}
+
+Worker output (last 3000 chars):
 {worker_output}
 
-Evaluate whether the gate criteria are met based on the worker's output.
+Evaluate whether the gate criteria are met based on the artifacts and worker output.
 Return ONLY valid JSON (no markdown fences):
 {{"passed": true/false, "summary": "one-line summary", "evidence": "key evidence", "missing": ["list of unmet criteria if any"]}}
 """
@@ -84,6 +100,34 @@ Return ONLY valid JSON (no markdown fences):
     model = config.gate_model or config.model
     result = _call_llm_judge(prompt, model, config.gate_timeout)
     return _parse_result(result)
+
+
+def _collect_artifacts(task: Task, project_path: str) -> str:
+    """Read phase-relevant artifact files and return a truncated summary."""
+    artifact_paths = PHASE_ARTIFACTS.get(task.phase, [])
+    parts = []
+
+    for rel_path in artifact_paths:
+        full = os.path.join(project_path, rel_path)
+        if os.path.isfile(full):
+            content = _read_truncated(full, max_chars=500)
+            parts.append(f"--- {rel_path} ---\n{content}\n")
+        elif os.path.isdir(full):
+            files = _list_dir_files(full, max_files=10)
+            if files:
+                parts.append(f"--- {rel_path} (directory, {len(files)} files) ---\n")
+                parts.append(", ".join(files[:10]) + "\n")
+
+    return "\n".join(parts) if parts else ""
+
+
+def _list_dir_files(dir_path: str, max_files: int = 10) -> list[str]:
+    """List files in a directory (non-recursive, up to max_files)."""
+    try:
+        entries = os.listdir(dir_path)
+        return [e for e in entries if os.path.isfile(os.path.join(dir_path, e))][:max_files]
+    except OSError:
+        return []
 
 
 def _call_llm_judge(prompt: str, model: str, timeout: int) -> str:

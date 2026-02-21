@@ -90,7 +90,7 @@ def run(project_path: str, config: Config, dry_run: bool = False):
                 state.mark_blocked(w.task, str(e))
                 continue
 
-            result = gate_check(w.task, w.output_path, config)
+            result = gate_check(w.task, w.output_path, config, project_path)
 
             if result.passed:
                 try:

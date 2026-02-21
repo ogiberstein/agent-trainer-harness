@@ -28,6 +28,10 @@ credentials.json
 CLAUDE.md
 .github/copilot-instructions.md
 
+# Concurrent mode runtime artifacts
+.worktrees/
+runtime/.checkpoint
+
 # Node / Python common
 node_modules/
 __pycache__/
