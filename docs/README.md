@@ -6,12 +6,15 @@ File-first multi-agent harness for running product delivery workflows from brief
 
 ### New project
 
-| Project size | Start with | What you get |
+| Mode | Start with | What you get |
 |---|---|---|
-| **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony |
-| **Lite** (solo dev, small scope, < 2 weeks) | `lite-mode-checklist.md` | 3 roles (Orchestrator, Engineer, QA), 4 phases, minimal overhead |
+| **Lite** (solo dev, small scope, < 2 weeks) | `lite-mode-checklist.md` | 3 roles, 4 phases, minimal overhead |
+| **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony, human-in-the-loop |
+| **Concurrent** (autonomous, parallel workers) | `runtime/run.py` | All roles run as parallel Claude Code workers; you define scope and walk away |
 
-Both start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
+**Lite and Full** start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
+
+**Concurrent** is fully autonomous: you fill in `BRIEF.md` and `runtime/config.yaml`, start the orchestrator (`python runtime/run.py --project .`), review requirements when prompted, then let the agents build, test, and merge through all phases. See `runtime/DESIGN.md` for the full architecture.
 
 ### Existing project
 
@@ -61,6 +64,8 @@ Key integration points:
 
 ## Core System Areas
 
+- `runtime/`: autonomous concurrent orchestrator (Python), worker wrappers, gate evaluator, merge steward
+
 - `harness/`: role prompts, routing policy, permissions, adapter contract
 - `profiles/`: org/project merged profiles and active skill selection
 - `operations/`: tracker (board + dashboard + workflow + inbox), runbook (+ SLAs), guidelines
@@ -76,6 +81,7 @@ Key integration points:
 - Future roadmap: `FUTURE_IMPROVEMENTS.md`
 - Framework-specific shims: `starter_kit_existing_projects/framework-shims/`
 - Optional Domain SME pattern: see `harness/agents/domain-sme.md`
+- Concurrent mode architecture: `runtime/DESIGN.md`
 
 ## Contributing
 

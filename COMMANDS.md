@@ -170,6 +170,28 @@ Primary files:
 - `STATUS.md`
 - `DECISIONS.md`
 
+## Concurrent Mode
+
+### `/run-concurrent`
+Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers.
+
+Runs:
+1. Verify `BRIEF.md` and `profiles/project-profile.yaml` are filled in.
+2. Set `runtime/config.yaml` (model, max workers, notification webhook, phases to skip).
+3. Execute: `python runtime/run.py --project /path/to/project`
+4. Orchestrator spawns workers per phase, enforces gates, merges branches.
+5. Pauses after Requirements for human review (configurable).
+6. Resume with: `python runtime/run.py --project /path/to/project --resume`
+7. Notifies on completion or blocking failure.
+
+Primary files:
+- `runtime/DESIGN.md`
+- `runtime/config.yaml`
+- `runtime/run.py`
+- `BRIEF.md`
+- `profiles/project-profile.yaml`
+- `STATUS.md`
+
 ## Feedback and Validation
 
 ### `/retrospective`

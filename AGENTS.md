@@ -40,6 +40,7 @@ Agents **may** delete individual files from the lists below when they are clearl
 Start checklists (read only if relevant):
 - New project (full): `day-0-start.md`
 - New project (lite): `lite-mode-checklist.md`
+- New project (concurrent/autonomous): `runtime/DESIGN.md` + `python runtime/run.py`
 - Existing project onboarding: `migration-checklist.md`
 
 ## Execution Behavior

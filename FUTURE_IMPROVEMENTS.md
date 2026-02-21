@@ -6,12 +6,14 @@ This document tracks future upgrades for evolving the harness from manual orches
 - File-first orchestration is operational (`harness/`, `operations/`, `profiles/`, `skills/`).
 - Team workflow runs reliably in manual/semi-manual mode via role switching and handoffs.
 - Governance, quality gates, and skill controls are in place.
+- **Concurrent mode scaffolded** (`runtime/`): Python orchestrator, Claude Code CLI workers, LLM-based gate evaluation, merge steward, notification layer. See `runtime/DESIGN.md` for full architecture.
 
-## Target State (Concurrency)
-- Multiple workers run in parallel on isolated tasks.
-- Dispatch assigns only ready/unblocked work.
-- Merge/review is automated or semi-automated.
-- Workflow state is resumable without restarting failed runs.
+## Target State (Concurrency) — IN PROGRESS
+- ~~Multiple workers run in parallel on isolated tasks.~~ **Scaffolded** in `runtime/orchestrator.py` + `runtime/worker.py`.
+- ~~Dispatch assigns only ready/unblocked work.~~ **Scaffolded** in `runtime/orchestrator.py`.
+- ~~Merge/review is automated or semi-automated.~~ **Scaffolded** in `runtime/merge.py` + `runtime/gates.py`.
+- ~~Workflow state is resumable without restarting failed runs.~~ **Scaffolded** via checkpoint files and `--resume` flag.
+- **Remaining:** real-world testing, full tracker.md card parsing, STATUS.md incremental updates, observability dashboard.
 
 ## What Concurrency Enables
 - Faster cycle times for independent tasks (backend/frontend/docs in parallel).
@@ -54,10 +56,12 @@ Approach options:
 Priority: near-term, after manual mode is stable and patterns are validated on real projects.
 
 ## Recommended Evolution Path
-1. **Now:** Stay in manual mode with Lite/Full/Backend presets.
-2. **Near term:** Wire runbook playbooks to executable scripts (see above).
-3. **Next:** Prototype local concurrent runtime on one project with 2-3 parallel workers.
-4. **Later:** Add observability/evals and optional remote control interfaces.
+1. **Done:** Stay in manual mode with Lite/Full/Backend presets. ✓
+2. **Done:** Scaffold Concurrent mode runtime (`runtime/`). ✓
+3. **Near term:** Wire runbook playbooks to executable scripts (see above).
+4. **Near term:** Test Concurrent mode on a real project; harden `state.py` card parsing and `STATUS.md` incremental writes.
+5. **Next:** Add observability dashboard (cost, gate pass/fail rates, rework loops).
+6. **Later:** Add optional remote control interfaces (Telegram, Slack).
 
 ## Readiness Criteria Before Moving to Concurrency
 - Stable gate pass/fail behavior in manual mode.
