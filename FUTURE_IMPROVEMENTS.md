@@ -9,6 +9,7 @@ Roadmap for the next evolution of the harness.
 - **Structural gate enforcement** — Gate Log table in `STATUS.md`, violation rules in `AGENTS.md`, gate logging at every phase in `day-0-start.md`.
 - **CLAUDE.md hard triggers** — Three conditional triggers (tracker override, snapshot mandate, gate check mandate) fire automatically when `AGENTS.md` is detected.
 - **Engineer deviation logging** — Fullstack and Frontend engineer checklists now require `DECISIONS.md` entries for spec deviations.
+- **Concurrent self-launch** — `cli/preflight_concurrent.py` checks prerequisites; `launch-concurrent` CLI subcommand starts the orchestrator as a background process. Agents can self-launch concurrent mode or fall back to Full mode.
 
 ## Near Term
 

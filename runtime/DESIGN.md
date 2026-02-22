@@ -350,6 +350,16 @@ The runtime Python files (`run.py`, `orchestrator.py`, etc.) live inside the pro
 - **Existing project:** `copy_core.sh --preset full` or `--preset backend` copies `runtime/` into your project alongside the other harness files.
 - **Minimal preset** does not include `runtime/` — use `full` or `backend` for Concurrent mode.
 
+### Agent self-launch
+
+Agents with shell access can self-launch concurrent mode instead of requiring a human to run the commands:
+
+1. Preflight check: `python3 cli/preflight_concurrent.py --project .` (verifies Python, Claude CLI, git, runtime/, config, deps, BRIEF.md)
+2. Launch: `python3 cli/harness_cli.py --project . launch-concurrent` (installs deps, starts orchestrator as background process, prints PID and monitoring instructions)
+3. If preflight fails: the agent falls back to solo-autonomous Full mode and logs the reason in `DECISIONS.md`.
+
+See `AGENTS.md` Mode Selection for the decision protocol.
+
 ### Quick start — new project
 
 ```bash
