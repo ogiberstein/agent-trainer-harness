@@ -5,16 +5,18 @@ Works in any mode (Lite/Full/Concurrent). Wraps runtime/ modules so
 operators don't need to know the internal API.
 
 Usage:
-    python cli/harness_cli.py status        --project .
-    python cli/harness_cli.py gate-check    --project . [--phase requirements]
-    python cli/harness_cli.py phase-next    --project .
-    python cli/harness_cli.py task list     --project .
-    python cli/harness_cli.py task add      --project . --title "..." --role "..." --phase "..."
+    python cli/harness_cli.py status             --project .
+    python cli/harness_cli.py gate-check         --project . [--phase requirements]
+    python cli/harness_cli.py phase-next         --project .
+    python cli/harness_cli.py task list          --project .
+    python cli/harness_cli.py task add           --project . --title "..." --role "..." --phase "..."
+    python cli/harness_cli.py launch-concurrent  --project .
 """
 
 import argparse
 import json
 import os
+import subprocess
 import sys
 
 _CLI_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -178,6 +180,51 @@ def cmd_task_add(args):
     print(f"Added task [{task.id}] '{task.title}' to {task.phase} phase, assigned to {task.role}")
 
 
+def cmd_launch_concurrent(args):
+    """Run preflight checks and launch the concurrent orchestrator as a background process."""
+    _PREFLIGHT = os.path.join(_CLI_DIR, "preflight_concurrent.py")
+
+    print("Running preflight checks...")
+    result = subprocess.run(
+        [sys.executable, _PREFLIGHT, "--project", args.project],
+        capture_output=False,
+    )
+    if result.returncode != 0:
+        print("\nPreflight failed. Fix the issues above before launching.")
+        print("Fallback: use solo-autonomous Full mode (day-0-start.md).")
+        sys.exit(1)
+
+    req_file = os.path.join(args.project, "runtime", "requirements.txt")
+    if os.path.isfile(req_file):
+        print("\nInstalling runtime dependencies...")
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-q", "-r", req_file],
+            check=False,
+        )
+
+    run_py = os.path.join(args.project, "runtime", "run.py")
+    log_path = os.path.join(args.project, "logs", "orchestrator.log")
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+    print(f"\nLaunching orchestrator (log: {log_path})...")
+    with open(log_path, "w") as log_file:
+        proc = subprocess.Popen(
+            [sys.executable, run_py, "--project", args.project],
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+    print(f"Orchestrator started (PID: {proc.pid})")
+    print(f"\nMonitor:")
+    print(f"  tail -f {log_path}")
+    print(f"  python3 cli/harness_cli.py --project {args.project} status")
+    print(f"  cat {os.path.join(args.project, 'STATUS.md')}")
+    print(f"\nPause:  touch {os.path.join(args.project, 'runtime', '.checkpoint')}")
+    print(f"Resume: python3 {run_py} --project {args.project} --resume")
+    print(f"Stop:   kill {proc.pid}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Harness CLI — operate harness from any mode")
     parser.add_argument("--project", default=".", help="Path to harness-enabled project")
@@ -205,6 +252,8 @@ def main():
     add_parser.add_argument("--acceptance", default="", help="Acceptance criteria")
     add_parser.add_argument("--id", help="Custom task ID (auto-generated if omitted)")
 
+    subparsers.add_parser("launch-concurrent", help="Preflight + launch concurrent orchestrator")
+
     args = parser.parse_args()
 
     args.project = os.path.abspath(args.project)
@@ -218,6 +267,8 @@ def main():
         cmd_gate_check(args)
     elif args.command == "phase-next":
         cmd_phase_next(args)
+    elif args.command == "launch-concurrent":
+        cmd_launch_concurrent(args)
     elif args.command == "task":
         if args.task_command == "list":
             cmd_task_list(args)

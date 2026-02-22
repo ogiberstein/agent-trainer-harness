@@ -37,6 +37,8 @@ python runtime/run.py --project . --resume
 
 The orchestrator spawns parallel Claude Code CLI workers, each in its own git worktree. It enforces LLM-based gate checks, merges branches, and notifies you on completion or failure. See `runtime/DESIGN.md` for the full architecture.
 
+**Agent self-launch:** Agents with shell access can self-launch concurrent mode. They run `python3 cli/preflight_concurrent.py --project .` to verify prerequisites, then `python3 cli/harness_cli.py --project . launch-concurrent` to start the orchestrator in the background. If prerequisites fail, they fall back to solo-autonomous Full mode. See `AGENTS.md` Mode Selection for the decision protocol.
+
 **Prerequisites:** Python 3.10+, Claude Code CLI installed and authenticated (`claude --version`), Git.
 
 ### Existing project

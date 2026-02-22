@@ -191,8 +191,22 @@ Primary files:
 
 ## Concurrent Mode
 
+### `/preflight-concurrent`
+Purpose: Verify all prerequisites for concurrent mode before launching.
+
+**Executable:** `python3 cli/preflight_concurrent.py --project .` (add `--json` for structured output)
+
+Checks: Python 3.10+, Claude CLI on PATH, git repo with commits, `runtime/` present, `runtime/config.yaml` valid, Python deps installed, `BRIEF.md` filled in.
+
+### `/launch-concurrent`
+Purpose: Run preflight checks and launch the concurrent orchestrator as a background process.
+
+**Executable:** `python3 cli/harness_cli.py --project . launch-concurrent`
+
+Runs preflight, installs deps if needed, launches `runtime/run.py` in background, prints PID and monitoring instructions. If preflight fails, prints what's missing and exits with code 1 (agent should fall back to Full mode).
+
 ### `/run-concurrent`
-Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers.
+Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers (manual steps).
 
 **Step-by-step checklist:** `concurrent-start-checklist.md`
 

@@ -4,6 +4,18 @@ Step-by-step checklist for launching a fully autonomous, concurrent project run.
 
 ---
 
+## Agent-Driven Launch (single command)
+
+If you are an AI agent with shell access, you can self-launch concurrent mode instead of following the manual steps below:
+
+1. Run preflight: `python3 cli/preflight_concurrent.py --project .`
+2. If all checks pass: `python3 cli/harness_cli.py --project . launch-concurrent`
+3. If any check fails: fall back to solo-autonomous Full mode (`day-0-start.md`) and log the reason in `DECISIONS.md`.
+
+The `launch-concurrent` command handles dependency installation, launches the orchestrator as a background process, and prints monitoring instructions. The manual steps below are the detailed breakdown of what it does.
+
+---
+
 ## Prerequisites
 
 - [ ] Python 3.10+ installed (`python3 --version`)

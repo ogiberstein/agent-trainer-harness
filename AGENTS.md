@@ -55,6 +55,8 @@ Choose the right mode based on scope. Do not default to the smallest mode for la
 
 A multi-phase MVP build (e.g., requirements → design → implementation → QA → docs) is Full mode, not Lite — even when running autonomously overnight. Full mode works unattended; the agent self-enforces gates and writes phase snapshots.
 
+**Concurrent self-launch:** If you determine the project has parallelizable work (e.g., backend + frontend can be built simultaneously) AND you have shell access, run the preflight check: `python3 cli/preflight_concurrent.py --project .`. If it passes, launch with `python3 cli/harness_cli.py --project . launch-concurrent`. If it fails, fall back to Full mode and log the reason in `DECISIONS.md`.
+
 ## Execution Behavior
 
 - **Proportionality:** small changes (bug fixes, config tweaks, one-liner patches) need only update `STATUS.md` and code. Full ceremony (gates, handoffs, decisions logging) is for feature work and multi-file changes.
@@ -89,4 +91,5 @@ If this repository is used with an agent-level config (e.g., `CLAUDE.md`, `.curs
 | `profiles/active-skills.yaml` | Enabled skills for this project |
 | `evaluation/release-gates.md` | Promotion and release criteria |
 | `cli/validate_harness.py` | Executable consistency checker |
-| `cli/harness_cli.py` | CLI for status, gate-check, phase-next, task ops |
+| `cli/harness_cli.py` | CLI for status, gate-check, phase-next, task ops, launch-concurrent |
+| `cli/preflight_concurrent.py` | Preflight check for concurrent mode prerequisites |
