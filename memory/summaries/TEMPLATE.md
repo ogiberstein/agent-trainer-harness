@@ -1,0 +1,13 @@
+# Phase {N}: {Name} — Summary
+
+## Files Created/Modified
+- ...
+
+## Key Decisions Made
+- ...
+
+## Issues Encountered
+- ...
+
+## Inputs for Next Phase
+- ...

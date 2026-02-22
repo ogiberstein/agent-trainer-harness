@@ -21,3 +21,7 @@ YYYY-MM-DD by [Agent Name]
 
 ## Risks
 - [Risk]: [Impact + mitigation]
+
+## Gate Log
+| Phase | Result | Evidence | Date |
+|-------|--------|----------|------|

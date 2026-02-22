@@ -2,6 +2,14 @@
 
 Roadmap for the next evolution of the harness.
 
+## Recently Shipped
+
+- **Mode selection heuristic** — concrete decision tree in `AGENTS.md` replaces vague "smallest valid workflow" guidance.
+- **Mandatory phase snapshots** — `memory/summaries/TEMPLATE.md` and enforcement rules in `AGENTS.md` + `day-0-start.md`. Protects against context compaction.
+- **Structural gate enforcement** — Gate Log table in `STATUS.md`, violation rules in `AGENTS.md`, gate logging at every phase in `day-0-start.md`.
+- **CLAUDE.md hard triggers** — Three conditional triggers (tracker override, snapshot mandate, gate check mandate) fire automatically when `AGENTS.md` is detected.
+- **Engineer deviation logging** — Fullstack and Frontend engineer checklists now require `DECISIONS.md` entries for spec deviations.
+
 ## Near Term
 
 ### Battle-test Concurrent mode

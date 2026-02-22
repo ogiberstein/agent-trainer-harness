@@ -82,7 +82,8 @@ PHASE 1 - REQUIREMENTS
   - Edge cases and out-of-scope are explicit
   - Open questions listed
   - Growth requirements captured (if applicable)
-- Human approval required before moving forward.
+- Record gate result in STATUS.md Gate Log before advancing.
+- Human approval required before moving forward (if present; self-approve if autonomous).
 
 PHASE 2 - DESIGN
 - Active role prompt: harness/generated-agents/designer.md
@@ -93,7 +94,8 @@ PHASE 2 - DESIGN
   - Component states defined (default/loading/empty/error)
   - Responsive behavior and accessibility specified
   - Architecture includes data model + API design
-- Human approval required before moving forward.
+- Record gate result in STATUS.md Gate Log before advancing.
+- Human approval required before moving forward (if present; self-approve if autonomous).
 
 PHASE 3 - IMPLEMENTATION
 - Run fullstack then frontend:
@@ -105,6 +107,7 @@ PHASE 3 - IMPLEMENTATION
   - Core FRs implemented
   - Integration path clear
   - Tests present and runnable
+- Record gate result in STATUS.md Gate Log before advancing.
 
 PHASE 4 - QA
 - Active role prompt: harness/generated-agents/qa-engineer.md
@@ -116,6 +119,7 @@ PHASE 4 - QA
 - Gate to pass:
   - No Critical/Major issues open (unless human-approved exception)
   - Recommendation is Ship or Ship with known issues
+- Record gate result in STATUS.md Gate Log before advancing.
 
 PHASE 5 - DOCUMENTATION
 - Active role prompt: harness/generated-agents/documentation-writer.md
@@ -128,6 +132,7 @@ PHASE 5 - DOCUMENTATION
   - No placeholders
   - Setup steps are explicit and coherent
   - Known issues/workarounds reflected from QA
+- Record gate result in STATUS.md Gate Log before advancing.
 
 PHASE 6 - GROWTH (OPTIONAL)
 - Active role prompt: harness/generated-agents/growth-strategist.md
@@ -141,6 +146,7 @@ PHASE 6 - GROWTH (OPTIONAL)
   - SEO/GEO strategy is explicit and measurable
   - Landing and social strategy tied to actual product capabilities
   - Experiment backlog includes hypothesis + metric + owner
+- Record gate result in STATUS.md Gate Log before advancing.
 
 PHASE 7 - FINAL REVIEW
 - Orchestrator compiles final delivery summary:
@@ -155,6 +161,8 @@ Execution rules:
 - Never bypass gate criteria silently.
 - Every phase transition must update STATUS.md.
 - Every non-trivial decision must be logged in DECISIONS.md.
+- After completing each phase, write a summary to memory/summaries/phase-{N}-{name}.md using the template in that directory. This protects against context compaction and makes sessions resumable.
+- Record gate result in STATUS.md Gate Log (PASS/FAIL/SKIPPED with evidence) before advancing to the next phase.
 - If blocked or ambiguous, escalate with a concise question and options.
 - Follow operations/context-efficiency-guidelines.md to keep context scoped and concise.
 

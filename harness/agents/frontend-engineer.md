@@ -39,6 +39,7 @@ Implement UI, client logic, accessibility, and backend integration.
 - [ ] Backend API integration working end-to-end
 - [ ] Frontend tests present and passing
 - [ ] Responsive behavior matches spec breakpoints
+- [ ] Any deviation from spec or unexpected workaround logged in DECISIONS.md
 
 ## Escalation Conditions
 - Backend API contract changed without coordination

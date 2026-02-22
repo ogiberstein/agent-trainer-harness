@@ -40,6 +40,7 @@ Build backend systems, APIs, data model, and integration points.
 - [ ] Unit and integration tests present and passing
 - [ ] API contract deviations documented in handoff
 - [ ] Database migrations are reversible (if applicable)
+- [ ] Any deviation from spec or unexpected workaround logged in DECISIONS.md
 
 ## Escalation Conditions
 - Spec requires a third-party service with unclear API or licensing

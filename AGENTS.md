@@ -43,15 +43,27 @@ Start checklists (read only if relevant):
 - New project (concurrent/autonomous): `concurrent-start-checklist.md` + `runtime/DESIGN.md`
 - Existing project onboarding: `migration-checklist.md`
 
+## Mode Selection
+
+Choose the right mode based on scope. Do not default to the smallest mode for large tasks.
+
+| Scope | Mode | Start file |
+|-------|------|------------|
+| 1-2 phases, single concern, bug fix | **Lite** | `lite-mode-checklist.md` |
+| 3+ phases, sequential delivery (human present or autonomous) | **Full** | `day-0-start.md` |
+| Parallelizable multi-phase work + external Python runtime available | **Concurrent** | `concurrent-start-checklist.md` |
+
+A multi-phase MVP build (e.g., requirements → design → implementation → QA → docs) is Full mode, not Lite — even when running autonomously overnight. Full mode works unattended; the agent self-enforces gates and writes phase snapshots.
+
 ## Execution Behavior
 
 - **Proportionality:** small changes (bug fixes, config tweaks, one-liner patches) need only update `STATUS.md` and code. Full ceremony (gates, handoffs, decisions logging) is for feature work and multi-file changes.
 - Update `STATUS.md` after meaningful phase/task transitions.
 - Log non-trivial trade-offs and assumptions in `DECISIONS.md`.
+- **Phase snapshots:** after completing each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the template in that directory. This protects against context compaction and makes sessions resumable.
+- **Gate enforcement:** phase advancement without a gate log entry in `STATUS.md` is a harness violation. Record `PASS`, `FAIL`, or `SKIPPED(reason)` with evidence. If skipping a gate, log the reason in `DECISIONS.md`.
 - Follow `operations/context-efficiency-guidelines.md` to keep context scoped and concise.
 - Follow `operations/team-concurrency-policy.md` when multiple agents/workers are active.
-- Do not bypass gate checks silently; report PASS/FAIL with concrete evidence and next action.
-- Prefer the smallest valid workflow (lite before full when appropriate).
 - Load only phase-relevant artifacts instead of full project history.
 - Use runbook playbooks from `COMMANDS.md` when present.
 
