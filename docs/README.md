@@ -9,7 +9,7 @@ File-first multi-agent harness for running product delivery workflows from brief
 | Mode | Start with | What you get |
 |---|---|---|
 | **Lite** (solo dev, small scope, < 2 weeks) | `lite-mode-checklist.md` | 3 roles, 4 phases, minimal overhead |
-| **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony, human-in-the-loop |
+| **Full** (multi-role team, SaaS, UI + backend) | `day-0-start.md` | All roles, all phases, full gate ceremony (human-in-the-loop or autonomous) |
 | **Concurrent** (autonomous, parallel workers) | `concurrent-start-checklist.md` | All roles run as parallel Claude Code workers; you define scope and walk away |
 
 **Lite and Full** start from a clean repo. Paste the prompt from the relevant file into your AI IDE and follow the phase sequence.
@@ -81,7 +81,11 @@ Key integration points:
 
 **Roles:** Product Manager, Designer, Fullstack Engineer, Frontend Engineer, QA Engineer, Documentation Writer, optional Growth Strategist and Domain SME.
 
-**Phases:** Requirements → Design → Implementation → QA → Documentation → Growth (optional) → Final Review. Each phase has explicit gate criteria that must pass before advancing.
+**Phases:** Requirements → Design → Implementation → QA → Documentation → Growth (optional) → Final Review. Each phase has explicit gate criteria that must pass before advancing. Gate results (PASS/FAIL/SKIPPED) are recorded in the `STATUS.md` Gate Log for auditability.
+
+**Phase snapshots:** After completing each phase, agents write a summary to `memory/summaries/` using a standard template. This protects against context compaction — if the agent loses context mid-session, it can recover from the last snapshot.
+
+**Mode selection:** `AGENTS.md` includes a concrete decision tree: Lite for 1-2 phase tasks, Full for 3+ phase sequential delivery (works unattended overnight), Concurrent for parallel workers with an external runtime.
 
 **Protection:** Core infrastructure files (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`, `harness/`, `profiles/`, `memory/`, `evaluation/`) are always protected. Irrelevant template files can be pruned if logged in `DECISIONS.md`.
 
