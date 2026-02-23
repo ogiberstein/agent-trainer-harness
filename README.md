@@ -2,8 +2,6 @@
 
 File-first multi-agent harness for AI-assisted product delivery. Framework-agnostic — works with Claude Code, Cursor, Copilot, or any AI IDE.
 
-Built on lessons from [OpenAI's harness engineering](https://openai.com/index/harness-engineering/): AGENTS.md as a navigational map (not a manual), three-zone file architecture, mechanical enforcement via CLI tools, and progressive context disclosure.
-
 ## Pick Your Mode
 
 | Question | Lite | Full | Concurrent |
@@ -93,8 +91,21 @@ agent-trainer/
 - **Three-zone model**: Files are labeled as System (never delete), State (update as you work), or App (your workspace). Agents know what to touch and what to protect.
 - **Audit-first onboarding**: Existing projects are never blindly overwritten. The agent audits what exists, classifies the project, and adds only what improves outcomes.
 - **Proportionality is the mode**: Pick lite for small work, full for features, concurrent for big builds. No need for complex per-mode proportionality rules.
-- **Additive phase summaries**: Phase snapshots include "Carried Constraints" to prevent context collapse in long sessions (per Microsoft ACE framework research).
+- **Additive phase summaries**: Phase snapshots include "Carried Constraints" to prevent context collapse in long sessions.
 - **Mechanical enforcement**: `cli/validate_harness.py` checks consistency. Gate enforcement is structural, not advisory.
+
+## Readings and Influences
+
+This harness was shaped by hands-on trial and error across multiple real projects, combined with ideas from:
+
+- [Harness Engineering](https://openai.com/index/harness-engineering/) (OpenAI, Feb 2026) — AGENTS.md as navigational map, progressive context disclosure, garbage collection agents
+- [Exploring Gen AI: Harness Engineering](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html) (Martin Fowler / Thoughtworks) — harnesses as future service templates, retrofitting challenges
+- [AGENTS.md Standard and Best Practices](https://developers.openai.com/codex/guides/agents-md/) — file structure, discovery hierarchy, size guidelines
+- [Agentic Context Engineering (ACE)](https://arxiv.org/abs/2510.04618) (Microsoft Research) — context collapse prevention, additive checkpoints
+- [Agent READMEs: An Empirical Study](https://arxiv.org/html/2511.12884v1) — analysis of 2,303 context files, what works and what doesn't
+- [Loa Framework](https://github.com/0xHoneyJar/loa) — three-zone model (System/State/App), lossless ledger protocol
+- [Multi-Agent Orchestration Patterns](https://zylos.ai/research/2026-01-06-multi-agent-orchestration-patterns) — handoff validation, hierarchical supervision, failure isolation
+- [Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/) (Tweag) — spec-first development, proportionality
 
 ## License
 
