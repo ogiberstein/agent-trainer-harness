@@ -1,0 +1,34 @@
+# Memory artifacts (generated at runtime)
+memory/snapshots/*
+memory/summaries/*
+!memory/snapshots/.gitkeep
+!memory/summaries/.gitkeep
+!memory/summaries/TEMPLATE.md
+
+# Editor and OS
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment and secrets
+.env
+.env.*
+credentials.json
+*.pem
+*.key
+
+# Framework shims (optional, generated per-target)
+.cursor/
+CLAUDE.md
+.github/copilot-instructions.md
+
+# Node / Python common
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/

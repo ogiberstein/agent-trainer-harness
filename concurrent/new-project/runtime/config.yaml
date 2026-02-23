@@ -1,0 +1,21 @@
+# Runtime configuration for Concurrent mode
+# See runtime/DESIGN.md for full documentation.
+
+model: "claude-sonnet-4-20250514"          # Model for workers
+gate_model: null                       # Model for gate checks (defaults to model)
+max_workers: 3                         # Max parallel Claude Code workers
+max_retries: 2                         # Per-task retry ceiling before escalation
+checkpoint_after_requirements: true    # Pause for human review after Phase 1
+
+# Notification (set one)
+notification_webhook: ""               # Slack/Telegram incoming webhook URL
+
+# Timeouts (seconds)
+worker_timeout: 3600                   # 1 hour per worker invocation
+gate_timeout: 120                      # 2 minutes for gate evaluation
+
+# Phases to skip (e.g., ["growth", "documentation"] for backend-only projects)
+skip_phases: []
+
+# Project
+project_name: ""                       # Display name for notifications

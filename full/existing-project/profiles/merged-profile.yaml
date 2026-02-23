@@ -1,0 +1,23 @@
+version: "1.0.0"
+generated_at: "YYYY-MM-DDTHH:MM:SSZ"
+generated_by: "Setup Engineer"
+source:
+  org_profile: "profiles/org-profile.yaml"
+  project_profile: "profiles/project-profile.yaml"
+
+effective_profile:
+  project:
+    name: "[resolved name]"
+    domain: "[resolved domain]"
+    objective: "[resolved objective]"
+  constraints: {}
+  quality_bars: {}
+  workflow_policy: {}
+  communication_style: {}
+  agent_overrides: {}
+
+merge_precedence:
+  - "harness/agents/*.md (base prompts)"
+  - "profiles/org-profile.yaml"
+  - "profiles/project-profile.yaml"
+  - "runtime user override (must be logged in DECISIONS.md)"

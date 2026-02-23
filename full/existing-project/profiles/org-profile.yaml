@@ -1,0 +1,35 @@
+version: "1.0.0"
+organization:
+  name: "Default Org"
+  policy_version: "1.0.0"
+
+defaults:
+  workflow_policy:
+    require_human_approval_at:
+      - "requirements"
+      - "design"
+      - "release"
+    max_parallel_tasks: 3
+    max_retry_per_task: 2
+  communication_style:
+    tone: "concise"
+    report_frequency: "per-phase"
+    decision_log_required: true
+
+constraints:
+  compliance: []
+  non_negotiables:
+    - "No hardcoded secrets"
+    - "All role outputs must be traceable to source artifacts"
+    - "Do not bypass QA gate without human approval"
+
+quality_bars:
+  test_coverage_min_percent: 80
+  qa_gate:
+    block_on_severity:
+      - "Critical"
+      - "Major"
+
+security:
+  prompt_injection_protection: true
+  require_permission_escalation_approval: true

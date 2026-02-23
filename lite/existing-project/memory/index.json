@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "locks": [],
+  "records": [],
+  "summaries": [],
+  "meta": {
+    "last_compaction_at": null,
+    "handoff_count_since_compaction": 0
+  }
+}

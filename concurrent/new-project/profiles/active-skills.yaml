@@ -1,0 +1,45 @@
+version: "1.0.0"
+project: "Example Project"
+
+pack: "core-delivery-pack"
+
+required:
+  - name: orchestrator-phase-gate-enforcer
+    version: 0.1.0
+  - name: requirements-clarifier
+    version: 0.1.0
+  - name: handoff-quality-auditor
+    version: 0.1.0
+
+optional:
+  - name: api-contract-validator
+    version: 0.1.0
+  - name: qa-evidence-standardizer
+    version: 0.1.0
+
+domain:
+  # Add based on project context:
+  # - name: quant-statistics-probability
+  #   version: 0.1.0
+  # - name: blockchain-onchain-exploration
+  #   version: 0.1.0
+  # - name: security-audit-adversarial-testing
+  #   version: 0.1.0
+  # - name: growth-seo-geo-strategy
+  #   version: 0.1.0
+  # - name: growth-landing-page-conversion
+  #   version: 0.1.0
+  # - name: growth-social-distribution-strategy
+  #   version: 0.1.0
+  # - name: growth-experimentation-roadmap
+  #   version: 0.1.0
+  # - name: growth-analytics-instrumentation
+  #   version: 0.1.0
+  # - name: market-opportunity-research
+  #   version: 0.1.0
+  # - name: user-research-discovery
+  #   version: 0.1.0
+
+security:
+  - name: prompt-injection-sanitizer
+    version: 0.1.0

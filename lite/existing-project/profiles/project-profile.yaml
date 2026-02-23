@@ -1,0 +1,31 @@
+version: "1.0.0"
+project:
+  name: "Example Project"
+  domain: "saas"
+  objective: "One sentence business goal"
+  delivery_mode: "mvp"
+
+constraints:
+  tech_stack:
+    frontend: "react"
+    backend: "node"
+    database: "postgres"
+  hosting: "vercel+railway"
+  compliance:
+    - "gdpr"
+  non_negotiables:
+    - "No hardcoded secrets"
+
+quality_bars:
+  test_coverage_min_percent: 80
+  qa_gate:
+    block_on_severity:
+      - "Critical"
+      - "Major"
+
+workflow_policy:
+  max_retry_per_task: 2
+
+communication_style:
+  tone: "concise"
+  decision_log_required: true
