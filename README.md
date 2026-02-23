@@ -103,7 +103,7 @@ This harness was shaped by hands-on trial and error across multiple real project
 - [AGENTS.md Standard and Best Practices](https://developers.openai.com/codex/guides/agents-md/) — file structure, discovery hierarchy, size guidelines
 - [Agentic Context Engineering (ACE)](https://arxiv.org/abs/2510.04618) (Microsoft Research) — context collapse prevention, additive checkpoints
 - [Agent READMEs: An Empirical Study](https://arxiv.org/html/2511.12884v1) — analysis of 2,303 context files, what works and what doesn't
-- [Loa Framework](https://github.com/0xHoneyJar/loa) — three-zone model (System/State/App), lossless ledger protocol
+- [0xHoneyJar Loa Framework](https://github.com/0xHoneyJar/loa) — three-zone model (System/State/App), lossless ledger protocol
 - [Multi-Agent Orchestration Patterns](https://zylos.ai/research/2026-01-06-multi-agent-orchestration-patterns) — handoff validation, hierarchical supervision, failure isolation
 - [Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/) (Tweag) — spec-first development, proportionality
 
