@@ -191,7 +191,7 @@ def cmd_launch_concurrent(args):
     )
     if result.returncode != 0:
         print("\nPreflight failed. Fix the issues above before launching.")
-        print("Fallback: use solo-autonomous Full mode (day-0-start.md).")
+        print("Fallback: use solo-autonomous Full mode (start.md).")
         sys.exit(1)
 
     req_file = os.path.join(args.project, "runtime", "requirements.txt")

@@ -388,7 +388,7 @@ python runtime/run.py --project . --resume
 
 ```bash
 # 1. Copy harness + runtime into your existing project (run from harness repo root)
-bash starter_kit_existing_projects/core/copy_core.sh --preset full /path/to/my-project
+cp -R concurrent/existing-project/* /path/to/my-project/
 cd /path/to/my-project
 
 # 2. Fill in BRIEF.md, edit runtime/config.yaml
@@ -432,7 +432,7 @@ The orchestrator notifies you when it needs attention (requirements review) or f
 
 **None:** Leave `notification_webhook: ""` — notifications print to terminal only.
 
-See `concurrent-start-checklist.md` for detailed setup instructions with links.
+See `start.md` for detailed setup instructions.
 
 ## Upgrade Path: LangGraph
 

@@ -164,7 +164,7 @@ def main():
             print("\nReady to launch: python3 cli/harness_cli.py --project . launch-concurrent")
         else:
             print("\nFix the failures above before launching concurrent mode.")
-            print("Fallback: use solo-autonomous Full mode (day-0-start.md).")
+            print("Fallback: use solo-autonomous Full mode (start.md).")
 
     sys.exit(0 if all_pass else 1)
 
