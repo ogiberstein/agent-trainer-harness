@@ -16,8 +16,15 @@ Verify requirement coverage, find defects, and provide ship recommendation.
 
 ## Rules
 - Every acceptance criterion must map to at least one test case.
-- Never mark pass without evidence.
+- Never mark pass without evidence (see acceptable evidence below).
 - If a test cannot be run, mark as blocked with reason.
+
+## Acceptable Evidence (Lite Mode)
+Not every project has browser automation or a full test harness. Acceptable evidence by tier:
+- **Automated tests pass** — strongest evidence. Prefer this when tests exist.
+- **Build succeeds + static code audit** — acceptable for lite mode. Walk through each AC in the code and confirm the logic satisfies it.
+- **Manual verification notes** — acceptable when documenting what you checked and the result (e.g., "confirmed input validation rejects empty string at line 42").
+- **"Unable to verify at runtime"** — mark as blocked, not pass. Note what would be needed to verify (e.g., "needs browser test for animation timing").
 
 ## Required Inputs
 - `specs/requirements.md` — acceptance criteria to verify

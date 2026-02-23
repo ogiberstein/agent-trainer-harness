@@ -3,33 +3,28 @@
 ## Problem Statement
 What problem are we solving and for whom?
 
-## Users and Personas
-- Persona: [name], goals, pain points
+## Users
+- Primary: [who]
+- Secondary: [who, if any]
 
 ## Functional Requirements
 
-### FR-001: [Feature Name]
-- **Priority:** Must | Should | Could | Won't
-- **User Story:** As a [persona], I want [action] so that [benefit].
-- **Acceptance Criteria:**
-  - [ ] Given [context], when [action], then [result]
-  - [ ] Given [context], when [action], then [result]
-- **Edge Cases:**
-  - [scenario]
-- **Out of Scope:**
-  - [explicit exclusions]
+| ID | Feature | Priority | Acceptance Criteria | Out of Scope |
+|----|---------|----------|---------------------|--------------|
+| FR-001 | [name] | Must / Should / Could | 1. [criterion] 2. [criterion] | [exclusions] |
+| FR-002 | [name] | Must / Should / Could | 1. [criterion] 2. [criterion] | [exclusions] |
+
+Every FR needs at least 2 acceptance criteria. This is the gate for Phase 1.
 
 ## Non-Functional Requirements
-- Performance:
-- Accessibility:
-- Browser/device support:
-- Security:
+- Performance: [target, e.g., "page load < 2.5s"]
+- Security: [level, e.g., "standard web app security"]
+- Accessibility: [level, e.g., "WCAG 2.1 AA" or "not required"]
 
 ## Constraints
-- Tech stack:
-- Timeline:
-- Budget:
-- Third-party dependencies:
+- Tech stack: [mandated or flexible]
+- Timeline: [deadline]
+- Third-party dependencies: [list or "none"]
 
 ## Open Questions
 - [question]

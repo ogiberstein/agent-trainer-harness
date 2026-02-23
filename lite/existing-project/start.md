@@ -7,8 +7,8 @@ Use this when integrating the lite harness into an existing codebase, or upgradi
 Before auditing the project, understand what lite mode offers and why:
 
 - **Phase-gated delivery**: Requirements -> Implementation -> QA -> Review. Prevents shipping untested work. (phases defined in this file)
-- **3 specialist roles**: Orchestrator, Fullstack Engineer, QA Engineer. Each has defined inputs/outputs and escalation rules. (role definitions in `harness/agents/`)
-- **Structured requirements**: Template for testable FRs with acceptance criteria and edge cases. Prevents vague specs. (`specs/requirements.md`)
+- **3 specialist checklists**: Orchestrator, Fullstack Engineer, QA Engineer. Each has defined inputs/outputs, acceptance criteria, and escalation rules — usable as checklists even in single-agent mode. (role definitions in `harness/agents/`)
+- **Structured requirements**: Table-based template for testable FRs with acceptance criteria. Prevents vague specs. (`specs/requirements.md`)
 - **Quality tracking**: Standardized issue format with severity, reproduction steps, and ship recommendations. (`qa/issues.md`)
 - **Decision log**: Traceable record of non-trivial trade-offs. Prevents "why did we do this?" confusion. (`DECISIONS.md`)
 - **Context efficiency**: Guidelines to keep agent runs lean and focused. (`operations/context-efficiency-guidelines.md`)

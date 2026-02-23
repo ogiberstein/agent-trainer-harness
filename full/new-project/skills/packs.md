@@ -14,9 +14,14 @@ Use packs to activate only the skills needed for a project.
 - `orchestrator-phase-gate-enforcer`
 - `prompt-injection-sanitizer`
 
+## data-quality-pack
+- `data-quality-validation`
+- `prompt-injection-sanitizer`
+
 ## quant-trading-pack
 - `quant-statistics-probability`
 - `security-audit-adversarial-testing`
+- `data-quality-validation`
 - `prompt-injection-sanitizer`
 
 ## blockchain-research-pack

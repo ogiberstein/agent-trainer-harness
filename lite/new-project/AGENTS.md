@@ -5,7 +5,7 @@ Lightweight harness for small-scope projects. Read `start.md` to begin.
 ## File Zones
 
 **System** (never delete, update contents only):
-`AGENTS.md`, `harness/`, `profiles/`, `operations/`
+`AGENTS.md`, `harness/agents/`, `operations/`
 
 **State** (update as you work):
 `STATUS.md`, `DECISIONS.md`, `BRIEF.md`, `memory/`
@@ -23,9 +23,18 @@ Lightweight harness for small-scope projects. Read `start.md` to begin.
 
 - Update `STATUS.md` after each meaningful task or phase transition.
 - Log non-trivial trade-offs in `DECISIONS.md`.
+- No phase transition without gate criteria satisfied. If overriding a gate, log the reason in `DECISIONS.md`.
 - Load only what the current task needs — don't read the full repo upfront.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - When removing a file that doesn't apply, log the reason in `DECISIONS.md`.
+
+## Single-Agent Execution
+
+If one agent plays all roles, use the role files in `harness/agents/` as **checklists** — the acceptance criteria and escalation conditions are the valuable parts. Skip persona-switching; there's no benefit when you're wearing all hats.
+
+## Memory and Resumability
+
+After completing each phase, consider writing a brief summary to `memory/summaries/phase-{N}-{name}.md`. This is optional for single-session work but strongly recommended if the project may be resumed later — without it, a returning agent has to re-read all code and specs to reconstruct context.
 
 ## Coexistence with Agent-Level Configs
 
@@ -39,5 +48,6 @@ If an agent-level config exists (e.g., `CLAUDE.md`, `.cursorrules`):
 | `STATUS.md` | Current phase and progress |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
 | `BRIEF.md` | Project request (immutable once locked) |
-| `harness/routing-policy.md` | Task scheduling and escalation |
-| `profiles/active-skills.lite.yaml` | Enabled skills for this project |
+| `harness/agents/orchestrator.md` | Orchestrator checklist and escalation rules |
+| `harness/agents/fullstack-engineer.md` | Engineer checklist and acceptance criteria |
+| `harness/agents/qa-engineer.md` | QA checklist and evidence requirements |

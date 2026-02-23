@@ -22,9 +22,8 @@ See `full/existing-project/start.md` in the harness repo for the upgrade path.
 ## Setup
 
 1. Fill in `BRIEF.md` with your project scope and constraints.
-2. Review `profiles/project-profile.yaml` — update tech stack and quality bars.
-3. Set `STATUS.md` Current Phase to `requirements`.
-4. Read `operations/context-efficiency-guidelines.md`.
+2. Set `STATUS.md` Current Phase to `requirements`.
+3. Skim `operations/context-efficiency-guidelines.md` for token discipline basics.
 
 ## Phase Sequence
 
@@ -57,6 +56,5 @@ See `full/existing-project/start.md` in the harness repo for the upgrade path.
 
 ## Day 0 Sanity Checklist
 - [ ] `BRIEF.md` completed with concrete scope and constraints.
-- [ ] `profiles/project-profile.yaml` reviewed.
 - [ ] `STATUS.md` set to `requirements`.
 - [ ] Ready to execute Phase 1.

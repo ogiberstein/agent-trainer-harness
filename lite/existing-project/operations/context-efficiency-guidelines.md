@@ -4,7 +4,7 @@ Use this guide to keep runs efficient without hard token caps.
 
 ## 1) Minimal Active Set
 - Activate only required roles and skills for the current project.
-- Use `profiles/active-skills.lite.yaml` to pin the smallest viable set.
+- In Full/Concurrent mode, use `profiles/active-skills.yaml` to pin the smallest viable set.
 
 ## 2) Phase-Scoped Context
 - Load only files needed for the current phase (typically 3-6 files).

@@ -19,6 +19,7 @@
 | growth-analytics-instrumentation | 0.1.0 | product-agent-team | draft | 2026-02-18 | growth tracking and measurement requirements |
 | market-opportunity-research | 0.1.0 | product-agent-team | draft | 2026-02-18 | structured market opportunity and niche analysis |
 | user-research-discovery | 0.1.0 | product-agent-team | draft | 2026-02-18 | interview + desk research synthesis for requirements |
+| data-quality-validation | 0.1.0 | product-agent-team | draft | 2026-02-18 | dataset integrity checks: schema, completeness, distribution |
 
 ## Status Meanings
 - `draft` - still being authored
