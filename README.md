@@ -73,14 +73,14 @@ agent-trainer/
 ├── README.md         ← you are here
 ├── LICENSE
 ├── lite/
-│   ├── new-project/      25 files — copy into empty repo
-│   └── existing-project/ 25 files — audit-first onboarding
+│   ├── new-project/      16 files — copy into empty repo
+│   └── existing-project/ 16 files — audit-first onboarding
 ├── full/
-│   ├── new-project/      87 files — copy into empty repo
-│   └── existing-project/ 87 files — audit-first onboarding
+│   ├── new-project/      88 files — copy into empty repo
+│   └── existing-project/ 88 files — audit-first onboarding
 ├── concurrent/
-│   ├── new-project/     102 files — copy into empty repo
-│   └── existing-project/102 files — audit-first onboarding
+│   ├── new-project/     103 files — copy into empty repo
+│   └── existing-project/103 files — audit-first onboarding
 └── reference/
     └── architecture-spec.md  (frozen original vision)
 ```
