@@ -122,6 +122,18 @@ The project already has the harness structure. Just add:
 
 ---
 
+## Optional Memory and Search Tools
+
+The harness's built-in memory (`memory/summaries/`, `STATUS.md`, `DECISIONS.md`) works everywhere with no extra dependencies. These tools can enhance it for multi-session projects:
+
+- **[claude-mem](https://github.com/thedotmack/claude-mem)** (Claude Code only) — Automatically captures session observations, compresses them with AI, and injects relevant context at the start of future sessions. Install inside Claude Code: `/plugin marketplace add thedotmack/claude-mem` then `/plugin install claude-mem`.
+
+- **[qmd](https://github.com/tobi/qmd)** (any IDE with MCP support) — Local semantic search engine for markdown. Index your project's specs, decisions, and summaries, then search with natural language. Install: `npm install -g @tobilu/qmd`, then `qmd collection add . --name myproject && qmd embed`.
+
+See `memory/README.md` for how these complement the built-in system.
+
+---
+
 ## Framework Shim (Optional)
 
 If your AI IDE uses a global config file, add a pointer to the harness:

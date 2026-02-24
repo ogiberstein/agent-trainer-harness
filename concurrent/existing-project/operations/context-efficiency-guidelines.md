@@ -22,19 +22,27 @@ Use this guide to keep runs efficient without hard token caps.
 - After each phase, write a concise summary and use it downstream.
 - Prefer `memory/summaries/` artifacts over full-history replay.
 
-## 6) Narrow Rework
+## 6) Progressive Disclosure (Resuming Sessions)
+When returning to a project after a break or starting a new session:
+1. Read `STATUS.md` and `BRIEF.md` — minimal orientation (~2 files).
+2. Read the latest `memory/summaries/phase-*.md` — structured context from where you left off.
+3. Only then load specific source files that the summary flags as relevant.
+- Never start by reading the entire `specs/`, `src/`, or `docs/` directory.
+- If using a memory tool (e.g., claude-mem), let its injected context guide which files to load rather than scanning broadly.
+
+## 7) Narrow Rework
 - On gate failure, rerun only the failed portion with targeted feedback.
 - Do not restart whole phases unless dependencies changed.
 
-## 7) Concise Output Default
+## 8) Concise Output Default
 - Ask agents for short status outputs with file paths and decisions.
 - Avoid long prose unless deep analysis is explicitly needed.
 
-## 8) Separate Setup from Delivery
+## 9) Separate Setup from Delivery
 - Reuse scaffold/policies as stable baseline.
 - For new projects, customize profile and brief; avoid regenerating unrelated artifacts.
 
-## 9) Isolate Parallel Work
+## 10) Isolate Parallel Work
 - When parallel coding is necessary, isolate tasks by branch/worktree and file scope.
 - Do not let multiple active tasks edit overlapping paths without explicit orchestration.
 

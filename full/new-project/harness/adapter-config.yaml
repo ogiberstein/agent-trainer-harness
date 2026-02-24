@@ -22,7 +22,7 @@ agents:
   # growth_strategist: "harness/generated-agents/growth-strategist.md"
 
 memory:
-  index_path: "memory/index.json"
+  policies_path: "memory/policies.md"
   summaries_path: "memory/summaries"
   snapshots_path: "memory/snapshots"
 

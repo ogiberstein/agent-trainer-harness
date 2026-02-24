@@ -8,36 +8,13 @@
 - `docs/*`: Documentation Writer
 - `STATUS.md`, `DECISIONS.md`: Orchestrator
 
-## Locking
-
-Writers create logical locks in `memory/index.json` before starting a write operation.
-
-Lock record format:
-```json
-{
-  "owner": "product-manager",
-  "path": "specs/requirements.md",
-  "started_at": "2026-02-18T10:00:00Z",
-  "ttl_seconds": 1800,
-  "reason": "Drafting FR-003 through FR-006"
-}
-```
-
-Rules:
-- Locks expire after `ttl_seconds`. Default TTL is 30 minutes.
-- Orchestrator may break stale locks and must log the reason in `DECISIONS.md`.
-- An agent must check for existing locks on a path before writing. If locked by another agent, wait or escalate.
+Ownership is advisory — any agent may write to any file if the owning role is inactive or the project is single-agent. Log deviations in `DECISIONS.md`.
 
 ## Freshness
 - Artifacts older than the latest phase transition are considered stale until revalidated.
-- At each phase gate, orchestrator requires a summary refresh.
+- At each phase gate, the active agent should refresh or confirm the phase summary in `memory/summaries/`.
 
-## Compaction
-- Every 10 handoffs (tracked via `meta.handoff_count_since_compaction`), create a phase summary in `memory/summaries/`.
-- Reset the counter after compaction.
-- Preserve raw evidence in `memory/snapshots/`.
-- Load summaries by default; load full snapshots only when deeper investigation is needed.
-
-## Retention
-- Keep active run records for the configured retention window (`meta.retention_days`), then archive to snapshots.
-- Archived records are read-only references, not active context.
+## Phase Summaries
+- After completing each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the TEMPLATE.
+- Summaries are the primary context restoration mechanism for returning agents.
+- Load summaries first; load full source files only when the summary indicates they're relevant.

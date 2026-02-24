@@ -57,6 +57,11 @@ Claude Code now ships an experimental [Agent Teams](https://code.claude.com/docs
 - Keep file-first governance; LangGraph manages dispatch, not policy.
 - This becomes the fallback path if Claude Code Agent Teams doesn't mature as expected.
 
+### Memory and search enhancements
+- **Auto-summarization via claude-mem hooks**: Explore using claude-mem's `PostToolUse` and `SessionEnd` hooks to automatically generate phase summaries from session observations, reducing reliance on agents manually writing to `memory/summaries/`.
+- **Native qmd bootstrap**: Add an optional step in `start.md` that indexes the project's harness files as a qmd collection (`qmd collection add . --name project && qmd embed`), giving agents semantic search over accumulated specs, decisions, and summaries via MCP.
+- **Progressive disclosure in AGENTS.md**: Extend the "First Actions" section to follow the progressive disclosure pattern more strictly — have agents read summaries before any source files.
+
 ## Later
 
 ### Remote control interface (Telegram / Slack)

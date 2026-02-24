@@ -106,6 +106,8 @@ This harness was shaped by hands-on trial and error across multiple real project
 - [0xHoneyJar Loa Framework](https://github.com/0xHoneyJar/loa) — three-zone model (System/State/App), lossless ledger protocol
 - [Multi-Agent Orchestration Patterns](https://zylos.ai/research/2026-01-06-multi-agent-orchestration-patterns) — handoff validation, hierarchical supervision, failure isolation
 - [Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/) (Tweag) — spec-first development, proportionality
+- [claude-mem](https://github.com/thedotmack/claude-mem) — automatic session memory with progressive disclosure, semantic compression
+- [qmd](https://github.com/tobi/qmd) — local hybrid search (BM25 + vector + re-ranking) over markdown knowledge bases
 
 ## License
 

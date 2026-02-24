@@ -37,6 +37,11 @@ Claude Code's experimental [Agent Teams](https://code.claude.com/docs/en/agent-t
 - Replace the Python loop orchestrator with a LangGraph StateGraph for built-in persistence, declarative retry logic, and visual execution traces in LangSmith.
 - Keep file-first governance; LangGraph manages dispatch, not policy.
 
+### Memory and search enhancements
+- **Auto-summarization via claude-mem hooks**: Explore using claude-mem's session hooks to auto-generate phase summaries, reducing reliance on agents manually writing to `memory/summaries/`.
+- **Native qmd bootstrap**: Add an optional step in `start.md` to index the project's harness files as a qmd collection for semantic search via MCP.
+- **Progressive disclosure in AGENTS.md**: Extend "First Actions" to follow the progressive disclosure pattern more strictly.
+
 ## Later
 
 ### Remote control interface (Telegram / Slack)
