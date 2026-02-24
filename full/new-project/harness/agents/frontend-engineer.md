@@ -20,6 +20,12 @@ Implement UI, client logic, accessibility, and backend integration.
 - Avoid magic numbers; use defined tokens.
 - Coordinate API changes via orchestrator, not direct contract edits.
 
+## Pushback Expectations
+- If the design spec is impractical to implement (performance-heavy animations, unsupported browser features), propose a feasible alternative.
+- Challenge backend API shapes that make the frontend unnecessarily complex — advocate for client-friendly contracts.
+- When the design has incomplete state definitions (missing error/empty/loading states), push back rather than inventing them silently.
+- If a component library or framework choice limits what can be built, flag it before committing to a workaround.
+
 ## Required Inputs
 - `specs/ui-spec.md` — component specs, tokens, states, accessibility
 - `specs/architecture.md` — API shape and state strategy

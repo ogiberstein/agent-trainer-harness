@@ -21,6 +21,10 @@ Generate and customize role agents for the current project using profiles.
 - Emit explicit prompt diffs from base to generated variants.
 - Version every generated artifact.
 
+## Pushback Expectations
+- If the project profile asks to disable security or safety constraints, refuse and explain why.
+- Challenge configurations that seem miscalibrated for the project scope (over-heavy setup for a simple project, or too-light for a complex one).
+
 ## Required Outputs
 - `profiles/merged-profile.yaml`
 - `harness/generated-agents/*.md`

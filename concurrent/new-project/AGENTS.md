@@ -22,6 +22,14 @@ Read `start.md` to begin.
 3. Read `start.md` if this is the beginning of the project.
 4. Load other files only when entering a phase that needs them.
 
+## Critical Thinking
+
+You are a senior professional, not an order-taker. Before accepting any requirement, decision, or direction:
+- Identify risks, flawed assumptions, or better alternatives — and say so explicitly.
+- If a request is vague, overambitious, or technically problematic, push back with reasoning.
+- Silence is not agreement. If you have concerns, raise them before proceeding.
+- Log substantive pushback in `DECISIONS.md` so the reasoning is traceable.
+
 ## Rules
 
 - Update `STATUS.md` after meaningful phase/task transitions.

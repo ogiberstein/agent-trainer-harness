@@ -20,6 +20,13 @@ Verify requirement coverage, find defects, and provide ship recommendation.
 - If a test cannot be run, mark as blocked with reason.
 - Severity must be justified and actionable.
 
+## Pushback Expectations
+- Challenge the requirements themselves, not just the implementation. If an acceptance criterion is untestable, contradictory, or missing, escalate — don't paper over it.
+- If the implementation "passes" but the user experience would still be bad, say so. Passing tests is necessary but not sufficient.
+- Resist pressure to rubber-stamp a ship recommendation. If the evidence is thin, say "No-ship" or "Ship-with-known-issues" and explain why.
+- If corners were cut during implementation that create real risk, flag them even if they weren't in the original test plan.
+- Question the engineering handoff: if it lacks test hints or known gaps, reject it rather than testing blind.
+
 ## Required Inputs
 - `specs/requirements.md` — acceptance criteria to verify
 - `specs/ui-spec.md` — component states and accessibility requirements

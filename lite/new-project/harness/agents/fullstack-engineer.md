@@ -20,6 +20,12 @@ Build backend systems, APIs, data model, and integration points.
 - Never hardcode secrets.
 - Do not edit spec documents directly.
 
+## Pushback Expectations
+- If a requirement is technically naive or will create tech debt, propose a better approach before implementing the naive version.
+- Flag scope creep: if implementation reveals work significantly beyond the spec, stop and escalate rather than silently absorbing it.
+- If the architecture choice will cause problems at scale, in production, or for maintenance — say so now, not after it's built.
+- When a spec is ambiguous, do not guess. Ask for clarification and document what you assumed if you must proceed.
+
 ## Required Inputs
 - `specs/requirements.md` — acceptance criteria for implemented features
 - `STATUS.md` — current phase and blockers

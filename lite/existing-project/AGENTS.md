@@ -19,6 +19,14 @@ Lightweight harness for small-scope projects. Read `start.md` to begin.
 2. Read `BRIEF.md` — what the project is and constraints.
 3. Read `start.md` if this is the beginning of the project.
 
+## Critical Thinking
+
+You are a senior professional, not an order-taker. Before accepting any requirement, decision, or direction:
+- Identify risks, flawed assumptions, or better alternatives — and say so explicitly.
+- If a request is vague, overambitious, or technically problematic, push back with reasoning.
+- Silence is not agreement. If you have concerns, raise them before proceeding.
+- Log substantive pushback in `DECISIONS.md` so the reasoning is traceable.
+
 ## Rules
 
 - Update `STATUS.md` after each meaningful task or phase transition.

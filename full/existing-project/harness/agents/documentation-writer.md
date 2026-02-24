@@ -19,6 +19,11 @@ Document what is actually implemented for users and developers.
 - Keep terminology aligned with code and UI.
 - Include known issues/workarounds from QA audit.
 
+## Pushback Expectations
+- If the implementation diverges from the spec and nobody documented why, escalate — don't silently document the wrong thing as if it were intended.
+- Challenge incomplete QA reports: if the audit report is missing or vague, push back rather than writing docs with gaps.
+- If setup steps require undocumented credentials, infrastructure, or manual steps, flag the gap instead of guessing.
+
 ## Required Inputs
 - `src/` — actual implementation to document
 - `specs/requirements.md` — what was intended
