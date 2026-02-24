@@ -30,9 +30,32 @@ Six playbooks in `COMMANDS.md` are still manual: `/dispatch-ready`, `/merge-stew
 - Visualise: cost per run, gate pass/fail rates, rework loops, phase duration, worker utilisation.
 - Could be a simple static HTML report generator or a lightweight web dashboard.
 
-### LangGraph upgrade path
+### Claude Code Agent Teams migration
+Claude Code now ships an experimental [Agent Teams](https://code.claude.com/docs/en/agent-teams) feature — native multi-agent coordination with shared task lists, inter-agent messaging, and `TaskCompleted` hooks. This is essentially the runtime layer we built manually in `runtime/`.
+
+**Migration path:**
+- Team lead reads our `AGENTS.md` as its operating instructions and assigns teammates using `harness/agents/*.md` role prompts.
+- `TaskCompleted` hooks replace `gates.py` — wire them to our gate criteria in `evaluation/release-gates.md`.
+- Native shared task list replaces `operations/tracker.md`.
+- Inter-agent messaging enables teammate collaboration (something our isolated workers can't do today).
+- `STATUS.md`, `DECISIONS.md`, `memory/summaries/`, phase gates, and the full delivery methodology stay unchanged.
+
+**What we'd drop:** `runtime/` entirely — `orchestrator.py`, `worker.py`, `merge.py`, `state.py`, `gates.py`, `notifier.py`, `config.yaml`, `run.py`. Also `cli/preflight_concurrent.py` and the `launch-concurrent` CLI subcommand.
+
+**What we'd keep:** Everything that defines *what to build and how to check it* — AGENTS.md, STATUS.md, BRIEF.md, DECISIONS.md, phase gates, role prompts, memory, skills, evaluation criteria, handoffs.
+
+**Blockers (as of Feb 2026):**
+- Agent Teams is still experimental and disabled by default.
+- No session resumption — teammates lost on restart (our checkpoint/resume is more reliable for overnight runs).
+- No git worktree isolation — file conflicts are the user's problem. Our worktree model is architecturally safer.
+- One team per session, no nested teams.
+
+**Recommendation:** Monitor Agent Teams maturity. When session resumption and file isolation are solved, migrate. Until then, our custom runtime is more reliable for autonomous overnight builds.
+
+### LangGraph upgrade path (alternative)
 - Replace the Python loop orchestrator with a LangGraph StateGraph for built-in persistence, declarative retry logic, and visual execution traces in LangSmith.
 - Keep file-first governance; LangGraph manages dispatch, not policy.
+- This becomes the fallback path if Claude Code Agent Teams doesn't mature as expected.
 
 ## Later
 

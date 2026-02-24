@@ -30,7 +30,10 @@ Six playbooks in `COMMANDS.md` are still manual: `/dispatch-ready`, `/merge-stew
 - Visualise: cost per run, gate pass/fail rates, rework loops, phase duration, worker utilisation.
 - Could be a simple static HTML report generator or a lightweight web dashboard.
 
-### LangGraph upgrade path
+### Claude Code Agent Teams as Concurrent runtime
+Claude Code's experimental [Agent Teams](https://code.claude.com/docs/en/agent-teams) feature provides native multi-agent coordination — shared task lists, inter-agent messaging, and quality hooks. When it matures, it could replace Concurrent mode's custom Python `runtime/` while keeping the harness methodology (AGENTS.md, phases, gates, roles, memory) intact. See `concurrent/*/FUTURE_IMPROVEMENTS.md` for the full migration plan.
+
+### LangGraph upgrade path (alternative)
 - Replace the Python loop orchestrator with a LangGraph StateGraph for built-in persistence, declarative retry logic, and visual execution traces in LangSmith.
 - Keep file-first governance; LangGraph manages dispatch, not policy.
 
