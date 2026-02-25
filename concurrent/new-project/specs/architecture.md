@@ -27,3 +27,6 @@ Proposed implementation layout.
 
 ## Risks and Tradeoffs
 - [risk/tradeoff]
+
+---
+**Cross-references:** If you change this file, also check: `specs/requirements.md` (FRs must still be feasible), `specs/ui-spec.md` (component design must match API shape), `BRIEF.md` (constraint alignment).

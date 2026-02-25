@@ -36,7 +36,7 @@ Claude Code now ships an experimental [Agent Teams](https://code.claude.com/docs
 **Migration path:**
 - Team lead reads our `AGENTS.md` as its operating instructions and assigns teammates using `harness/agents/*.md` role prompts.
 - `TaskCompleted` hooks replace `gates.py` — wire them to our gate criteria in `evaluation/release-gates.md`.
-- Native shared task list replaces `operations/tracker.md`.
+- Native shared task list could replace the task-tracking section of `STATUS.md`.
 - Inter-agent messaging enables teammate collaboration (something our isolated workers can't do today).
 - `STATUS.md`, `DECISIONS.md`, `memory/summaries/`, phase gates, and the full delivery methodology stay unchanged.
 

@@ -1,4 +1,4 @@
-"""Parse and update harness markdown state files (STATUS.md, tracker.md, DECISIONS.md)."""
+"""Parse and update harness markdown state files (STATUS.md, DECISIONS.md)."""
 
 import os
 import re
@@ -44,13 +44,12 @@ class State:
     def __init__(self, project_path: str):
         self.project_path = project_path
         self._status_path = os.path.join(project_path, "STATUS.md")
-        self._tracker_path = os.path.join(project_path, "operations", "tracker.md")
         self._decisions_path = os.path.join(project_path, "DECISIONS.md")
         self.tasks: list[Task] = []
         self._current_phase: str = "requirements"
         self._status_raw: str = ""
         self._load_status()
-        self._load_tracker()
+        self._load_tasks()
 
     @property
     def current_phase(self) -> str:
@@ -65,8 +64,8 @@ class State:
         if match:
             self._current_phase = match.group(1).lower()
 
-    def _load_tracker(self):
-        """Parse task cards from tracker.md Board sections.
+    def _load_tasks(self):
+        """Parse task cards from the ## Tasks section of STATUS.md.
 
         Reads cards in the format:
             - [ ] [CARD-XXX] Title
@@ -75,10 +74,15 @@ class State:
               - Phase: phase_name
         """
         self.tasks = []
-        if not os.path.isfile(self._tracker_path):
+        if not os.path.isfile(self._status_path):
             return
 
-        content = _read(self._tracker_path)
+        content = self._status_raw
+        tasks_match = re.search(r"^## Tasks\s*\n(.*?)(?=^## |\Z)", content, re.MULTILINE | re.DOTALL)
+        if not tasks_match:
+            return
+
+        tasks_section = tasks_match.group(1)
         card_pattern = re.compile(
             r"- \[[ x]\] \[([^\]]+)\]\s+(.+)\n"
             r"(?:\s+- Owner:\s*(.+)\n)?"
@@ -92,46 +96,44 @@ class State:
             re.MULTILINE,
         )
 
-        section_map = _parse_board_sections(content)
-
-        for section_status, section_text in section_map.items():
-            for m in card_pattern.finditer(section_text):
-                task = Task(
-                    id=m.group(1).strip(),
-                    title=m.group(2).strip(),
-                    role=(m.group(3) or "").strip(),
-                    priority=(m.group(4) or "P1").strip(),
-                    phase=(m.group(5) or self._current_phase).strip().lower(),
-                    acceptance=(m.group(9) or "").strip(),
-                    status=section_status,
-                )
-                deps = (m.group(6) or "").strip()
-                if deps and deps.lower() != "none":
-                    task.dependencies = [d.strip() for d in deps.split(",")]
-                scope = (m.group(7) or "").strip()
-                if scope:
-                    task.file_scope = [s.strip() for s in scope.split(",")]
-                self.tasks.append(task)
+        for m in card_pattern.finditer(tasks_section):
+            status_str = (m.group(10) or "ready").strip().lower()
+            task = Task(
+                id=m.group(1).strip(),
+                title=m.group(2).strip(),
+                role=(m.group(3) or "").strip(),
+                priority=(m.group(4) or "P1").strip(),
+                phase=(m.group(5) or self._current_phase).strip().lower(),
+                acceptance=(m.group(9) or "").strip(),
+                status=status_str,
+            )
+            deps = (m.group(6) or "").strip()
+            if deps and deps.lower() != "none":
+                task.dependencies = [d.strip() for d in deps.split(",")]
+            scope = (m.group(7) or "").strip()
+            if scope:
+                task.file_scope = [s.strip() for s in scope.split(",")]
+            self.tasks.append(task)
 
     def get_ready_tasks(self) -> list[Task]:
         return [t for t in self.tasks if t.status == "ready" and t.phase == self._current_phase]
 
     def add_tasks(self, tasks: list[Task]):
         self.tasks.extend(tasks)
-        self._write_tracker()
+        self._write_tasks()
 
     def mark_in_progress(self, task: Task):
         task.status = "in_progress"
-        self._write_tracker()
+        self._write_tasks()
 
     def mark_done(self, task: Task):
         task.status = "done"
-        self._write_tracker()
+        self._write_tasks()
 
     def mark_blocked(self, task: Task, evidence: str):
         task.status = "blocked"
         task.evidence = evidence
-        self._write_tracker()
+        self._write_tasks()
 
     def phase_complete(self) -> bool:
         phase_tasks = [t for t in self.tasks if t.phase == self._current_phase]
@@ -183,50 +185,32 @@ class State:
 
         _write(self._status_path, self._status_raw)
 
-    def _write_tracker(self):
-        """Write current task state to tracker.md using the Board card format."""
-        sections = {
-            "ready": [],
-            "in_progress": [],
-            "done": [],
-            "blocked": [],
-        }
+    def _write_tasks(self):
+        """Write current task state to the ## Tasks section of STATUS.md."""
+        task_lines = ""
         for t in self.tasks:
-            sections.setdefault(t.status, []).append(t)
+            task_lines += _format_card(t)
+            if t.status == "blocked" and t.evidence:
+                task_lines += f"  - Evidence: {t.evidence[:200]}\n"
 
-        board = "# Operations Tracker\n\n"
-        board += "Single file for task board, project dashboard, workflow state, and escalation inbox.\n"
-        board += "Managed by the concurrent orchestrator — do not edit manually while a run is active.\n\n"
-        board += "---\n\n## Board\n\n"
+        tasks_section = f"## Tasks\n\n{task_lines}\n"
 
-        board += "### Ready Queue\n"
-        for t in sections["ready"]:
-            board += _format_card(t)
-        board += "\n"
+        if re.search(r"^## Tasks\s*\n", self._status_raw, re.MULTILINE):
+            self._status_raw = re.sub(
+                r"^## Tasks\s*\n.*?(?=^## |\Z)",
+                tasks_section,
+                self._status_raw,
+                count=1,
+                flags=re.MULTILINE | re.DOTALL,
+            )
+        else:
+            self._status_raw = self._status_raw.rstrip() + "\n\n" + tasks_section
 
-        board += "### In Progress\n"
-        for t in sections["in_progress"]:
-            board += _format_card(t)
-        board += "\n"
-
-        board += "### Blocked\n"
-        for t in sections["blocked"]:
-            board += _format_card(t)
-            if t.evidence:
-                board += f"  - Evidence: {t.evidence[:200]}\n"
-        board += "\n"
-
-        board += "### Done\n"
-        for t in sections["done"]:
-            board += _format_card(t)
-        board += "\n"
-
-        os.makedirs(os.path.dirname(self._tracker_path), exist_ok=True)
-        _write(self._tracker_path, board)
+        _write(self._status_path, self._status_raw)
 
 
 def _format_card(task: Task) -> str:
-    """Format a single task as a tracker.md card."""
+    """Format a single task as a STATUS.md card."""
     check = "x" if task.status == "done" else " "
     card = f"- [{check}] [{task.id}] {task.title}\n"
     card += f"  - Owner: {task.role}\n"
@@ -239,32 +223,6 @@ def _format_card(task: Task) -> str:
     card += f"  - Status: {task.status}\n"
     return card
 
-
-def _parse_board_sections(content: str) -> dict[str, str]:
-    """Map board section headers to their status and text content."""
-    mapping = {
-        "Ready Queue": "ready",
-        "Backlog": "ready",
-        "In Progress": "in_progress",
-        "Review": "in_progress",
-        "Blocked": "blocked",
-        "Done": "done",
-        "Awaiting Merge": "in_progress",
-    }
-    result = {}
-    section_pattern = re.compile(r"^###\s+(.+)$", re.MULTILINE)
-    matches = list(section_pattern.finditer(content))
-
-    for i, m in enumerate(matches):
-        header = m.group(1).strip()
-        status = mapping.get(header)
-        if status is None:
-            continue
-        start = m.end()
-        end = matches[i + 1].start() if i + 1 < len(matches) else len(content)
-        result[status] = result.get(status, "") + content[start:end]
-
-    return result
 
 
 def _read(path: str) -> str:

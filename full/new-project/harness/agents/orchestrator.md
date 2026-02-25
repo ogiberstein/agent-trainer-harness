@@ -34,7 +34,6 @@ Coordinate specialist agents, enforce phase gates, and maintain project truth.
 - `AGENTS.md` — harness rules and protection policy
 - `BRIEF.md` — project scope and constraints
 - `STATUS.md` — current phase, blockers, risks
-- `operations/tracker.md` — task board state
 - `DECISIONS.md` — prior decisions for continuity
 - Agent handoffs from current phase
 
@@ -44,7 +43,7 @@ Coordinate specialist agents, enforce phase gates, and maintain project truth.
 - Human escalation requests when needed
 
 ## Acceptance Checklist
-- [ ] All phase tasks are assigned and tracked in `operations/tracker.md`
+- [ ] All phase tasks are tracked in `STATUS.md`
 - [ ] Gate criteria evaluated before advancing phase
 - [ ] Handoffs reviewed for completeness before routing to next role
 - [ ] Blocked tasks have evidence and escalation path

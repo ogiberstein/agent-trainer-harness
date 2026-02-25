@@ -77,7 +77,6 @@ Runs:
 Primary files:
 - `cli/harness_cli.py`
 - `STATUS.md`
-- `operations/tracker.md`
 - Phase-specific artifacts in `specs/`, `qa/`, `docs/`
 
 ## Task and Execution Operations
@@ -87,51 +86,18 @@ Purpose: Show current phase and task summary.
 
 **Executable:** `python3 cli/harness_cli.py --project . status` (add `--json` for structured output)
 
-### `/task-list`
-Purpose: List all tasks from `operations/tracker.md`.
-
-**Executable:** `python3 cli/harness_cli.py --project . task list` (add `--json` for structured output)
-
-### `/task-add`
-Purpose: Add a new task card to `operations/tracker.md`.
-
-**Executable:** `python3 cli/harness_cli.py --project . task add --title "..." --role "..." [--phase "..."] [--priority P1]`
-
-### `/dispatch-ready`
-Purpose: Assign only ready tasks from board queue.
-
-Runs:
-1. Read `operations/tracker.md` Ready Queue.
-2. Confirm dependencies, owner, file scope, and acceptance criteria.
-3. Move selected tasks to Assigned/In Progress.
-
-Primary files:
-- `operations/tracker.md`
-- `harness/routing-policy.md`
-
 ### `/merge-steward`
-Purpose: Process awaiting-merge tasks with test and gate evidence.
+Purpose: Process awaiting-merge branches with test and gate evidence.
 
 Runs:
-1. Read Awaiting Merge items.
+1. Read awaiting-merge items from `STATUS.md`.
 2. Verify tests and gate evidence.
-3. Approve merge or create linked fix task with evidence.
+3. Approve merge or create fix task with evidence.
 
 Primary files:
-- `operations/tracker.md`
+- `STATUS.md`
 - `operations/runbook.md`
 - `evaluation/release-gates.md`
-
-### `/resume-workflow`
-Purpose: Resume from the first incomplete workflow step.
-
-Runs:
-1. Read `operations/tracker.md` Workflow State section.
-2. Identify first non-completed step.
-3. Continue from checkpoint only.
-
-Primary files:
-- `operations/tracker.md`
 
 ## Review and Hardening
 
@@ -149,17 +115,17 @@ Primary files:
 - `DECISIONS.md`
 
 ### `/ops-sync`
-Purpose: Keep board, dashboard, and status consistent.
+Purpose: Keep status and decisions consistent.
 
 Runs:
-1. Update board states.
-2. Refresh dashboard metrics.
-3. Ensure status and decisions align with latest phase.
+1. Ensure `STATUS.md` phase and progress reflect actual state.
+2. Verify `DECISIONS.md` captures all non-trivial choices from current phase.
+3. Confirm phase summaries in `memory/summaries/` are up to date.
 
 Primary files:
-- `operations/tracker.md`
 - `STATUS.md`
 - `DECISIONS.md`
+- `memory/summaries/`
 
 ## Concurrent Mode
 
@@ -204,7 +170,7 @@ Purpose: Run a structured post-project or post-phase retrospective.
 
 Runs:
 1. Read `evaluation/scorecard.md` and `qa/audit-report.md`.
-2. Identify where rework loops occurred (from `operations/tracker.md` history and `qa/issues.md`).
+2. Identify where rework loops occurred (from `STATUS.md` Gate Log and `qa/issues.md`).
 3. Assess which gates caught issues vs. missed them.
 4. Produce a retrospective summary:
    - What worked well
@@ -219,7 +185,7 @@ Primary files:
 - `evaluation/scorecard.md`
 - `qa/audit-report.md`
 - `qa/issues.md`
-- `operations/tracker.md`
+- `STATUS.md`
 - `DECISIONS.md`
 - `FUTURE_IMPROVEMENTS.md`
 

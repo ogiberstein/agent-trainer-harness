@@ -18,7 +18,7 @@ This is the third mode alongside Lite (solo dev, minimal overhead) and Full (hum
                     ┌──────────────────────────────────────────┐
                     │              Orchestrator                 │
                     │                                          │
-                    │  1. Read STATUS.md + tracker.md           │
+                    │  1. Read STATUS.md                         │
                     │  2. Identify ready tasks                  │
                     │  3. Spawn workers (up to max_workers)     │
                     │  4. Poll until workers finish             │
@@ -71,8 +71,8 @@ This is the one phase where human review matters most. All subsequent phases run
 
 The orchestrator advances through Design → Implementation → QA → Documentation → Growth (optional) → Final Review, following the same loop:
 
-1. **Read state** — parse `STATUS.md` for current phase, `operations/tracker.md` for task board.
-2. **Generate tasks** — if the board is empty for this phase, create task cards from the phase definition in the harness.
+1. **Read state** — parse `STATUS.md` for current phase and task progress.
+2. **Generate tasks** — if no tasks exist for this phase, create them from the phase definition in the harness.
 3. **Dispatch** — assign ready tasks to available workers (up to `max_workers`).
 4. **Execute** — each worker runs as a headless Claude Code subprocess in its own git worktree.
 5. **Gate check** — when a worker finishes, evaluate gate criteria using an LLM judge.
@@ -90,7 +90,7 @@ When all phases pass (or a phase is skipped per config), the orchestrator:
 ### Blocked / failure
 
 If a task hits the retry ceiling (from `harness/routing-policy.md`), the orchestrator:
-- Marks the task as `blocked` in `operations/tracker.md`.
+- Marks the task as `blocked` in `STATUS.md`.
 - Sends a notification with failure context.
 - Pauses the loop (same checkpoint mechanism as Requirements).
 - The human can fix the issue manually and resume, or abort.
@@ -238,14 +238,14 @@ class State:
     def __init__(self, project_path: str):
         self.project_path = project_path
         self.status = parse_status_md(f"{project_path}/STATUS.md")
-        self.tracker = parse_tracker_md(f"{project_path}/operations/tracker.md")
+        self.tasks = parse_tasks_from_status(f"{project_path}/STATUS.md")
 
     @property
     def current_phase(self):
         return self.status["current_phase"]
 
     def get_ready_tasks(self) -> list[Task]:
-        return [t for t in self.tracker.tasks if t.status == "ready" and t.phase == self.current_phase]
+        return [t for t in self.tasks if t.status == "ready" and t.phase == self.current_phase]
 
     def advance_phase(self):
         next_phase = PHASE_ORDER[PHASE_ORDER.index(self.current_phase) + 1]
@@ -409,8 +409,7 @@ python runtime/run.py --project . --dry-run
 
 ### Monitoring
 
-- Watch `STATUS.md` for current phase.
-- Watch `operations/tracker.md` for task progress (updated live by the orchestrator).
+- Watch `STATUS.md` for current phase and task progress.
 - Watch `DECISIONS.md` for orchestrator decisions.
 - Worker output is in `.worktrees/<task-id>/.worker_output.txt`.
 
@@ -449,7 +448,6 @@ The simple Python loop is recommended for current use — it's easier to debug a
 | Harness file | Concurrent runtime uses it for |
 |---|---|
 | `STATUS.md` | Current phase — orchestrator reads and writes |
-| `operations/tracker.md` | Task board — orchestrator manages cards |
 | `harness/agents/*.md` | System prompts passed to each worker |
 | `harness/routing-policy.md` | Retry ceilings, dispatch rules, branch naming |
 | `evaluation/release-gates.md` | Release criteria for final gate |

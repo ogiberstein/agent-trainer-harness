@@ -3,7 +3,6 @@
 ## Write Ownership
 - `specs/requirements.md`: Product Manager
 - `specs/ui-spec.md`, `specs/architecture.md`: Designer
-- `specs/growth-plan.md`: Growth Strategist
 - `qa/*`: QA Engineer
 - `docs/*`: Documentation Writer
 - `STATUS.md`, `DECISIONS.md`: Orchestrator

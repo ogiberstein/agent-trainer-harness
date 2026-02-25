@@ -44,3 +44,6 @@ If this section is empty, you haven't thought hard enough.
 
 ## Open Questions
 - [question]
+
+---
+**Cross-references:** If you change this file, also check: `specs/architecture.md` (API shape must match FRs), `specs/ui-spec.md` (component states must cover ACs), `BRIEF.md` (scope alignment).

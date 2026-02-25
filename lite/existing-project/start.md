@@ -1,6 +1,15 @@
 # Lite Mode — Existing Project Onboarding
 
-Use this when integrating the lite harness into an existing codebase, or upgrading a bare project to structured delivery.
+## Quick Start
+
+1. Read `AGENTS.md` — operating rules and file zones.
+2. Read `BRIEF.md` — project scope (fill in if empty).
+3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
+4. Add at minimum: `STATUS.md`, `DECISIONS.md`, `memory/summaries/`.
+
+Everything below is the detailed onboarding flow. Load on-demand.
+
+---
 
 ## What This Harness Provides
 

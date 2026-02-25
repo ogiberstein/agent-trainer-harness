@@ -1,6 +1,12 @@
 # Lite Mode — Start Here
 
-Use this mode for small projects: single developer, short timeline, low risk.
+## Quick Start
+
+1. Fill in `BRIEF.md` — your project scope and constraints.
+2. Read `AGENTS.md` — operating rules and file zones.
+3. Set `STATUS.md` Current Phase = requirements. Begin Phase 1.
+
+---
 
 ## When to Use Lite
 - Simple scope and straightforward architecture.

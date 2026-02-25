@@ -30,7 +30,7 @@ from state import State, Task, PHASE_ORDER
 
 
 def cmd_status(args):
-    """Print current phase and task summary from STATUS.md + tracker."""
+    """Print current phase and task summary from STATUS.md."""
     state = State(args.project)
     ready = [t for t in state.tasks if t.status == "ready"]
     in_progress = [t for t in state.tasks if t.status == "in_progress"]
@@ -131,11 +131,11 @@ def cmd_phase_next(args):
 
 
 def cmd_task_list(args):
-    """Print tasks from tracker.md."""
+    """Print tasks from STATUS.md."""
     state = State(args.project)
 
     if not state.tasks:
-        print("No tasks found in operations/tracker.md")
+        print("No tasks found in STATUS.md")
         return
 
     if args.json_output:
@@ -157,7 +157,7 @@ def cmd_task_list(args):
 
 
 def cmd_task_add(args):
-    """Add a new task card to tracker.md."""
+    """Add a new task card to STATUS.md."""
     state = State(args.project)
 
     existing_ids = {t.id for t in state.tasks}

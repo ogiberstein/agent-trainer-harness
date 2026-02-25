@@ -1,6 +1,16 @@
 # Concurrent Mode — Start Here
 
-Fully autonomous, parallel product delivery. Multiple Claude Code workers execute simultaneously, coordinated by a Python orchestrator. You define the scope, walk away, and come back to a polished MVP.
+## Quick Start
+
+1. Fill in `BRIEF.md` — your project scope and constraints.
+2. Read `AGENTS.md` — operating rules and file zones.
+3. Edit `runtime/config.yaml` — model, max workers, timeouts, webhook.
+4. Run preflight: `python3 cli/preflight_concurrent.py --project .`
+5. Launch: `python3 cli/harness_cli.py --project . launch-concurrent`
+
+Everything below is reference. Load on-demand.
+
+---
 
 ## Prerequisites
 
@@ -8,14 +18,11 @@ Fully autonomous, parallel product delivery. Multiple Claude Code workers execut
 - Claude Code CLI (`claude` command available)
 - Git (initialized repo)
 
-## Setup
+## Full Setup
 
-1. Fill in `BRIEF.md` with your project scope and constraints.
-2. Customize `profiles/project-profile.yaml` — tech stack, quality bars, workflow policy.
-3. Edit `runtime/config.yaml` — model, max workers, timeouts, notification webhook.
-4. Install runtime dependencies: `pip install -r runtime/requirements.txt`
-5. Read `AGENTS.md` — operating instructions and file zones.
-6. Set `STATUS.md` Current Phase to `requirements`.
+1. Customize `profiles/project-profile.yaml` — tech stack, quality bars, workflow policy.
+2. Install runtime dependencies: `pip install -r runtime/requirements.txt`
+3. Set `STATUS.md` Current Phase to `requirements`.
 
 ## Agent-Driven Launch (Single Command)
 

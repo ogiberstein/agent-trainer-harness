@@ -1,6 +1,16 @@
 # Concurrent Mode — Existing Project Onboarding
 
-Use this when adding autonomous parallel execution to an existing codebase, or upgrading from lite/full mode to concurrent.
+## Quick Start
+
+1. Read `AGENTS.md` — operating rules and file zones.
+2. Read `BRIEF.md` — project scope (fill in if empty).
+3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
+4. Classify as well-structured / partial / bare (Step 2) — determines how much harness to activate.
+5. Add runtime: `pip install -r runtime/requirements.txt`, edit `runtime/config.yaml`.
+
+Everything below is the detailed onboarding flow. Load on-demand.
+
+---
 
 ## What This Harness Provides
 

@@ -27,7 +27,7 @@
   - Reassign merge owner if primary owner is unavailable.
   - Spawn fix task for any failed merge candidate with concrete evidence.
 - If worktree/branch is orphaned:
-  - Re-link orphaned branch to task card in `operations/tracker.md`.
+  - Re-link orphaned branch to task entry in `STATUS.md`.
   - Mark status as `Blocked` until ownership is reassigned.
   - Clean up stale worktrees only after branch state is preserved.
 
