@@ -76,11 +76,11 @@ agent-trainer/
 │   ├── new-project/      16 files — copy into empty repo
 │   └── existing-project/ 16 files — audit-first onboarding
 ├── full/
-│   ├── new-project/      88 files — copy into empty repo
-│   └── existing-project/ 88 files — audit-first onboarding
+│   ├── new-project/      85 files — copy into empty repo
+│   └── existing-project/ 85 files — audit-first onboarding
 ├── concurrent/
-│   ├── new-project/     103 files — copy into empty repo
-│   └── existing-project/103 files — audit-first onboarding
+│   ├── new-project/     100 files — copy into empty repo
+│   └── existing-project/100 files — audit-first onboarding
 └── reference/
     └── architecture-spec.md  (frozen original vision)
 ```
