@@ -28,7 +28,9 @@ class Task:
     priority: str = "P1"
     dependencies: list[str] = field(default_factory=list)
     file_scope: list[str] = field(default_factory=list)
+    required_reads: list[str] = field(default_factory=list)
     acceptance: str = ""
+    timeout: int = 0  # 0 = use global config.worker_timeout
     retries: int = 0
     slug: str = ""
     evidence: str = ""
@@ -90,33 +92,46 @@ class State:
             r"(?:\s+- Phase:\s*(.+)\n)?"
             r"(?:\s+- Dependencies:\s*(.+)\n)?"
             r"(?:\s+- File Scope:\s*(.+)\n)?"
+            r"(?:\s+- Required Reads:\s*(.+)\n)?"
             r"(?:\s+- Branch/Worktree:\s*(.+)\n)?"
             r"(?:\s+- Acceptance:\s*(.+)\n)?"
+            r"(?:\s+- Timeout:\s*(.+)\n)?"
             r"(?:\s+- Status:\s*(.+)\n)?",
             re.MULTILINE,
         )
 
         for m in card_pattern.finditer(tasks_section):
-            status_str = (m.group(10) or "ready").strip().lower()
+            status_str = (m.group(12) or "ready").strip().lower()
+            timeout_str = (m.group(11) or "0").strip()
             task = Task(
                 id=m.group(1).strip(),
                 title=m.group(2).strip(),
                 role=(m.group(3) or "").strip(),
                 priority=(m.group(4) or "P1").strip(),
                 phase=(m.group(5) or self._current_phase).strip().lower(),
-                acceptance=(m.group(9) or "").strip(),
+                acceptance=(m.group(10) or "").strip(),
+                timeout=int(timeout_str) if timeout_str.isdigit() else 0,
                 status=status_str,
             )
             deps = (m.group(6) or "").strip()
             if deps and deps.lower() != "none":
                 task.dependencies = [d.strip() for d in deps.split(",")]
             scope = (m.group(7) or "").strip()
-            if scope:
+            if scope and scope.lower() != "n/a":
                 task.file_scope = [s.strip() for s in scope.split(",")]
+            reads = (m.group(8) or "").strip()
+            if reads and reads.lower() != "none":
+                task.required_reads = [r.strip() for r in reads.split(",")]
             self.tasks.append(task)
 
     def get_ready_tasks(self) -> list[Task]:
-        return [t for t in self.tasks if t.status == "ready" and t.phase == self._current_phase]
+        done_ids = {t.id for t in self.tasks if t.status == "done"}
+        return [
+            t for t in self.tasks
+            if t.status == "ready"
+            and t.phase == self._current_phase
+            and all(d in done_ids for d in t.dependencies)
+        ]
 
     def add_tasks(self, tasks: list[Task]):
         self.tasks.extend(tasks)
@@ -218,8 +233,10 @@ def _format_card(task: Task) -> str:
     card += f"  - Phase: {task.phase}\n"
     card += f"  - Dependencies: {', '.join(task.dependencies) if task.dependencies else 'none'}\n"
     card += f"  - File Scope: {', '.join(task.file_scope) if task.file_scope else 'n/a'}\n"
+    card += f"  - Required Reads: {', '.join(task.required_reads) if task.required_reads else 'none'}\n"
     card += f"  - Branch/Worktree: agent/{task.role}/{task.id}-{task.slug}\n"
     card += f"  - Acceptance: {task.acceptance or 'see phase gate criteria'}\n"
+    card += f"  - Timeout: {task.timeout}\n"
     card += f"  - Status: {task.status}\n"
     return card
 

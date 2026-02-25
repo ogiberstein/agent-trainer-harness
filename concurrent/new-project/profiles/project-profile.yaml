@@ -34,6 +34,17 @@ workflow_policy:
     - "release"
   max_parallel_tasks: 3
   max_retry_per_task: 2
+  # Skip phases that are already complete or not needed. Valid values:
+  # requirements, design, implementation, qa, documentation, growth, review
+  # Example: if you already wrote specs and designed the architecture, skip both:
+  # skip_phases: ["requirements", "design"]
+  skip_phases: []
+  # Override default role assignments with custom roles.
+  # Custom role .md files must exist in harness/agents/.
+  # Example for a Python trading engine project:
+  # role_overrides:
+  #   fullstack-engineer: engine-engineer
+  role_overrides: {}
 
 communication_style:
   tone: "concise"

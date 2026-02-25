@@ -49,8 +49,9 @@ class Worker:
         """Block until the worker process exits. Returns exit code."""
         if self._process is None:
             raise RuntimeError("Worker not started")
+        timeout = self.task.timeout if self.task.timeout > 0 else self.config.worker_timeout
         try:
-            return self._process.wait(timeout=self.config.worker_timeout)
+            return self._process.wait(timeout=timeout)
         finally:
             if self._out_file:
                 self._out_file.close()
@@ -99,6 +100,20 @@ def _build_task_prompt(task: Task, project_path: str) -> str:
     if brief:
         parts.append(f"\n## Project Context (from BRIEF.md)\n{brief}")
 
+    if task.required_reads:
+        parts.append("\n## Required Reading")
+        for rel_path in task.required_reads:
+            content = _load_spec(project_path, rel_path)
+            if content is not None:
+                parts.append(f"\n### {rel_path}")
+                if len(content) > 4000:
+                    parts.append(content[:4000])
+                    parts.append(f"\n...(truncated — read the full file at `{rel_path}`)")
+                else:
+                    parts.append(content)
+            else:
+                parts.append(f"- `{rel_path}` (file not found — read manually if it exists)")
+
     parts.append("\n## Instructions")
     parts.append("Read AGENTS.md first for harness rules and protection policy.")
     parts.append("Read STATUS.md for current project state.")
@@ -119,3 +134,12 @@ def _load_brief(project_path: str) -> str:
     if len(content) > 2000:
         return content[:2000] + "\n...(truncated)"
     return content
+
+
+def _load_spec(project_path: str, rel_path: str) -> Optional[str]:
+    """Load a spec file's content, returning None if it doesn't exist."""
+    full_path = os.path.join(project_path, rel_path)
+    if not os.path.isfile(full_path):
+        return None
+    with open(full_path) as f:
+        return f.read()

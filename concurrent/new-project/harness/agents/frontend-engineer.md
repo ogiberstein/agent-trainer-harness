@@ -33,8 +33,8 @@ Implement UI, client logic, accessibility, and backend integration.
 - `STATUS.md` — current phase and blockers
 
 ## Required Outputs
-- Frontend implementation in `src/`
-- Frontend tests in `tests/`
+- Frontend implementation in the directories specified by the task's **file scope** (check your task card in STATUS.md)
+- Frontend tests co-located or in the project's test directory per its structure
 - Engineering notes in `handoffs/engineering-to-qa.md`
 - `STATUS.md` update
 

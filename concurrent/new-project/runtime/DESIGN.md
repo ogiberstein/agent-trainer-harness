@@ -436,7 +436,7 @@ See `start.md` for detailed setup instructions.
 ## Future Runtime Options
 
 ### Claude Code Agent Teams (preferred migration)
-Claude Code's native [Agent Teams](https://code.claude.com/docs/en/agent-teams) feature provides multi-agent coordination with shared task lists, inter-agent messaging, and quality hooks — essentially the infrastructure this runtime implements manually. When Agent Teams matures beyond experimental status (session resumption, file isolation), it becomes the natural replacement for this entire `runtime/` directory. Our harness methodology (AGENTS.md, phases, gates, roles, memory) would remain unchanged; only the execution engine swaps out. See `FUTURE_IMPROVEMENTS.md` for the detailed migration path.
+Claude Code's native [Agent Teams](https://code.claude.com/docs/en/agent-teams) feature provides multi-agent coordination with shared task lists, inter-agent messaging, and quality hooks — essentially the infrastructure this runtime implements manually. When Agent Teams matures beyond experimental status (session resumption, file isolation), it becomes the natural replacement for this entire `runtime/` directory. Our harness methodology (AGENTS.md, phases, gates, roles, memory) would remain unchanged; only the execution engine swaps out. See the top-level `ROADMAP.md` for the detailed migration path.
 
 ### LangGraph (fallback)
 The orchestrator can be upgraded to a LangGraph StateGraph for built-in state persistence, declarative retry logic, and visual execution traces in LangSmith. This becomes the fallback if Agent Teams doesn't mature as expected.

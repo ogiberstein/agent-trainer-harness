@@ -35,8 +35,8 @@ Build backend systems, APIs, data model, and integration points.
 - `STATUS.md` — current phase and blockers
 
 ## Required Outputs
-- Backend implementation in `src/`
-- Tests in `tests/`
+- Backend implementation in the directories specified by the task's **file scope** (check your task card in STATUS.md)
+- Tests co-located or in the project's test directory per its structure
 - `handoffs/engineering-to-qa.md`
 - `STATUS.md` update
 

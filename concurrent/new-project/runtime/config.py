@@ -18,6 +18,7 @@ class Config:
     worker_timeout: int = 3600
     gate_timeout: int = 120
     skip_phases: list[str] = field(default_factory=list)
+    role_overrides: dict[str, str] = field(default_factory=dict)
     project_name: str = ""
 
 

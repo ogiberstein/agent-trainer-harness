@@ -4,7 +4,10 @@ Reads harness state, dispatches workers, enforces gates, merges branches,
 and advances phases until the project is complete or a blocking failure occurs.
 """
 
+import json
 import os
+import re
+import subprocess
 import time
 
 from config import Config
@@ -54,7 +57,7 @@ def run(project_path: str, config: Config, dry_run: bool = False):
         # Get or generate tasks for current phase
         tasks = state.get_ready_tasks()
         if not tasks:
-            tasks = _generate_phase_tasks(state.current_phase, project_path)
+            tasks = _generate_phase_tasks(state.current_phase, project_path, config)
             if not tasks:
                 notify(config, f"No tasks for phase {state.current_phase}. Advancing.", "info")
                 state.advance_phase()
@@ -138,16 +141,157 @@ def run(project_path: str, config: Config, dry_run: bool = False):
     )
 
 
-def _generate_phase_tasks(phase: str, project_path: str) -> list[Task]:
-    """Generate default tasks for a phase based on PHASE_ROLES."""
+def _generate_phase_tasks(phase: str, project_path: str, config: Config) -> list[Task]:
+    """Generate tasks for a phase.
+
+    For implementation: runs a planner agent to decompose work into atomic tasks
+    based on project specs.  For other phases: uses PHASE_ROLES defaults.  In both
+    cases, role_overrides from config are applied.
+    """
+    if phase == "implementation":
+        tasks = _plan_implementation_tasks(project_path, config)
+        if tasks:
+            return tasks
+
     role_defs = PHASE_ROLES.get(phase, [])
+    available_roles = _discover_roles(project_path)
     tasks = []
     for task_id, title, role in role_defs:
-        prompt_path = os.path.join(project_path, "harness", "agents", f"{role}.md")
-        if not os.path.isfile(prompt_path):
+        resolved = config.role_overrides.get(role, role)
+        if resolved not in available_roles:
             continue
-        tasks.append(Task(id=task_id, title=title, role=role, phase=phase))
+        tasks.append(Task(id=task_id, title=title, role=resolved, phase=phase))
     return tasks
+
+
+_PLANNER_PROMPT = """\
+You are a task planner for a software project. Read the provided specs and decompose
+the implementation phase into atomic, parallelizable tasks.
+
+Output ONLY a JSON array. Each element must have these fields:
+- "id": string, format "TASK-IMP-NNN" (start at 001)
+- "title": string, concise task name
+- "role": string, one of the available roles listed below
+- "dependencies": array of task id strings this task depends on (empty if none)
+- "file_scope": array of relative directory/file paths this task should touch
+- "required_reads": array of spec file paths the worker needs (e.g. "specs/architecture.md")
+- "acceptance": string, concrete acceptance criteria for this task
+- "timeout": integer, suggested timeout in seconds (0 for default)
+
+Guidelines:
+- Create 5-20 tasks depending on project complexity.
+- Shared contracts/schemas/types should be their own task that others depend on.
+- Group by logical unit (e.g., "auth endpoints", "database models", "payment integration"),
+  not by technology layer.
+- Each task should be completable by a single Claude Code invocation in under 1 hour.
+- Assign roles from the available list; prefer specialized roles when available.
+
+Available roles: {roles}
+
+Return ONLY the JSON array, no markdown fences or commentary.
+"""
+
+
+def _plan_implementation_tasks(project_path: str, config: Config) -> list[Task]:
+    """Invoke a planner agent to decompose implementation into atomic tasks."""
+    specs_dir = os.path.join(project_path, "specs")
+    if not os.path.isdir(specs_dir):
+        return []
+
+    spec_contents = []
+    for spec_file in sorted(os.listdir(specs_dir)):
+        if not spec_file.endswith(".md"):
+            continue
+        path = os.path.join(specs_dir, spec_file)
+        with open(path) as f:
+            content = f.read()
+        spec_contents.append(f"### specs/{spec_file}\n\n{content}")
+
+    if not spec_contents:
+        return []
+
+    available_roles = _discover_roles(project_path)
+    roles_str = ", ".join(sorted(available_roles))
+    system_prompt = _PLANNER_PROMPT.format(roles=roles_str)
+    user_prompt = "# Project Specs\n\n" + "\n\n---\n\n".join(spec_contents)
+
+    notify(config, "Running task planner to decompose implementation phase...", "info")
+
+    try:
+        result = subprocess.run(
+            [
+                "claude",
+                "--print",
+                "--model", config.model,
+                "--systemPrompt", system_prompt,
+                "-p", user_prompt,
+            ],
+            cwd=project_path,
+            capture_output=True,
+            text=True,
+            timeout=config.gate_timeout * 2,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        notify(config, f"Task planner failed: {e}", "error")
+        return []
+
+    if result.returncode != 0:
+        notify(config, f"Task planner exited with code {result.returncode}", "error")
+        return []
+
+    return _parse_planner_output(result.stdout, project_path, config)
+
+
+def _parse_planner_output(raw: str, project_path: str, config: Config) -> list[Task]:
+    """Parse the JSON task array from the planner's stdout."""
+    json_match = re.search(r"\[.*\]", raw, re.DOTALL)
+    if not json_match:
+        notify(config, "Task planner returned no valid JSON array", "error")
+        return []
+
+    try:
+        items = json.loads(json_match.group())
+    except json.JSONDecodeError as e:
+        notify(config, f"Task planner JSON parse error: {e}", "error")
+        return []
+
+    available_roles = _discover_roles(project_path)
+    tasks = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        role = item.get("role", "fullstack-engineer")
+        resolved = config.role_overrides.get(role, role)
+        if resolved not in available_roles:
+            resolved = "fullstack-engineer"
+
+        task = Task(
+            id=item.get("id", f"TASK-IMP-{len(tasks)+1:03d}"),
+            title=item.get("title", "Untitled task"),
+            role=resolved,
+            phase="implementation",
+            dependencies=item.get("dependencies", []),
+            file_scope=item.get("file_scope", []),
+            required_reads=item.get("required_reads", []),
+            acceptance=item.get("acceptance", ""),
+            timeout=int(item.get("timeout", 0)),
+        )
+        tasks.append(task)
+
+    notify(config, f"Task planner generated {len(tasks)} implementation tasks", "info")
+    return tasks
+
+
+def _discover_roles(project_path: str) -> set[str]:
+    """Return set of available role names from harness/agents/ directory."""
+    agents_dir = os.path.join(project_path, "harness", "agents")
+    if not os.path.isdir(agents_dir):
+        return set()
+    return {
+        os.path.splitext(f)[0]
+        for f in os.listdir(agents_dir)
+        if f.endswith(".md")
+    }
 
 
 def _handle_failure(task: Task, evidence: str, state: State, config: Config, project_path: str):

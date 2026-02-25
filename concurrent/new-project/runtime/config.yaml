@@ -11,11 +11,17 @@ checkpoint_after_requirements: true    # Pause for human review after Phase 1
 notification_webhook: ""               # Slack/Telegram incoming webhook URL
 
 # Timeouts (seconds)
-worker_timeout: 3600                   # 1 hour per worker invocation
+worker_timeout: 3600                   # 1 hour per worker invocation (default for tasks without their own timeout)
 gate_timeout: 120                      # 2 minutes for gate evaluation
 
-# Phases to skip (e.g., ["growth", "documentation"] for backend-only projects)
-skip_phases: []
+# Phases to skip. Use this when phases are already complete (e.g., human did
+# discovery/design) or not applicable. Any phase name from PHASE_ORDER is valid:
+# requirements, design, implementation, qa, documentation, growth, review
+skip_phases: []                        # e.g., ["requirements", "design", "growth"]
+
+# Role overrides — map default role names to custom roles in harness/agents/.
+# Custom role .md files must exist in harness/agents/ for the override to work.
+role_overrides: {}                     # e.g., {"fullstack-engineer": "engine-engineer"}
 
 # Project
 project_name: ""                       # Display name for notifications
