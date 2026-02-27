@@ -4,6 +4,12 @@ Multi-agent harness for autonomous, parallel product delivery.
 Multiple workers execute simultaneously via the Python runtime orchestrator.
 Read `start.md` to begin.
 
+## Mode Awareness
+
+You are in **Concurrent mode**. If the build is a single-session sprint with the user actively testing, you likely don't need the full concurrent runtime — use native task parallelism and reduce ceremony on gates and task tracking. The concurrent orchestrator is for truly autonomous multi-day builds with conflicting file scopes.
+
+Regardless of ceremony level, always maintain `STATUS.md`, `DECISIONS.md`, and memory summaries — these are handoff artifacts that let another agent take over with minimal context loss. Write for your successor, not just for yourself.
+
 ## File Zones
 
 **System** (never delete, update contents only):
@@ -36,6 +42,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Log non-trivial trade-offs and assumptions in `DECISIONS.md`.
 - **Phase snapshots:** after each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the template. This protects against context loss and makes sessions resumable.
 - **Gate enforcement:** record `PASS`, `FAIL`, or `SKIPPED(reason)` in the STATUS.md Gate Log before advancing. Skipping a gate without logging is a harness violation.
+- **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - Follow `operations/team-concurrency-policy.md` when multiple workers are active.

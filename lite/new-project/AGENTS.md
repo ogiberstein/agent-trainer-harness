@@ -2,6 +2,12 @@
 
 Lightweight harness for small-scope projects. Read `start.md` to begin.
 
+## Mode Awareness
+
+You are in **Lite mode** — minimal ceremony, maximum speed. If you find the project needs formal phase gates, multi-session memory, or parallel workers, tell the user and suggest upgrading to Full or Concurrent mode.
+
+Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. These are handoff artifacts — if a different agent takes over this project, they must be able to pick up with minimal context loss. Write for your successor, not just for yourself.
+
 ## File Zones
 
 **System** (never delete, update contents only):

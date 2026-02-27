@@ -3,6 +3,12 @@
 Multi-agent harness for product delivery with phase gates and structured handoffs.
 Read `start.md` to begin.
 
+## Mode Awareness
+
+You are in **Full mode**. If the user is actively in the loop and responding within minutes, you can reduce ceremony — skip formal gate checks, use inline task management. But always keep `STATUS.md`, `DECISIONS.md`, and memory summaries current — these are handoff artifacts that let another agent (or you in a future session) take over with minimal context loss. Write for your successor, not just for yourself.
+
+Reserve full ceremony (formal gates, tracker, phase summaries) for unattended autonomous runs. If the project needs parallel workers, suggest upgrading to Concurrent mode.
+
 ## File Zones
 
 **System** (never delete, update contents only):
@@ -35,6 +41,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Log non-trivial trade-offs and assumptions in `DECISIONS.md`.
 - **Phase snapshots:** after each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the template. This protects against context loss and makes sessions resumable.
 - **Gate enforcement:** record `PASS`, `FAIL`, or `SKIPPED(reason)` in the STATUS.md Gate Log before advancing. Skipping a gate without logging is a harness violation.
+- **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - When removing a harness file that doesn't apply, log the reason in `DECISIONS.md`.

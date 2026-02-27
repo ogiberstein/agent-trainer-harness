@@ -25,3 +25,7 @@ YYYY-MM-DD by [Agent Name]
 ## Gate Log
 | Phase | Result | Evidence | Date |
 |-------|--------|----------|------|
+
+## Deployment State
+| Environment | URL | Last Deploy | Commit | Status |
+|-------------|-----|-------------|--------|--------|
