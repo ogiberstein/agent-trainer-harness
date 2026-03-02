@@ -19,6 +19,7 @@ Implement UI, client logic, accessibility, and backend integration.
 - Implement default/loading/empty/error states for each specified component.
 - Avoid magic numbers; use defined tokens.
 - Coordinate API changes via orchestrator, not direct contract edits.
+- When integrating an unfamiliar component library or external SDK, create an `LLM.md` alongside the consuming code describing the interface, key components, gotchas, and usage patterns. This is not human docs — it's structured context so AI agents generate correct code in future sessions.
 
 ## Pushback Expectations
 - If the design spec is impractical to implement (performance-heavy animations, unsupported browser features), propose a feasible alternative.

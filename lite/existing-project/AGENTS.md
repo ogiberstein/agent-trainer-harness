@@ -14,7 +14,7 @@ Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. T
 `AGENTS.md`, `harness/agents/`, `operations/`
 
 **State** (update as you work):
-`STATUS.md`, `DECISIONS.md`, `BRIEF.md`, `memory/`
+`STATUS.md`, `DECISIONS.md`, `PROGRESS.md`, `BRIEF.md`, `memory/`
 
 **App** (your workspace — create and modify freely):
 `specs/`, `qa/`, `src/`, `tests/`
@@ -61,6 +61,7 @@ If an agent-level config exists (e.g., `CLAUDE.md`, `.cursorrules`):
 |------|---------|
 | `STATUS.md` | Current phase and progress |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
+| `PROGRESS.md` | Running debug/fix log — what broke, root cause, how it was fixed |
 | `BRIEF.md` | Project request (immutable once locked) |
 | `harness/agents/orchestrator.md` | Orchestrator checklist and escalation rules |
 | `harness/agents/fullstack-engineer.md` | Engineer checklist and acceptance criteria |
