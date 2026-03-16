@@ -16,4 +16,5 @@ Ownership is advisory — any agent may write to any file if the owning role is 
 ## Phase Summaries
 - After completing each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the TEMPLATE.
 - Summaries are the primary context restoration mechanism for returning agents.
+- Only the latest relevant summary is canonical by default. Older summaries and archived evidence are reference-only until the current summary points back to them.
 - Load summaries first; load full source files only when the summary indicates they're relevant.

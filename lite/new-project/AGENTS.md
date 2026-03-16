@@ -23,7 +23,8 @@ Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. T
 
 1. Read `STATUS.md` — current phase and progress.
 2. Read `BRIEF.md` — what the project is and constraints.
-3. Read `start.md` if this is the beginning of the project.
+3. Read the latest relevant summary in `memory/summaries/` if one exists.
+4. Read `start.md` if this is the beginning of the project.
 
 ## Critical Thinking
 
@@ -39,6 +40,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Log non-trivial trade-offs in `DECISIONS.md`.
 - No phase transition without gate criteria satisfied. If overriding a gate, log the reason in `DECISIONS.md`.
 - Load only what the current task needs — don't read the full repo upfront.
+- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - When removing a file that doesn't apply, log the reason in `DECISIONS.md`.
 

@@ -1,7 +1,9 @@
 """Wraps a single Claude Code CLI invocation in an isolated git worktree."""
 
 import os
+import re
 import subprocess
+from pathlib import Path
 from typing import Optional
 
 from config import Config
@@ -99,9 +101,15 @@ def _build_task_prompt(task: Task, project_path: str) -> str:
     if brief:
         parts.append(f"\n## Project Context (from BRIEF.md)\n{brief}")
 
+    latest_summary = _load_latest_phase_summary(project_path)
+    if latest_summary:
+        parts.append(f"\n## Latest Phase Summary (canonical prior context)\n{latest_summary}")
+
     parts.append("\n## Instructions")
     parts.append("Read AGENTS.md first for harness rules and protection policy.")
     parts.append("Read STATUS.md for current project state.")
+    parts.append("Treat the latest phase summary as the canonical prior context.")
+    parts.append("Do not reopen older summaries or archived snapshots unless this task or the latest summary points to them.")
     parts.append("Complete this task according to the acceptance criteria.")
     parts.append("Commit your changes with a clear message referencing the task ID.")
     parts.append("Do not modify files outside the specified file scope unless necessary.")
@@ -118,4 +126,27 @@ def _load_brief(project_path: str) -> str:
         content = f.read()
     if len(content) > 2000:
         return content[:2000] + "\n...(truncated)"
+    return content
+
+
+def _load_latest_phase_summary(project_path: str) -> str:
+    """Load the newest phase summary as the default resume context."""
+    summaries_dir = Path(project_path) / "memory" / "summaries"
+    if not summaries_dir.is_dir():
+        return ""
+
+    def sort_key(path: Path):
+        match = re.match(r"phase-(\d+)-", path.name)
+        phase_num = int(match.group(1)) if match else -1
+        return (phase_num, path.stat().st_mtime)
+
+    summaries = [p for p in summaries_dir.glob("phase-*.md") if p.is_file()]
+    if not summaries:
+        return ""
+
+    latest = max(summaries, key=sort_key)
+    with open(latest) as f:
+        content = f.read()
+    if len(content) > 2000:
+        return content[:2000] + f"\n...(truncated — read the full file at `{latest.relative_to(project_path)}`)"
     return content

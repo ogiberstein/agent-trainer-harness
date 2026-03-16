@@ -22,7 +22,12 @@ Use this guide to keep runs efficient without hard token caps.
 - After each phase, write a concise summary and use it downstream.
 - Prefer `memory/summaries/` artifacts over full-history replay.
 
-## 6) Progressive Disclosure (Resuming Sessions)
+## 6) Context Cleanup on Phase/Task Change
+- When the active phase or task changes, drop old optional context from your active set.
+- Keep only: `STATUS.md`, `BRIEF.md`, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
+- Older summaries, prior-phase specs, and archived evidence are reference-only until the active summary points back to them.
+
+## 7) Progressive Disclosure (Resuming Sessions)
 When returning to a project after a break or starting a new session:
 1. Read `STATUS.md` and `BRIEF.md` — minimal orientation (~2 files).
 2. Read the latest `memory/summaries/phase-*.md` — structured context from where you left off.
@@ -30,19 +35,19 @@ When returning to a project after a break or starting a new session:
 - Never start by reading the entire `specs/`, `src/`, or `docs/` directory.
 - If using a memory tool (e.g., claude-mem), let its injected context guide which files to load rather than scanning broadly.
 
-## 7) Narrow Rework
+## 8) Narrow Rework
 - On gate failure, rerun only the failed portion with targeted feedback.
 - Do not restart whole phases unless dependencies changed.
 
-## 8) Concise Output Default
+## 9) Concise Output Default
 - Ask agents for short status outputs with file paths and decisions.
 - Avoid long prose unless deep analysis is explicitly needed.
 
-## 9) Separate Setup from Delivery
+## 10) Separate Setup from Delivery
 - Reuse scaffold/policies as stable baseline.
 - For new projects, customize profile and brief; avoid regenerating unrelated artifacts.
 
-## 10) Isolate Parallel Work
+## 11) Isolate Parallel Work
 - When parallel coding is necessary, isolate tasks by branch/worktree and file scope.
 - Do not let multiple active tasks edit overlapping paths without explicit orchestration.
 

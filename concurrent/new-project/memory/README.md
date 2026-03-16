@@ -19,9 +19,9 @@ memory/
 
 1. **After each phase**, the active agent writes a summary to `summaries/phase-{N}-{name}.md` using the template. This captures: files changed, decisions made, issues encountered, carried constraints, and inputs for the next phase.
 
-2. **When resuming**, a returning agent reads `STATUS.md` + the latest phase summary to orient itself. This is faster and more reliable than scanning every file in the project.
+2. **When resuming**, a returning agent reads `STATUS.md` + the latest phase summary to orient itself. This is faster and more reliable than scanning every file in the project. The latest summary is canonical; older summaries are background context until the latest summary points back to them.
 
-3. **Snapshots** hold raw evidence (e.g., full QA reports, benchmark data) that summaries reference but don't inline. Load snapshots only when a summary flags them as relevant.
+3. **Snapshots** hold raw evidence (e.g., full QA reports, benchmark data) that summaries reference but don't inline. Load snapshots only when a summary flags them as relevant; archived evidence is not default prompt context.
 
 ## Progressive Disclosure Pattern
 

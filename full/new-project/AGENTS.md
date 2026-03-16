@@ -25,7 +25,8 @@ Reserve full ceremony (formal gates, tracker, phase summaries) for unattended au
 1. Read `STATUS.md` — current phase, gate log, and progress.
 2. Read `BRIEF.md` — what the project is and constraints.
 3. Read `start.md` if this is the beginning of the project.
-4. Load other files only when entering a phase that needs them.
+4. Read the latest relevant summary in `memory/summaries/` if one exists.
+5. Load other files only when entering a phase that needs them.
 
 ## Critical Thinking
 
@@ -44,6 +45,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
+- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
 - When removing a harness file that doesn't apply, log the reason in `DECISIONS.md`.
 - Use runbook playbooks from `COMMANDS.md` for repeatable actions.
 

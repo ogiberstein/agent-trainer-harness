@@ -22,15 +22,20 @@ Use this guide to keep runs efficient without hard token caps.
 - After each phase, write a concise summary and use it downstream.
 - Prefer `memory/summaries/` artifacts over full-history replay.
 
-## 6) Narrow Rework
+## 6) Context Cleanup on Phase/Task Change
+- When the active phase or task changes, drop old optional context from your active set.
+- Keep only: `STATUS.md`, `BRIEF.md`, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
+- Older summaries, prior-phase specs, and archived evidence are reference-only until the active summary points back to them.
+
+## 7) Narrow Rework
 - On gate failure, rerun only the failed portion with targeted feedback.
 - Do not restart whole phases unless dependencies changed.
 
-## 7) Concise Output Default
+## 8) Concise Output Default
 - Ask agents for short status outputs with file paths and decisions.
 - Avoid long prose unless deep analysis is explicitly needed.
 
-## 8) Separate Setup from Delivery
+## 9) Separate Setup from Delivery
 - Reuse scaffold/policies as stable baseline.
 - For new projects, customize profile and brief; avoid regenerating unrelated artifacts.
 
