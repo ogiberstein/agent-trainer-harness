@@ -10,6 +10,8 @@ required:
     version: 0.1.0
   - name: handoff-quality-auditor
     version: 0.1.0
+  - name: recursive-self-critique
+    version: 0.1.0
 
 optional:
   - name: api-contract-validator

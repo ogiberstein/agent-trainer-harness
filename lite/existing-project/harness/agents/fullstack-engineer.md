@@ -19,6 +19,7 @@ Build backend systems, APIs, data model, and integration points.
 - Handle errors explicitly with appropriate status codes.
 - Never hardcode secrets.
 - Do not edit spec documents directly.
+- When integrating an unfamiliar library or external API, create an `LLM.md` alongside the consuming code describing the interface, key methods, gotchas, and usage patterns. This is not human docs — it's structured context so AI agents generate correct code in future sessions.
 
 ## Pushback Expectations
 - If a requirement is technically naive or will create tech debt, propose a better approach before implementing the naive version.

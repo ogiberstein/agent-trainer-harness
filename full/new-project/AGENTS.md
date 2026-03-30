@@ -15,7 +15,7 @@ Reserve full ceremony (formal gates, tracker, phase summaries) for unattended au
 `AGENTS.md`, `harness/`, `profiles/`, `evaluation/`, `operations/`
 
 **State** (update as you work):
-`STATUS.md`, `DECISIONS.md`, `BRIEF.md`, `memory/`, `handoffs/`
+`STATUS.md`, `DECISIONS.md`, `PROGRESS.md`, `BRIEF.md`, `memory/`, `handoffs/`
 
 **App** (your workspace — create and modify freely):
 `specs/`, `qa/`, `docs/`, `src/`, `tests/`
@@ -61,6 +61,7 @@ If an agent-level config exists (e.g., `CLAUDE.md`, `.cursorrules`):
 |------|---------|
 | `STATUS.md` | Current phase, progress, gate log |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
+| `PROGRESS.md` | Running debug/fix log — what broke, root cause, how it was fixed |
 | `BRIEF.md` | Project request (immutable once locked) |
 | `COMMANDS.md` | Runbook playbooks for repeatable actions |
 | `harness/routing-policy.md` | Scheduling, retries, escalation |

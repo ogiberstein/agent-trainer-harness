@@ -26,6 +26,10 @@ quality_bars:
     block_on_severity:
       - "Critical"
       - "Major"
+  recursive_critique: auto  # auto | always | never
+  # auto  = PM and Designer always run self-critique; others on complex tasks only
+  # always = all agents run self-critique loop (thorough but higher token cost)
+  # never  = skip entirely (speed mode, use for simple projects)
 
 workflow_policy:
   require_human_approval_at:
