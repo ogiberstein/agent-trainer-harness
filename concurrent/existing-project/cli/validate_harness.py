@@ -78,12 +78,20 @@ def _check_core_files(project_path: str) -> Check:
 
 
 def _check_roles_vs_prompts(project_path: str) -> Check:
-    """Verify every role in permissions-matrix.md has a matching agent prompt file."""
+    """Verify every role in permissions-matrix.md has a matching agent prompt file.
+
+    Lite mode intentionally has no permissions-matrix.md, so we skip this check there.
+    """
     matrix_path = os.path.join(project_path, "harness", "permissions-matrix.md")
     agents_dir = os.path.join(project_path, "harness", "agents")
 
     if not os.path.isfile(matrix_path):
+        agents_md_path = os.path.join(project_path, "AGENTS.md")
+        agents_md = _read(agents_md_path).lower() if os.path.isfile(agents_md_path) else ""
+        if "lite mode" in agents_md:
+            return Check("roles_vs_prompts", True, "Lite mode: permissions matrix not required (skipped)")
         return Check("roles_vs_prompts", False, "harness/permissions-matrix.md not found")
+
     if not os.path.isdir(agents_dir):
         return Check("roles_vs_prompts", False, "harness/agents/ directory not found")
 

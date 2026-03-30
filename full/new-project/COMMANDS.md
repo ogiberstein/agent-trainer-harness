@@ -52,39 +52,31 @@ Primary files:
 ### `/phase-next`
 Purpose: Advance exactly one phase with gate enforcement.
 
-**Executable:** `python3 cli/harness_cli.py --project . phase-next` (add `--force` to skip gate)
-
 Runs:
 1. Read current phase from `STATUS.md`.
 2. Run LLM gate evaluation for current phase.
 3. If gate passes, advance phase in `STATUS.md`.
-4. If gate fails, report missing criteria (use `--force` to override).
+4. If gate fails, report missing criteria and remediate before advancing.
 
 Primary files:
-- `cli/harness_cli.py`
 - `STATUS.md`
 - `DECISIONS.md`
 
 ### `/gate-check`
 Purpose: Run gate review without doing implementation work.
 
-**Executable:** `python3 cli/harness_cli.py --project . gate-check [--phase <phase>]`
-
 Runs:
-1. Evaluate LLM gate criteria for the specified or current phase.
+1. Evaluate gate criteria for the specified or current phase.
 2. Return PASS/FAIL with summary, evidence, and missing items.
 
 Primary files:
-- `cli/harness_cli.py`
 - `STATUS.md`
 - Phase-specific artifacts in `specs/`, `qa/`, `docs/`
 
 ## Task and Execution Operations
 
 ### `/status`
-Purpose: Show current phase and task summary.
-
-**Executable:** `python3 cli/harness_cli.py --project . status` (add `--json` for structured output)
+Purpose: Show current phase and task summary from `STATUS.md`.
 
 ### `/merge-steward`
 Purpose: Process awaiting-merge branches with test and gate evidence.
@@ -127,41 +119,11 @@ Primary files:
 - `DECISIONS.md`
 - `memory/summaries/`
 
-## Concurrent Mode
+## Concurrent Upgrade Path
 
-### `/preflight-concurrent`
-Purpose: Verify all prerequisites for concurrent mode before launching.
-
-**Executable:** `python3 cli/preflight_concurrent.py --project .` (add `--json` for structured output)
-
-Checks: Python 3.10+, Claude CLI on PATH, git repo with commits, `runtime/` present, `runtime/config.yaml` valid, Python deps installed, `BRIEF.md` filled in.
-
-### `/launch-concurrent`
-Purpose: Run preflight checks and launch the concurrent orchestrator as a background process.
-
-**Executable:** `python3 cli/harness_cli.py --project . launch-concurrent`
-
-Runs preflight, installs deps if needed, launches `runtime/run.py` in background, prints PID and monitoring instructions. If preflight fails, prints what's missing and exits with code 1 (agent should fall back to Full mode).
-
-### `/run-concurrent`
-Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers (manual steps).
-
-Runs:
-1. Verify `BRIEF.md` and `profiles/project-profile.yaml` are filled in.
-2. Set `runtime/config.yaml` (model, max workers, notification webhook, phases to skip).
-3. Execute: `python runtime/run.py --project /path/to/project`
-4. Orchestrator spawns workers per phase, enforces gates, merges branches.
-5. Pauses after Requirements for human review (configurable).
-6. Resume with: `python runtime/run.py --project /path/to/project --resume`
-7. Notifies on completion or blocking failure.
-
-Primary files:
-- `runtime/DESIGN.md`
-- `runtime/config.yaml`
-- `runtime/run.py`
-- `BRIEF.md`
-- `profiles/project-profile.yaml`
-- `STATUS.md`
+If you need autonomous parallel execution, upgrade this project to **Concurrent mode** first.
+After upgrade, use the concurrent runbooks and CLI from that scaffold (`start.md`, runtime, and cli tools).
+Do not run concurrent commands directly from Full mode templates.
 
 ## Feedback and Validation
 
@@ -179,7 +141,7 @@ Runs:
    - Scorecard results vs. targets
    - Recommended harness or process improvements
 5. Log actionable improvements in `DECISIONS.md`.
-6. If improvements affect harness files, note them in the top-level `ROADMAP.md`.
+6. If improvements affect harness files, note them in `operations/changelog.md`.
 
 Primary files:
 - `evaluation/scorecard.md`
@@ -187,25 +149,21 @@ Primary files:
 - `qa/issues.md`
 - `STATUS.md`
 - `DECISIONS.md`
-- `ROADMAP.md` (top-level)
+- `operations/changelog.md`
 
 ### `/validate-harness`
 Purpose: Check internal consistency of harness files.
 
-**Executable:** `python3 cli/validate_harness.py --project .` (add `--json` for CI output)
+Runs:
+1. Verify core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`).
+2. Verify every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
+3. Verify every active skill in `profiles/active-skills.yaml` exists in `skills/`.
+4. Verify handoff templates have required sections (status, context, deliverables, acceptance criteria).
+5. Verify backtick-quoted file paths in `AGENTS.md` and `COMMANDS.md` exist on disk.
 
-Checks:
-1. Core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`).
-2. Every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
-3. Every active skill in `profiles/active-skills.yaml` exists in `skills/`.
-4. Handoff templates have required sections (status, context, deliverables, acceptance criteria).
-5. Backtick-quoted file paths in `AGENTS.md` and `COMMANDS.md` exist on disk.
-6. `runtime/config.yaml` is valid YAML (if present).
-
-Output: human-readable report or JSON. Exit code 0 = pass, 1 = fail.
+Output: human-readable report or structured checklist.
 
 Primary files:
-- `cli/validate_harness.py`
 - `AGENTS.md`
 - `COMMANDS.md`
 - `profiles/active-skills.yaml`

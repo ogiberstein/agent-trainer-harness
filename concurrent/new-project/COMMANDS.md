@@ -179,7 +179,7 @@ Runs:
    - Scorecard results vs. targets
    - Recommended harness or process improvements
 5. Log actionable improvements in `DECISIONS.md`.
-6. If improvements affect harness files, note them in the top-level `ROADMAP.md`.
+6. If improvements affect harness files, note them in `operations/changelog.md`.
 
 Primary files:
 - `evaluation/scorecard.md`
@@ -187,7 +187,7 @@ Primary files:
 - `qa/issues.md`
 - `STATUS.md`
 - `DECISIONS.md`
-- `ROADMAP.md` (top-level)
+- `operations/changelog.md`
 
 ### `/validate-harness`
 Purpose: Check internal consistency of harness files.
