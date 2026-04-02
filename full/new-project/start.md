@@ -59,7 +59,7 @@ Everything below is reference. Load on-demand as phases progress.
 
 ### Phase 6 — Growth (Optional)
 - **Active role:** Growth Strategist
-- **Produce:** `specs/growth-plan.md`, growth handoffs
+- **Produce:** `specs/growth-plan.md`, growth handoffs, optional prioritized experiment shortlist (inside growth plan)
 - **Gate:** SEO/GEO strategy measurable; experiment backlog with hypothesis + metric
 - Record gate result.
 

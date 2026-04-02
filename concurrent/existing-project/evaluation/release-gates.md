@@ -55,6 +55,7 @@ Each phase has explicit pass criteria. Record PASS/FAIL/SKIPPED in the STATUS.md
 - [ ] Experiment backlog has hypothesis, metric, and guardrails per item
 - [ ] Analytics event taxonomy defined
 - [ ] All proposals grounded in implemented capabilities
+- [ ] (Optional) Experiment prioritization method documented (RICE/ICE or equivalent) with next-cycle picks
 
 ---
 

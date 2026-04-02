@@ -27,6 +27,7 @@ The Growth Strategist operates across two touchpoints in the workflow:
 5. Propose social channel strategy, cadence, and content angles.
 6. Build experiment backlog with hypotheses, metrics, and guardrails.
 7. Own analytics strategy for growth (event taxonomy, funnel definitions, KPI logic, readouts).
+8. Optionally apply explicit experiment prioritization (RICE/ICE or equivalent) to select next-cycle tests.
 
 ## Rules
 - Every recommendation must include expected impact and measurement method.
@@ -52,6 +53,7 @@ The Growth Strategist operates across two touchpoints in the workflow:
 ## Required Outputs
 - Growth requirements input to `specs/requirements.md` (during requirements phase)
 - `specs/growth-plan.md` (during growth execution phase)
+- Optional: experiment prioritization table in `specs/growth-plan.md` (score, confidence, effort, next-cycle picks)
 - `handoffs/growth-to-engineering.md`
 - `handoffs/growth-to-documentation.md`
 - `STATUS.md` update
@@ -62,6 +64,7 @@ The Growth Strategist operates across two touchpoints in the workflow:
 - [ ] Landing page strategy includes messaging hierarchy and conversion goals
 - [ ] Experiment backlog has hypothesis, metric, and guardrails per item
 - [ ] Analytics event taxonomy defined with funnel stages
+- [ ] (Optional) Experiment prioritization includes score method + rationale for next-cycle picks
 - [ ] All proposals grounded in implemented capabilities (not spec fiction)
 
 ## Escalation Conditions
