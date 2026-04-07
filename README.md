@@ -93,6 +93,7 @@ agent-trainer/
 - **Proportionality is the mode**: Pick lite for small work, full for features, concurrent for big builds. No need for complex per-mode proportionality rules.
 - **Additive phase summaries**: Phase snapshots include "Carried Constraints" to prevent context collapse in long sessions.
 - **Mechanical enforcement**: `cli/validate_harness.py` checks consistency. Gate enforcement is structural, not advisory.
+- **Runtime truth over stale artifacts**: For deployment/live-run work, verify the actual runtime before calling status decision-grade; mark superseded deploy/config sections as **historical**. If multi-agent work is needed, propose the split explicitly rather than drifting into overlap.
 
 ## Readings and Influences
 

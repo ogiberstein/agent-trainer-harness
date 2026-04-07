@@ -43,11 +43,15 @@ When returning to a project after a break or starting a new session:
 - Ask agents for short status outputs with file paths and decisions.
 - Avoid long prose unless deep analysis is explicitly needed.
 
-## 10) Separate Setup from Delivery
+## 10) Execution-Sensitive Status
+- For live runs, deployments, or runtime-sensitive debugging, verify the actual entrypoint/runtime before treating logs or docs as decision-grade.
+- If a deploy/config section is no longer current, mark it **historical** instead of leaving mixed truth in active docs.
+
+## 11) Separate Setup from Delivery
 - Reuse scaffold/policies as stable baseline.
 - For new projects, customize profile and brief; avoid regenerating unrelated artifacts.
 
-## 11) Isolate Parallel Work
+## 12) Isolate Parallel Work
 - When parallel coding is necessary, isolate tasks by branch/worktree and file scope.
 - Do not let multiple active tasks edit overlapping paths without explicit orchestration.
 

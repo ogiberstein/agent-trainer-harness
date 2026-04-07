@@ -45,6 +45,8 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - **Gate enforcement:** record `PASS`, `FAIL`, or `SKIPPED(reason)` in the STATUS.md Gate Log before advancing. Skipping a gate without logging is a harness violation.
 - **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
+- Runtime-truth rule: for live-run, deployment, or execution-sensitive status work, verify the deployed entrypoint/runtime before treating logs or docs as decision-grade. Mark superseded deploy/config sections as **historical**.
+- If multiple agents/roles should be active, make that split explicit (who builds, who reviews, who owns runtime truth) rather than letting overlap emerge implicitly.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
 - Follow `operations/team-concurrency-policy.md` when multiple workers are active.

@@ -40,6 +40,8 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Log non-trivial trade-offs in `DECISIONS.md`.
 - No phase transition without gate criteria satisfied. If overriding a gate, log the reason in `DECISIONS.md`.
 - Load only what the current task needs — don't read the full repo upfront.
+- Runtime-truth rule: if the task involves a live run, deployment, or execution-sensitive status question, verify the deployed entrypoint/runtime before treating logs or docs as decision-grade. Mark superseded deploy/config sections as **historical**.
+- If the work is drifting into multiple agents or roles, propose that split explicitly instead of letting overlap emerge implicitly.
 - After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - When removing a file that doesn't apply, log the reason in `DECISIONS.md`.
