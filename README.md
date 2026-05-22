@@ -1,6 +1,6 @@
 # Agent Trainer Harness
 
-File-first multi-agent harness for AI-assisted product delivery. Framework-agnostic — works with Claude Code, Cursor, Copilot, or any AI IDE.
+File-first multi-agent harness for AI-assisted product delivery. Framework-agnostic — works with Claude Code, Cursor, Copilot, or any AI IDE. Public distribution of the reusable Agent Trainer Harness templates. Private dogfood/internal forks may carry additional operator-specific guardrails; this public repo should remain generic and reusable.
 
 ## Pick Your Mode
 
@@ -14,11 +14,18 @@ File-first multi-agent harness for AI-assisted product delivery. Framework-agnos
 
 ## Quick Start
 
+All harness modes now use the same canonical `STATUS.md` header: `State`, `Current Phase`, `Last Updated`, `Current Gate`, `Next Step`, `Review Cadence`, and `Re-entry Condition` (required for `Monitor` / `Parked`, otherwise `N/A`). Agents are expected to preserve that header on every update.
+
+Each copied harness carries a machine-readable `.harness-version` file. This is the version/drift anchor for read-only reporting; it is not an auto-upgrade mechanism. Run `scripts/harness_drift_report.py` (read-only) to compare vendored project copies against the canonical templates — it reports version delta, managed-file divergence, and project-specific section flags without modifying anything.
+
+Concurrent mode is currently **parked / opt-in**. Keep its validators passing, but do not invest in Concurrent propagation or refactors unless a project explicitly chooses that mode or a dedicated dogfood run is scheduled.
+
 ### New Project
 
 1. Pick your mode from the table above.
 2. Copy the contents of that mode's `new-project/` folder into your empty repo.
 3. Open `start.md` and follow the instructions.
+4. If your environment uses `uv`, avoid inheriting unrelated active virtualenvs: do not use `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
 
 ```
 # Example: start a new full-mode project

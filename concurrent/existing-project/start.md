@@ -7,6 +7,7 @@
 3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
 4. Classify as well-structured / partial / bare (Step 2) — determines how much harness to activate.
 5. Add runtime: `pip install -r runtime/requirements.txt`, edit `runtime/config.yaml`.
+6. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
 
 Everything below is the detailed onboarding flow. Load on-demand.
 

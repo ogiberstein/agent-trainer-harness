@@ -6,6 +6,7 @@
 2. Read `BRIEF.md` — project scope (fill in if empty).
 3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
 4. Add at minimum: `STATUS.md`, `DECISIONS.md`, `memory/summaries/`.
+5. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
 
 Everything below is the detailed onboarding flow. Load on-demand.
 

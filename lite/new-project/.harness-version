@@ -1,0 +1,6 @@
+HARNESS_VERSION: 0.2
+source_repo: ogiberstein/agent-trainer-harness
+source_commit: canonical
+mode: lite
+project_kind: new-project
+relationship: vendored-lite

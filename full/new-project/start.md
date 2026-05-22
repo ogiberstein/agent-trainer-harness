@@ -7,6 +7,7 @@
 3. Read `STATUS.md` — current phase.
 4. Customize `profiles/project-profile.yaml` — tech stack and quality bars.
 5. Set `STATUS.md` Current Phase = requirements. Begin Phase 1.
+6. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
 
 Everything below is reference. Load on-demand as phases progress.
 

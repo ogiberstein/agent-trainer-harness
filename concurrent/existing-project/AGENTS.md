@@ -40,11 +40,14 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 ## Rules
 
 - Update `STATUS.md` after meaningful phase/task transitions.
+- Preserve the canonical `STATUS.md` header fields in this order: `State`, `Current Phase`, `Last Updated`, `Current Gate`, `Next Step`, `Review Cadence`, and `Re-entry Condition` (required for `Monitor` / `Parked`, otherwise `N/A`).
 - Log non-trivial trade-offs and assumptions in `DECISIONS.md`.
 - **Phase snapshots:** after each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the template. This protects against context loss and makes sessions resumable.
 - **Gate enforcement:** record `PASS`, `FAIL`, or `SKIPPED(reason)` in the STATUS.md Gate Log before advancing. Skipping a gate without logging is a harness violation.
 - **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
+- Repo-truth rule: before making current-state claims from this local checkout, run a repo freshness check (`git fetch --quiet --prune`, compare `HEAD` vs upstream, verify clean working tree). If the repo is behind/ahead/diverged/dirty, treat local docs as non-canonical and say so explicitly.
+- Git branch rule: default to `main` as the execution branch. Do not create or switch branches silently; only use a branch for an explicit strong reason (backup/WIP snapshot, risky refactor, disposable experiment, or formal PR flow).
 - Runtime-truth rule: for live-run, deployment, or execution-sensitive status work, verify the deployed entrypoint/runtime before treating logs or docs as decision-grade. Mark superseded deploy/config sections as **historical**.
 - If multiple agents/roles should be active, make that split explicit (who builds, who reviews, who owns runtime truth) rather than letting overlap emerge implicitly.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
@@ -52,6 +55,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Follow `operations/team-concurrency-policy.md` when multiple workers are active.
 - When removing a harness file that doesn't apply, log the reason in `DECISIONS.md`.
 - Use runbook playbooks from `COMMANDS.md` for repeatable actions.
+- If your shell uses `uv`, avoid inheriting unrelated active virtualenvs: never use `uv run --active ...` or `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/python` / `.venv/bin/pytest` commands, and never target another tool/runtime virtualenv from project repos.
 
 ## Concurrent Self-Launch
 

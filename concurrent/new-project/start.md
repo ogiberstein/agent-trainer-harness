@@ -7,6 +7,7 @@
 3. Edit `runtime/config.yaml` — model, max workers, timeouts, webhook.
 4. Run preflight: `python3 cli/preflight_concurrent.py --project .`
 5. Launch: `python3 cli/harness_cli.py --project . launch-concurrent`
+6. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
 
 Everything below is reference. Load on-demand.
 
