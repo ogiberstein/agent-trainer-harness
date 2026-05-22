@@ -20,6 +20,17 @@ Each copied harness carries a machine-readable `.harness-version` file. This is 
 
 Concurrent mode is currently **parked / opt-in**. Keep its validators passing, but do not invest in Concurrent propagation or refactors unless a project explicitly chooses that mode or a dedicated dogfood run is scheduled.
 
+## Latest hardening updates
+
+This public distribution includes the current Lite-first harness hardening:
+
+- **Decide before build**: Lite `AGENTS.md` requires agents to state approach and open unknowns before non-trivial implementation.
+- **Done means verified**: Lite mode now has an explicit self-check before claiming completion, including test/build/validation evidence or an `Unable to verify` note.
+- **Fresh-context delegation**: heavy research, broad sweeps, and independent audits should run in fresh-context subagents; small local edits stay local.
+- **Checklist roles**: Lite role files are plain Orchestrator / Engineer / QA checklists, not persona prompts.
+- **Version and drift reporting**: `.harness-version` files and `scripts/harness_drift_report.py` provide read-only reporting for version delta, managed-file drift, and project-specific section flags. The reporter never mutates project files.
+- **Public-safe wording**: private operator-specific guidance has been generalized for public reuse.
+
 ### New Project
 
 1. Pick your mode from the table above.
