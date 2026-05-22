@@ -126,6 +126,7 @@ This harness was shaped by hands-on trial and error across multiple real project
 - [Multi-Agent Orchestration Patterns](https://zylos.ai/research/2026-01-06-multi-agent-orchestration-patterns) — handoff validation, hierarchical supervision, failure isolation
 - [Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/) (Tweag) — spec-first development, proportionality
 - [claude-mem](https://github.com/thedotmack/claude-mem) — automatic session memory with progressive disclosure, semantic compression
+- [GSD / get-shit-done](https://github.com/gsd-build/get-shit-done) — file-backed state, versioning, and explicit upgrade/drift workflows as useful pattern-library references
 - [qmd](https://github.com/tobi/qmd) — local hybrid search (BM25 + vector + re-ranking) over markdown knowledge bases
 
 ## License
