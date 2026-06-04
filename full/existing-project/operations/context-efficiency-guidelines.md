@@ -32,7 +32,7 @@ When returning to a project after a break or starting a new session:
 1. Read `STATUS.md` and `BRIEF.md` — minimal orientation (~2 files).
 2. Read `ROADMAP.md` if the task involves product direction, milestone sequencing, or scope trade-offs.
 3. Read the latest `memory/summaries/phase-*.md` — structured context from where you left off.
-3. Only then load specific source files that the summary flags as relevant.
+4. Only then load specific source files that the summary flags as relevant.
 - Never start by reading the entire `specs/`, `src/`, or `docs/` directory.
 - If using a memory tool (e.g., claude-mem), let its injected context guide which files to load rather than scanning broadly.
 
