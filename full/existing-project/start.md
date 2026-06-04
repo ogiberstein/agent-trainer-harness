@@ -23,7 +23,7 @@ Before auditing the project, understand what full mode offers and why each piece
 - **Quality tracking**: Scorecard, regression tracking, golden tasks for benchmarking. (`evaluation/`)
 - **Skills library**: 17 reusable skills for requirements clarification, security auditing, analytics instrumentation, blockchain exploration, and more. (`skills/`)
 - **Operational policies**: Context efficiency guidelines, incident runbook, concurrency rules, changelog. (`operations/`)
-- **Memory layer**: Phase summaries with carried constraints, decision log, project state. Survives session boundaries. (`memory/`, `STATUS.md`, `DECISIONS.md`)
+- **Memory layer**: Phase summaries with carried constraints, decision log, roadmap, project state. Survives session boundaries. (`memory/`, `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`)
 - **Runbook playbooks**: Repeatable commands for common actions. (`COMMANDS.md`)
 - **Validation CLI**: Mechanical consistency checker. (`python3 cli/validate_harness.py` — available in concurrent mode)
 
@@ -55,7 +55,7 @@ Record this table in `DECISIONS.md` as DEC-001: "Harness onboarding audit."
 Based on the audit:
 
 - **Well-structured**: Has good docs, tests, specs, and clear processes.
-  -> **Light-touch**: Add `STATUS.md`, `DECISIONS.md`, and `memory/` for cross-session tracking. Align existing docs to harness format only where it improves clarity. Add gate log to STATUS.md.
+  -> **Light-touch**: Add `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`, and `memory/` for cross-session tracking and product sequencing. Align existing docs to harness format only where it improves clarity. Add gate log to STATUS.md.
 
 - **Partial**: Has some structure but notable gaps.
   -> **Fill gaps**: Add harness files that address actual gaps. Preserve and align what exists. Focus on the weakest areas first (e.g., if no test plan, add `qa/`; if no specs, add `specs/`).
@@ -77,6 +77,7 @@ Based on classification, selectively activate. Priority order:
 
 **Always useful (add for any classification):**
 - `STATUS.md` with Gate Log — cross-session tracking and gate enforcement
+- `ROADMAP.md` — product sequencing, milestones, and deferred scope
 - `DECISIONS.md` — traceability
 - `memory/summaries/TEMPLATE.md` — phase snapshots for context preservation
 - `operations/context-efficiency-guidelines.md` — token discipline
@@ -129,7 +130,7 @@ When the project needs autonomous parallel execution:
 
 ## Optional Memory and Search Tools
 
-The harness's built-in memory (`memory/summaries/`, `STATUS.md`, `DECISIONS.md`) works everywhere with no extra dependencies. These tools can enhance it for multi-session projects:
+The harness's built-in memory (`memory/summaries/`, `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`) works everywhere with no extra dependencies. These tools can enhance it for multi-session projects:
 
 - **[claude-mem](https://github.com/thedotmack/claude-mem)** (Claude Code only) — Automatically captures session observations, compresses them with AI, and injects relevant context at the start of future sessions. Install inside Claude Code: `/plugin marketplace add thedotmack/claude-mem` then `/plugin install claude-mem`.
 

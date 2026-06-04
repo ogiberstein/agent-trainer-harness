@@ -135,7 +135,7 @@ The project already has the harness structure. Just add:
 
 ## Optional Memory and Search Tools
 
-The harness's built-in memory (`memory/summaries/`, `STATUS.md`, `DECISIONS.md`) works everywhere with no extra dependencies. These tools can enhance it for multi-session projects:
+The harness's built-in memory (`memory/summaries/`, `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`) works everywhere with no extra dependencies. These tools can enhance it for multi-session projects:
 
 - **[claude-mem](https://github.com/thedotmack/claude-mem)** (Claude Code only) — Automatically captures session observations, compresses them with AI, and injects relevant context at the start of future sessions. Install inside Claude Code: `/plugin marketplace add thedotmack/claude-mem` then `/plugin install claude-mem`.
 

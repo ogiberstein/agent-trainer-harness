@@ -155,7 +155,7 @@ Primary files:
 Purpose: Check internal consistency of harness files.
 
 Runs:
-1. Verify core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`).
+1. Verify core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`).
 2. Verify every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
 3. Verify every active skill in `profiles/active-skills.yaml` exists in `skills/`.
 4. Verify handoff templates have required sections (status, context, deliverables, acceptance criteria).
