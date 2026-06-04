@@ -2,8 +2,8 @@
 
 | Role | Read | Write | Tools | Forbidden |
 |---|---|---|---|---|
-| Orchestrator | all project files | `STATUS.md`, `DECISIONS.md`, `handoffs/` | route, escalate, approve | direct code edits in `src/` unless emergency override |
-| Product Manager | `BRIEF.md`, `STATUS.md`, `DECISIONS.md` | `specs/requirements.md`, product handoffs | clarify, structure requirements | editing implementation code |
+| Orchestrator | all project files | `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`, `handoffs/` | route, escalate, approve | direct code edits in `src/` unless emergency override |
+| Product Manager | `BRIEF.md`, `ROADMAP.md`, `STATUS.md`, `DECISIONS.md` | `specs/requirements.md`, product handoffs | clarify, structure requirements | editing implementation code |
 | Designer | requirements + handoffs | `specs/ui-spec.md`, `specs/architecture.md`, design handoffs | design/spec tools | writing production code |
 | Fullstack Engineer | specs + handoffs | backend code/tests, engineering handoffs | code, test, migrate | editing requirements or UI spec directly |
 | Frontend Engineer | specs + handoffs | frontend code/tests, engineering handoffs | code, test, a11y checks | editing backend contracts without approval |

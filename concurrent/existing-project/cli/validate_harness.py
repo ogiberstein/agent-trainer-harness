@@ -70,7 +70,7 @@ def validate(project_path: str) -> ValidationReport:
 
 
 def _check_core_files(project_path: str) -> Check:
-    required = ["AGENTS.md", "BRIEF.md", "STATUS.md", "DECISIONS.md"]
+    required = ["AGENTS.md", "BRIEF.md", "ROADMAP.md", "STATUS.md", "DECISIONS.md"]
     missing = [f for f in required if not os.path.isfile(os.path.join(project_path, f))]
     if missing:
         return Check("core_files", False, f"Missing: {', '.join(missing)}")

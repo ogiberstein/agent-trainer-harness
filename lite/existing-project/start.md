@@ -5,8 +5,8 @@
 1. Read `AGENTS.md` — operating rules and file zones.
 2. Read `BRIEF.md` — project scope (fill in if empty).
 3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
-4. Add at minimum: `STATUS.md`, `DECISIONS.md`, `memory/summaries/`.
-5. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
+4. Add at minimum: `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`, `memory/summaries/`; if legacy `PROGRESS.md` exists, preserve useful history until intentionally archived.
+5. If the project uses `uv`, add a shell-safety note to `AGENTS.md` and any operator runbook before implementation: prefer plain `uv run ...` or explicit repo-local `.venv/bin/...` commands; avoid `uv run --active ...` / `uv --active run ...` unless intentionally using the caller's active virtualenv.
 
 Everything below is the detailed onboarding flow. Load on-demand.
 
@@ -47,7 +47,7 @@ Record this table in `DECISIONS.md` as DEC-001: "Harness onboarding audit."
 
 Based on the audit:
 
-- **Well-structured**: Has good docs, tests, and clear processes. -> Light-touch: add only `STATUS.md` and `DECISIONS.md` for cross-session tracking. Align existing docs to harness format only if it improves clarity.
+- **Well-structured**: Has good docs, tests, and clear processes. -> Light-touch: add only `STATUS.md`, `ROADMAP.md`, and `DECISIONS.md` for cross-session tracking and product sequencing. Align existing docs to harness format only if it improves clarity.
 - **Partial**: Has some structure but gaps. -> Fill gaps: add harness files for missing capabilities only. Preserve and align what exists.
 - **Bare**: Minimal docs, no tests, no process. -> Full adoption: activate all lite harness files.
 

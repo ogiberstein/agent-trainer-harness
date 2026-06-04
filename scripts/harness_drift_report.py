@@ -228,6 +228,34 @@ def resolve_project_kind(spec: ProjectSpec, project_version: dict[str, str]) -> 
     return kind
 
 
+def control_doc_status(project_root: Path) -> dict[str, object]:
+    """Report root control-doc migration state without byte-hashing project state.
+
+    Root control docs are project-owned once a harness is copied, so the drift
+    reporter should not compare their contents to canonical templates. It still
+    must surface whether required control docs exist and whether legacy state
+    docs such as PROGRESS.md are present after a migration.
+    """
+    required = ["BRIEF.md", "ROADMAP.md", "STATUS.md", "DECISIONS.md"]
+    present = {name: (project_root / name).is_file() for name in required}
+    missing = [name for name, exists in present.items() if not exists]
+    legacy_progress_present = (project_root / "PROGRESS.md").is_file()
+    return {
+        **present,
+        "PROGRESS.md": legacy_progress_present,
+        "missing": missing,
+        "roadmap_missing": not present["ROADMAP.md"],
+        "legacy_progress_present": legacy_progress_present,
+        "both_roadmap_and_progress_present": present["ROADMAP.md"] and legacy_progress_present,
+        "migration_state": (
+            "missing_roadmap_with_legacy_progress" if not present["ROADMAP.md"] and legacy_progress_present
+            else "missing_roadmap" if not present["ROADMAP.md"]
+            else "roadmap_with_legacy_progress" if legacy_progress_present
+            else "roadmap_present"
+        ),
+    }
+
+
 def compare_project(canonical_root: Path, spec: ProjectSpec) -> dict[str, object]:
     project_version = parse_simple_yaml(spec.path / ".harness-version")
     project_kind = resolve_project_kind(spec, project_version)
@@ -280,6 +308,7 @@ def compare_project(canonical_root: Path, spec: ProjectSpec) -> dict[str, object
             "missing_version_stamp": not bool(project_version),
         },
         "project_specific_sections": {section: section in agents_text for section in spec.sections},
+        "control_docs": control_doc_status(spec.path),
         "divergence": divergence,
         "summary": {
             "changed_files": len(divergence),
@@ -313,6 +342,9 @@ def render_markdown(report: dict[str, object]) -> str:
         f"Path: `{canonical['path']}`",
         f"HEAD: `{canonical['head']}`",
         "",
+        "If no project registry is configured, pass `--project name=path:mode:relationship[:section...]` "
+        "or `--project-config path/to/harness-projects.json` to compare vendored projects.",
+        "",
         "## Projects",
         "",
     ]
@@ -327,7 +359,13 @@ def render_markdown(report: dict[str, object]) -> str:
             f"- Source commit current: `{version['source_commit_current']}`",
             f"- Git: `{project['git']['status_short']}`",
             f"- Divergent managed files: `{project['summary']['changed_files']}`",
+            f"- Control docs: `{project['control_docs']['migration_state']}`",
         ]
+        control_docs = project["control_docs"]
+        if control_docs["missing"]:
+            lines.append(f"- Missing control docs: {', '.join(control_docs['missing'])}")
+        if control_docs["legacy_progress_present"]:
+            lines.append("- Legacy control doc present: `PROGRESS.md`")
         sections = project["project_specific_sections"]
         if sections:
             flags = ", ".join(f"{name}={present}" for name, present in sections.items())
@@ -347,9 +385,11 @@ def resolve_project_specs(args: argparse.Namespace, canonical_root: Path) -> lis
     if not config_path.is_absolute():
         config_path = canonical_root / config_path
     if not config_path.exists():
-        raise FileNotFoundError(
-            f"No project config found at {config_path}. Pass --project-config or --project name=path:mode:relationship[:section...]"
-        )
+        if args.project_config:
+            raise FileNotFoundError(
+                f"No project config found at {config_path}. Pass an existing --project-config or use --project name=path:mode:relationship[:section...]"
+            )
+        return []
     return load_project_config(config_path.resolve())
 
 

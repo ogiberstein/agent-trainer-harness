@@ -6,7 +6,7 @@ Lightweight harness for small-scope projects. Read `start.md` to begin.
 
 You are in **Lite mode** — minimal ceremony, maximum speed. If the project needs heavier phase governance, long-running autonomous coordination, or parallel workers, tell the user and suggest moving to a heavier harness mode. Do not import Full/Concurrent process unless the user explicitly chooses that upgrade.
 
-Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. These are handoff artifacts — if a different agent takes over this project, they must be able to pick up with minimal context loss. Write for your successor, not just for yourself.
+Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, `ROADMAP.md`, and `BRIEF.md` current. These are handoff artifacts — if a different agent takes over this project, they must be able to pick up with minimal context loss. Write for your successor, not just for yourself.
 
 ## File Zones
 
@@ -14,7 +14,7 @@ Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. T
 `AGENTS.md`, `harness/agents/`, `operations/`
 
 **State** (update as you work):
-`STATUS.md`, `DECISIONS.md`, `PROGRESS.md`, `BRIEF.md`, `memory/`
+`STATUS.md`, `DECISIONS.md`, `ROADMAP.md`, `BRIEF.md`, `memory/`
 
 **App** (your workspace — create and modify freely):
 `specs/`, `qa/`, `src/`, `tests/`
@@ -23,8 +23,9 @@ Even in Lite, always keep `STATUS.md`, `DECISIONS.md`, and `BRIEF.md` current. T
 
 1. Read `STATUS.md` — current phase and progress.
 2. Read `BRIEF.md` — what the project is and constraints.
-3. Read the latest relevant summary in `memory/summaries/` if one exists.
-4. Read `start.md` if this is the beginning of the project.
+3. Read `ROADMAP.md` — product sequencing, milestones, and deferred scope.
+4. Read the latest relevant summary in `memory/summaries/` if one exists.
+5. Read `start.md` if this is the beginning of the project.
 
 ## Critical Thinking
 
@@ -76,10 +77,10 @@ If an agent-level config exists (for example `CLAUDE.md`) and defines delegation
 - Git branch rule: default to `main` as the execution branch. Do not create or switch branches silently; only use a branch for an explicit strong reason (backup/WIP snapshot, risky refactor, disposable experiment, or formal PR flow).
 - Runtime-truth rule: if the task involves a live run, deployment, or execution-sensitive status question, verify the deployed entrypoint/runtime before treating logs or docs as decision-grade. Mark superseded deploy/config sections as **historical**.
 - If the work is drifting into multiple agents or roles, propose that split explicitly instead of letting overlap emerge implicitly.
-- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
+- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, `ROADMAP.md` when product sequencing matters, the latest relevant summary, and current task files.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
 - When removing a file that doesn't apply, log the reason in `DECISIONS.md`.
-- If your shell uses `uv`, avoid inheriting unrelated active virtualenvs: never use `uv run --active ...` or `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/python` / `.venv/bin/pytest` commands, and never target another tool/runtime virtualenv from project repos.
+- For `uv` projects, prefer plain `uv run ...` or explicit repo-local `.venv/bin/python` / `.venv/bin/pytest` commands; avoid `uv run --active ...` / `uv --active run ...` unless intentionally using the caller's active virtualenv.
 
 ## Single-Agent Execution
 
@@ -100,7 +101,7 @@ If an agent-level config exists (e.g., `CLAUDE.md`, `.cursorrules`):
 |------|---------|
 | `STATUS.md` | Current phase and progress |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
-| `PROGRESS.md` | Running debug/fix log — what broke, root cause, how it was fixed |
+| `ROADMAP.md` | Product sequencing, milestones, deferred scope, and roadmap change log |
 | `BRIEF.md` | Project request (immutable once locked) |
 | `harness/agents/orchestrator.md` | Orchestrator checklist and escalation rules |
 | `harness/agents/fullstack-engineer.md` | Engineer checklist and acceptance criteria |

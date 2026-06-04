@@ -24,13 +24,14 @@ Use this guide to keep runs efficient without hard token caps.
 
 ## 6) Context Cleanup on Phase/Task Change
 - When the active phase or task changes, drop old optional context from your active set.
-- Keep only: `STATUS.md`, `BRIEF.md`, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
+- Keep only: `STATUS.md`, `BRIEF.md`, `ROADMAP.md` when product sequencing matters, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
 - Older summaries, prior-phase specs, and archived evidence are reference-only until the active summary points back to them.
 
 ## 7) Progressive Disclosure (Resuming Sessions)
 When returning to a project after a break or starting a new session:
 1. Read `STATUS.md` and `BRIEF.md` — minimal orientation (~2 files).
-2. Read the latest `memory/summaries/phase-*.md` — structured context from where you left off.
+2. Read `ROADMAP.md` if the task involves product direction, milestone sequencing, or scope trade-offs.
+3. Read the latest `memory/summaries/phase-*.md` — structured context from where you left off.
 3. Only then load specific source files that the summary flags as relevant.
 - Never start by reading the entire `specs/`, `src/`, or `docs/` directory.
 - If using a memory tool (e.g., claude-mem), let its injected context guide which files to load rather than scanning broadly.

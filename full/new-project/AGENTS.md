@@ -5,7 +5,7 @@ Read `start.md` to begin.
 
 ## Mode Awareness
 
-You are in **Full mode**. If the user is actively in the loop and responding within minutes, you can reduce ceremony — skip formal gate checks, use inline task management. But always keep `STATUS.md`, `DECISIONS.md`, and memory summaries current — these are handoff artifacts that let another agent (or you in a future session) take over with minimal context loss. Write for your successor, not just for yourself.
+You are in **Full mode**. If the user is actively in the loop and responding within minutes, you can reduce ceremony — skip formal gate checks, use inline task management. But always keep `STATUS.md`, `DECISIONS.md`, `ROADMAP.md`, and memory summaries current — these are handoff artifacts that let another agent (or you in a future session) take over with minimal context loss. Write for your successor, not just for yourself.
 
 Reserve full ceremony (formal gates, tracker, phase summaries) for unattended autonomous runs. If the project needs parallel workers, suggest upgrading to Concurrent mode.
 
@@ -15,7 +15,7 @@ Reserve full ceremony (formal gates, tracker, phase summaries) for unattended au
 `AGENTS.md`, `harness/`, `profiles/`, `evaluation/`, `operations/`
 
 **State** (update as you work):
-`STATUS.md`, `DECISIONS.md`, `PROGRESS.md`, `BRIEF.md`, `memory/`, `handoffs/`
+`STATUS.md`, `DECISIONS.md`, `ROADMAP.md`, `BRIEF.md`, `memory/`, `handoffs/`
 
 **App** (your workspace — create and modify freely):
 `specs/`, `qa/`, `docs/`, `src/`, `tests/`
@@ -24,9 +24,10 @@ Reserve full ceremony (formal gates, tracker, phase summaries) for unattended au
 
 1. Read `STATUS.md` — current phase, gate log, and progress.
 2. Read `BRIEF.md` — what the project is and constraints.
-3. Read `start.md` if this is the beginning of the project.
-4. Read the latest relevant summary in `memory/summaries/` if one exists.
-5. Load other files only when entering a phase that needs them.
+3. Read `ROADMAP.md` — product sequencing, milestones, and deferred scope.
+4. Read `start.md` if this is the beginning of the project.
+5. Read the latest relevant summary in `memory/summaries/` if one exists.
+6. Load other files only when entering a phase that needs them.
 
 ## Critical Thinking
 
@@ -50,10 +51,10 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - Runtime-truth rule: for live-run, deployment, or execution-sensitive status work, verify the deployed entrypoint/runtime before treating logs or docs as decision-grade. Mark superseded deploy/config sections as **historical**.
 - If multiple agents/roles should be active, make that split explicit (who builds, who reviews, who owns runtime truth) rather than letting overlap emerge implicitly.
 - Follow `operations/context-efficiency-guidelines.md` for token discipline.
-- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, the latest relevant summary, and current task files.
+- After a phase or task change, drop old optional context from your active set; keep `STATUS.md`, `BRIEF.md`, `ROADMAP.md` when product sequencing matters, the latest relevant summary, and current task files.
 - When removing a harness file that doesn't apply, log the reason in `DECISIONS.md`.
 - Use runbook playbooks from `COMMANDS.md` for repeatable actions.
-- If your shell uses `uv`, avoid inheriting unrelated active virtualenvs: never use `uv run --active ...` or `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/python` / `.venv/bin/pytest` commands, and never target another tool/runtime virtualenv from project repos.
+- For `uv` projects, prefer plain `uv run ...` or explicit repo-local `.venv/bin/python` / `.venv/bin/pytest` commands; avoid `uv run --active ...` / `uv --active run ...` unless intentionally using the caller's active virtualenv.
 
 ## Coexistence with Agent-Level Configs
 
@@ -67,7 +68,7 @@ If an agent-level config exists (e.g., `CLAUDE.md`, `.cursorrules`):
 |------|---------|
 | `STATUS.md` | Current phase, progress, gate log |
 | `DECISIONS.md` | Non-trivial decisions with rationale |
-| `PROGRESS.md` | Running debug/fix log — what broke, root cause, how it was fixed |
+| `ROADMAP.md` | Product sequencing, milestones, deferred scope, and roadmap change log |
 | `BRIEF.md` | Project request (immutable once locked) |
 | `COMMANDS.md` | Runbook playbooks for repeatable actions |
 | `harness/routing-policy.md` | Scheduling, retries, escalation |

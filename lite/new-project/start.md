@@ -5,7 +5,7 @@
 1. Fill in `BRIEF.md` — your project scope and constraints.
 2. Read `AGENTS.md` — operating rules and file zones.
 3. Set `STATUS.md` Current Phase = requirements. Begin Phase 1.
-4. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
+4. If the project uses `uv`, add a shell-safety note to `AGENTS.md` and any operator runbook before implementation: prefer plain `uv run ...` or explicit repo-local `.venv/bin/...` commands; avoid `uv run --active ...` / `uv --active run ...` unless intentionally using the caller's active virtualenv.
 
 ---
 

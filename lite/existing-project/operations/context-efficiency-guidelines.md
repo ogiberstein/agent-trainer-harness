@@ -24,7 +24,7 @@ Use this guide to keep runs efficient without hard token caps.
 
 ## 6) Context Cleanup on Phase/Task Change
 - When the active phase or task changes, drop old optional context from your active set.
-- Keep only: `STATUS.md`, `BRIEF.md`, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
+- Keep only: `STATUS.md`, `BRIEF.md`, `ROADMAP.md` when product sequencing matters, files for the current task, and the latest summary or handoff. Treat that latest summary or handoff as canonical.
 - Older summaries, prior-phase specs, and archived evidence are reference-only until the active summary points back to them.
 
 ## 7) Narrow Rework

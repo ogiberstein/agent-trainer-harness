@@ -6,8 +6,8 @@
 2. Read `BRIEF.md` — project scope (fill in if empty).
 3. Audit the existing project (Step 1 below) — understand what exists before adding anything.
 4. Classify as well-structured / partial / bare (Step 2) — this determines how much harness to activate.
-5. Add only what helps (Step 4) — at minimum: `STATUS.md`, `DECISIONS.md`, `memory/summaries/`.
-6. If your environment uses `uv`, add the shell-safety note to `AGENTS.md` and any operator runbook before implementation: avoid `uv run --active ...` / `uv --active run ...`; use plain `uv run ...` or explicit repo-local `.venv/bin/...` commands.
+5. Add only what helps (Step 4) — at minimum: `STATUS.md`, `ROADMAP.md`, `DECISIONS.md`, `memory/summaries/`; if legacy `PROGRESS.md` exists, preserve useful history until intentionally archived.
+6. If the project uses `uv`, add a shell-safety note to `AGENTS.md` and any operator runbook before implementation: prefer plain `uv run ...` or explicit repo-local `.venv/bin/...` commands; avoid `uv run --active ...` / `uv --active run ...` unless intentionally using the caller's active virtualenv.
 
 Everything below is the detailed onboarding flow. Load on-demand.
 

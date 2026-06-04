@@ -1,37 +1,41 @@
-# Roadmap — Concurrent Harness
+# Agent Trainer Harness Roadmap
 
-Future enhancements for the concurrent orchestration harness. These are harness-level concerns, not specific to any individual project.
+Roadmap-level direction for the public Agent Trainer Harness repo. This is the repo-level roadmap, not the per-project template `ROADMAP.md` file that downstream harnesses copy into their own projects.
 
-## Inter-worker communication
+## North Star
+Make copied project harnesses reliable enough that a future agent can recover product direction, current state, and durable decisions without Slack archaeology or guessing.
 
-Workers currently can't coordinate during execution. If the backend worker changes an API contract mid-task, the frontend worker doesn't know. The `handoffs/` directory provides post-task coordination, but real-time awareness (e.g., a shared message file or lightweight event bus) would catch contract drift earlier.
+## Now / Next / Later
 
-**Approach:** File-based message passing in a shared `handoffs/live/` directory that workers poll. Lower complexity than Redis, works within the git worktree model.
+### Now
+- [ ] Keep the `ROADMAP.md` control-doc contract consistent across templates, validators, drift reports, and docs.
+- [ ] Keep public templates sanitized and aligned with the latest release contract.
 
-## Incremental gate checks
+### Next
+- [ ] Review active vendored harness projects and request/add correctly formatted `ROADMAP.md` files without deleting useful legacy `PROGRESS.md` history.
+- [ ] Keep Lite mode as the flagship near-term path while Full/Concurrent remain available for larger projects.
 
-Gates currently run only after a worker finishes its entire task. For long tasks, an intermediate checkpoint (e.g., "did the worker set up the project scaffold correctly before writing all the application code?") would catch structural issues earlier and reduce wasted work.
+### Later / Deferred
+- [ ] Add broader mode-agnostic validation tooling if drift reporter checks prove insufficient for Lite/Full downstream projects.
+- [ ] Revisit Concurrent runtime investment only after explicit dogfood demand.
 
-**Approach:** Optional mid-task gate definitions on the Task card. The orchestrator polls worker output and triggers a lightweight gate check at defined intervals or when specific markers appear in the output log.
+## Milestones
 
-## Worker resume
+| Milestone | Outcome | Acceptance Signal | Dependencies | Status |
+|---|---|---|---|---|
+| ROADMAP migration hardened | Templates and checks agree on the control-doc contract | Tests pass and stale references stay absent | Drift reporter/control-doc checks, stale-reference tests, copy-command fix | Done |
+| Public harness release | Public repo carries the sanitized template update | Public checks pass; no private/local-path leakage | ROADMAP migration hardened | In Progress |
+| Downstream project migration | Active vendored projects have ROADMAP in the right format | Drift report surfaces migration state; each project agent preserves useful legacy history | Public/private contract stable | Planned |
 
-If a worker times out or crashes, the current approach creates a new fix-task from scratch. The worktree already contains the worker's partial progress — resuming the Claude Code session in that worktree (with context about what was already done) would be significantly more efficient than starting over.
+## Concurrent Harness Parking Lot
 
-**Approach:** On timeout/crash, instead of creating a fix-task, re-invoke Claude Code in the same worktree with a prompt that includes a summary of prior progress (extracted from the output log) and the remaining acceptance criteria.
+These are concurrent-runtime ideas retained from the old concurrent-only root roadmap. They are parked until a project explicitly chooses Concurrent mode or a dedicated dogfood run is scheduled.
 
-## Cost tracking
+- Inter-worker communication via file-based message passing in a shared `handoffs/live/` directory.
+- Incremental gate checks for long tasks before a worker completes the whole task.
+- Worker resume in the same worktree after timeout/crash instead of creating a fix-task from scratch.
+- Cost tracking by parsing CLI token usage and aggregating per task/phase/run.
+- Parallel phase support driven by task dependency graph rather than strict linear phase order.
 
-Log token usage per worker invocation. At Opus pricing, an overnight run can get expensive. Knowing which tasks and phases consume the most tokens helps optimize prompt sizes, model selection, and task granularity.
-
-**Approach:** Parse the Claude CLI output for token usage metadata and log it alongside existing telemetry events. Aggregate per-task, per-phase, and per-run totals. Surface in a post-run cost summary.
-
-## Parallel phase support
-
-Some phases can overlap — QA can start on finished tracks while implementation continues on other tracks. The current linear phase model (`requirements -> design -> implementation -> qa -> ...`) prevents this.
-
-**Approach:** Allow phase-level dependencies instead of strict ordering. A task's phase becomes advisory metadata; the dependency graph (already supported on tasks) drives execution order. Requires rethinking `advance_phase()` and `phase_complete()` to work with partial phase overlap.
-
----
-
-*Collected from TEA by Coinrule build feedback (2026-02-25) and ongoing harness development.*
+## Roadmap Change Log
+- 2026-06-04 — Generalized root roadmap after template `ROADMAP.md` adoption; moved old concurrent-specific roadmap items into parking lot.

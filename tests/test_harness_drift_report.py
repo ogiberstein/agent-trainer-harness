@@ -89,6 +89,24 @@ class TestHarnessDriftReport(unittest.TestCase):
             self.assertFalse(any(item["path"] == ".harness-version" for item in sample["divergence"]))
             self.assertIn("source_commit_current", sample["version"])
 
+    def test_missing_default_project_config_reports_canonical_only(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            canonical_copy = Path(tmpdir) / "public_harness_copy"
+            subprocess.run(["cp", "-R", str(REPO_ROOT), str(canonical_copy)], check=True)
+            config = canonical_copy / "harness-projects.json"
+            if config.exists():
+                config.unlink()
+            result = subprocess.run(
+                [sys.executable, str(canonical_copy / "scripts" / "harness_drift_report.py"), "--canonical-root", str(canonical_copy), "--json"],
+                cwd=canonical_copy,
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["canonical"]["source_repo"], "ogiberstein/agent-trainer-harness")
+            self.assertEqual(payload["projects"], [])
+
     def test_project_config_file_is_external_and_supports_relative_paths(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
@@ -179,6 +197,41 @@ class TestHarnessDriftReport(unittest.TestCase):
                     version = payload["projects"][0]["version"]
                     self.assertEqual(version["template_commit"], template_commit)
                     self.assertEqual(version["source_commit_current"], expected)
+
+
+    def test_control_doc_status_reports_roadmap_migration_state_without_hash_divergence(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = self._make_project(Path(tmpdir))
+            (project / "BRIEF.md").write_text("brief\n", encoding="utf-8")
+            (project / "STATUS.md").write_text("status\n", encoding="utf-8")
+            (project / "DECISIONS.md").write_text("decisions\n", encoding="utf-8")
+            (project / "PROGRESS.md").write_text("legacy progress\n", encoding="utf-8")
+            payload = self._run_json([
+                "--canonical-root", str(REPO_ROOT),
+                "--project", f"sample={project}:lite:vendored-lite",
+            ])
+            sample = payload["projects"][0]
+            self.assertEqual(sample["summary"]["changed_files"], len(sample["divergence"]))
+            self.assertFalse(any(item["path"] in {"ROADMAP.md", "PROGRESS.md"} for item in sample["divergence"]))
+            self.assertEqual(sample["control_docs"]["migration_state"], "missing_roadmap_with_legacy_progress")
+            self.assertTrue(sample["control_docs"]["roadmap_missing"])
+            self.assertTrue(sample["control_docs"]["legacy_progress_present"])
+            self.assertIn("ROADMAP.md", sample["control_docs"]["missing"])
+
+    def test_markdown_render_surfaces_control_doc_migration_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project = self._make_project(Path(tmpdir))
+            (project / "PROGRESS.md").write_text("legacy progress\n", encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, str(SCRIPT), "--canonical-root", str(REPO_ROOT), "--project", f"sample={project}:lite:vendored-lite"],
+                cwd=REPO_ROOT,
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            self.assertIn("Control docs: `missing_roadmap_with_legacy_progress`", result.stdout)
+            self.assertIn("Missing control docs:", result.stdout)
+            self.assertIn("Legacy control doc present: `PROGRESS.md`", result.stdout)
 
     def test_report_is_read_only_for_project_tree(self):
         with tempfile.TemporaryDirectory() as tmpdir:

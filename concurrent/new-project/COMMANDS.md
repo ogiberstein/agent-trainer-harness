@@ -195,7 +195,7 @@ Purpose: Check internal consistency of harness files.
 **Executable:** `python3 cli/validate_harness.py --project .` (add `--json` for CI output)
 
 Checks:
-1. Core files exist (`AGENTS.md`, `BRIEF.md`, `STATUS.md`, `DECISIONS.md`).
+1. Core files exist (`AGENTS.md`, `BRIEF.md`, `ROADMAP.md`, `STATUS.md`, `DECISIONS.md`).
 2. Every role in `harness/permissions-matrix.md` has a corresponding file in `harness/agents/`.
 3. Every active skill in `profiles/active-skills.yaml` exists in `skills/`.
 4. Handoff templates have required sections (status, context, deliverables, acceptance criteria).
