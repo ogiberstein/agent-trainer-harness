@@ -110,7 +110,7 @@ class TestHarnessDriftReport(unittest.TestCase):
     def test_project_config_file_is_external_and_supports_relative_paths(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
-            canonical_copy = tmp / "agent_trainer_copy"
+            canonical_copy = tmp / "harness_copy"
             project = self._make_project(tmp)
             subprocess.run(["cp", "-R", str(REPO_ROOT), str(canonical_copy)], check=True)
             config = canonical_copy / "harness-projects.json"
