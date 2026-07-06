@@ -43,6 +43,11 @@ Before non-trivial implementation or irreversible edits:
 3. Resolve them by inspection where possible; ask the user only when the answer changes scope, risk, or product direction.
 4. Then implement the smallest coherent slice.
 
+For complex tasks — multi-file changes, refactors/migrations, unfamiliar APIs or libraries, production/security-sensitive work, or anything likely to overflow context — add a lightweight complex-task guardrail before implementing:
+- Write a short fact-only note first: relevant files, current behavior, constraints, and open questions. Do not propose changes in this note.
+- Convert the approach into a short checklist where each task is feasible, atomic, clear, testable, and scoped, with a verification step per task or phase.
+- If the plan changes mid-flight, revise only the affected checklist items and re-check them before continuing.
+
 Skip this ceremony for tiny local edits, typo fixes, or clearly mechanical changes.
 
 ## Done Means Verified

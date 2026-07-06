@@ -34,6 +34,22 @@ class TestLiteSlice1Contract(unittest.TestCase):
             self.assertIn("fresh-context subagent", content)
             self.assertIn("Small local edits do not need delegation", content)
 
+    def test_lite_agents_define_complex_task_guardrail_without_mandatory_ceremony(self):
+        for kind in LITE_KINDS:
+            agents = self._lite_agents(kind)
+            self.assertIn("complex-task guardrail", agents)
+            self.assertIn("fact-only note", agents)
+            self.assertIn("feasible, atomic, clear, testable, and scoped", agents)
+            self.assertIn("Skip this ceremony for tiny local edits", agents)
+
+            orchestrator = (REPO_ROOT / "lite" / kind / "harness" / "agents" / "orchestrator.md").read_text(encoding="utf-8")
+            self.assertIn("fact-only research", orchestrator)
+            self.assertIn("feasible, atomic, clear, testable, and scoped", orchestrator)
+
+            guidelines = (REPO_ROOT / "lite" / kind / "operations" / "context-efficiency-guidelines.md").read_text(encoding="utf-8")
+            self.assertIn("memory/plans/", guidelines)
+            self.assertIn("do not create plan files for tiny edits", guidelines)
+
     def test_lite_role_files_are_plain_checklists_without_personas(self):
         for kind in LITE_KINDS:
             for role_file in ROLE_FILES:

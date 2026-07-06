@@ -21,6 +21,7 @@ Use this guide to keep runs efficient without hard token caps.
 ## 5) Rolling Summaries
 - After each phase, write a concise summary and use it downstream.
 - Prefer `memory/summaries/` artifacts over full-history replay.
+- For complex or context-overflow-prone implementation work, a short resumable checklist under `memory/plans/` is acceptable. Keep it factual and task-focused; do not create plan files for tiny edits.
 
 ## 6) Context Cleanup on Phase/Task Change
 - When the active phase or task changes, drop old optional context from your active set.

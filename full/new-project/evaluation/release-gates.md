@@ -26,6 +26,7 @@ Each phase has explicit pass criteria. Record PASS/FAIL/SKIPPED in the STATUS.md
 
 ### Phase 3 — Implementation Gate
 - [ ] All "Must" FRs implemented
+- [ ] Complex implementation tasks have a fact-only code/context note and bounded, testable task checklist
 - [ ] All specified API endpoints have input validation
 - [ ] Error handling returns appropriate status codes
 - [ ] No hardcoded secrets

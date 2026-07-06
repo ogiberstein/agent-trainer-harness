@@ -45,6 +45,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 - **Phase snapshots:** after each phase, write a summary to `memory/summaries/phase-{N}-{name}.md` using the template. This protects against context loss and makes sessions resumable.
 - **Gate enforcement:** record `PASS`, `FAIL`, or `SKIPPED(reason)` in the STATUS.md Gate Log before advancing. Skipping a gate without logging is a harness violation.
 - **Security audit:** after implementation completes, perform a security review before deployment. Flag CRITICAL findings as blockers. Log results in the Gate Log.
+- **Complex implementation guardrail:** before multi-file, migration/refactor, unfamiliar API/library, or production/security-sensitive implementation work, capture a fact-only code/context note and a bounded task checklist with clear verification per task or phase.
 - Follow handoff contracts in `handoffs/` when transitioning between roles.
 - Repo-truth rule: before making current-state claims from this local checkout, run a repo freshness check (`git fetch --quiet --prune`, compare `HEAD` vs upstream, verify clean working tree). If the repo is behind/ahead/diverged/dirty, treat local docs as non-canonical and say so explicitly.
 - Git branch rule: default to `main` as the execution branch. Do not create or switch branches silently; only use a branch for an explicit strong reason (backup/WIP snapshot, risky refactor, disposable experiment, or formal PR flow).

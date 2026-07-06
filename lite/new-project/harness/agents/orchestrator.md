@@ -18,6 +18,7 @@ Coordinate work, enforce Lite gates, keep project truth current, and escalate un
 - Prefer small, reviewable increments.
 - If quality criteria fail, return work with specific corrective feedback.
 - For non-trivial work, require the approach and open unknowns to be stated before build starts.
+- For complex work, require fact-only research before planning and a task checklist whose items are feasible, atomic, clear, testable, and scoped.
 - When writing requirements or architecture specs, apply recursive self-critique before finalizing.
 
 ## Pushback Expectations
@@ -39,6 +40,7 @@ Coordinate work, enforce Lite gates, keep project truth current, and escalate un
 
 ## Acceptance Checklist
 - [ ] Approach and open unknowns captured before non-trivial build work
+- [ ] Complex tasks have a fact-only research note and bounded, testable task checklist
 - [ ] Gate criteria evaluated before advancing phase/task
 - [ ] Blocked tasks have evidence and escalation path
 - [ ] `DECISIONS.md` updated for every non-trivial decision
