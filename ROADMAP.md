@@ -24,7 +24,7 @@ Make copied project harnesses reliable enough that a future agent can recover pr
 | Milestone | Outcome | Acceptance Signal | Dependencies | Status |
 |---|---|---|---|---|
 | ROADMAP migration hardened | Templates and checks agree on the control-doc contract | Tests pass and stale references stay absent | Drift reporter/control-doc checks, stale-reference tests, copy-command fix | Done |
-| Public harness release | Public repo carries the sanitized template update | Public checks pass; no private/local-path leakage | ROADMAP migration hardened | In Progress |
+| Public harness release | Public repo carries the sanitized template update | Public checks pass; no private/local-path leakage | ROADMAP migration hardened | Done — Verification Map release shipped |
 | Downstream project migration | Active vendored projects have ROADMAP in the right format | Drift report surfaces migration state; each project agent preserves useful legacy history | Public/private contract stable | Planned |
 
 ## Concurrent Harness Parking Lot
@@ -38,4 +38,5 @@ These are concurrent-runtime ideas retained from the old concurrent-only root ro
 - Parallel phase support driven by task dependency graph rather than strict linear phase order.
 
 ## Roadmap Change Log
+- 2026-09-22 — Shipped the proportionate unattended Full/Concurrent Verification Map preflight; Lite and supervised small-task workflows remain unchanged.
 - 2026-06-04 — Generalized root roadmap after template `ROADMAP.md` adoption; moved old concurrent-specific roadmap items into parking lot.
