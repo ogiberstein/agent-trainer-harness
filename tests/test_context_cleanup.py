@@ -25,13 +25,13 @@ def load_runtime_module(module_path: Path, unique_name: str):
 
 
 class TestConcurrentWorkerContextCleanup(unittest.TestCase):
-    def _build_prompt(self, template_root: Path):
+    def _build_prompt(self, template_root: Path, brief_content: str = "Short project brief."):
         worker = load_runtime_module(template_root / "runtime" / "worker.py", f"worker_{template_root.parts[-2]}_{template_root.parts[-1]}")
         state = load_runtime_module(template_root / "runtime" / "state.py", f"state_{template_root.parts[-2]}_{template_root.parts[-1]}")
 
         with tempfile.TemporaryDirectory() as tmpdir:
             project = Path(tmpdir)
-            (project / "BRIEF.md").write_text("Short project brief.", encoding="utf-8")
+            (project / "BRIEF.md").write_text(brief_content, encoding="utf-8")
             summaries = project / "memory" / "summaries"
             summaries.mkdir(parents=True)
             (summaries / "phase-1-requirements.md").write_text("Old summary that should stay out of default prompt context.", encoding="utf-8")
@@ -63,6 +63,33 @@ class TestConcurrentWorkerContextCleanup(unittest.TestCase):
         prompt = self._build_prompt(REPO_ROOT / "concurrent" / "new-project")
         self.assertIn("Treat the latest phase summary as the canonical prior context.", prompt)
         self.assertIn("Do not reopen older summaries or archived snapshots", prompt)
+
+    def test_worker_context_keeps_full_canonical_brief_with_verification_map(self):
+        for project_kind in ("new-project", "existing-project"):
+            template_root = REPO_ROOT / "concurrent" / project_kind
+            brief = (template_root / "BRIEF.md").read_text(encoding="utf-8")
+            prompt = self._build_prompt(template_root, brief)
+            with self.subTest(project_kind=project_kind):
+                self.assertIn("## Verification Map", prompt)
+                self.assertIn("Smallest real-boundary check", prompt)
+                self.assertIn("## Success Criteria", prompt)
+                self.assertIn("## Notes", prompt)
+
+    def test_worker_context_preserves_verification_map_in_long_brief(self):
+        long_prefix = "# Project Brief\n\n## Prior Context\n" + ("context " * 700)
+        map_section = """
+## Verification Map
+- Run verification budget: 10 minutes
+| Material code area | Invariant | Fastest feedback loop | Expected runtime range | Oracle | Smallest real-boundary check |
+|---|---|---|---|---|---|
+| API | Requests are authenticated | unit test | 1-3s | allow and deny assertions | REAL_BOUNDARY_SENTINEL |
+"""
+        for project_kind in ("new-project", "existing-project"):
+            template_root = REPO_ROOT / "concurrent" / project_kind
+            prompt = self._build_prompt(template_root, long_prefix + map_section)
+            with self.subTest(project_kind=project_kind):
+                self.assertIn("## Verification Map", prompt)
+                self.assertIn("REAL_BOUNDARY_SENTINEL", prompt)
 
 
 class TestHarnessTemplatesMentionContextCleanup(unittest.TestCase):

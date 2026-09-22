@@ -12,6 +12,7 @@ Usage:
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -105,6 +106,69 @@ def check_deps() -> Check:
     return Check("python_deps", True, "pyyaml and requests importable")
 
 
+VERIFICATION_MAP_COLUMNS = (
+    "material code area",
+    "invariant",
+    "fastest feedback loop",
+    "expected runtime range",
+    "oracle",
+    "smallest real-boundary check",
+)
+
+
+def _verification_map_error(content: str) -> str:
+    marker = "## Verification Map"
+    if content.count(marker) != 1:
+        return "BRIEF.md must contain exactly one Verification Map"
+    visible_content = re.sub(r"<!--.*?-->", "", content, flags=re.DOTALL)
+    marker_count = visible_content.count(marker)
+    if marker_count == 0:
+        return "Verification Map missing — required for unattended Concurrent runs"
+
+    section = visible_content.split(marker, 1)[1].split("\n## ", 1)[0]
+    placeholders = {"", "-", "...", "[…]", "[...]", "tbd", "todo", "placeholder"}
+    budget_prefix = "- Run verification budget:"
+    budget_lines = [line for line in section.splitlines() if line.startswith(budget_prefix)]
+    if len(budget_lines) != 1:
+        return "Verification Map needs one run verification budget"
+    budget = budget_lines[0].split(":", 1)[1].strip()
+    if budget.lower() in placeholders or (budget.startswith("[") and budget.endswith("]")):
+        return "Verification Map run verification budget is incomplete"
+
+    header_found = False
+    data_rows = []
+    for line in section.splitlines():
+        if not line.strip().startswith("|"):
+            continue
+        cells = [
+            cell.replace(r"\|", "|").strip()
+            for cell in re.split(r"(?<!\\)\|", line.strip().strip("|"))
+        ]
+        normalized = tuple(cell.lower() for cell in cells)
+        if normalized == VERIFICATION_MAP_COLUMNS:
+            header_found = True
+            continue
+        if cells and all(cell and set(cell) <= {"-", ":"} for cell in cells):
+            continue
+        data_rows.append(cells)
+
+    if not header_found:
+        return "Verification Map table is missing the required columns"
+    if not data_rows:
+        return "Verification Map needs at least one material code-area row"
+
+    for row in data_rows:
+        if len(row) != len(VERIFICATION_MAP_COLUMNS):
+            return "Verification Map row is incomplete"
+        if any(
+            cell.lower() in placeholders
+            or (cell.startswith("[") and cell.endswith("]"))
+            for cell in row
+        ):
+            return "Verification Map row is incomplete"
+    return ""
+
+
 def check_brief(project_path: str) -> Check:
     brief_path = os.path.join(project_path, "BRIEF.md")
     if not os.path.isfile(brief_path):
@@ -117,6 +181,9 @@ def check_brief(project_path: str) -> Check:
     for marker in placeholder_markers:
         if marker.lower() in content.lower():
             return Check("brief_md", False, f"BRIEF.md contains placeholder text ('{marker}')")
+    map_error = _verification_map_error(content)
+    if map_error:
+        return Check("brief_md", False, map_error)
     return Check("brief_md", True, f"BRIEF.md present ({len(content)} chars)")
 
 
@@ -164,7 +231,7 @@ def main():
             print("\nReady to launch: python3 cli/harness_cli.py --project . launch-concurrent")
         else:
             print("\nFix the failures above before launching concurrent mode.")
-            print("Fallback: use solo-autonomous Full mode (start.md).")
+            print("No unattended fallback: fix preflight or use a supervised Full workflow.")
 
     sys.exit(0 if all_pass else 1)
 

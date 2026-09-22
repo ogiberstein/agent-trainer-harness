@@ -30,7 +30,7 @@ Everything below is reference. Load on-demand.
 If you are an AI agent with shell access:
 1. Run preflight: `python3 cli/preflight_concurrent.py --project .`
 2. If all checks pass: `python3 cli/harness_cli.py --project . launch-concurrent`
-3. If any check fails: fall back to solo-autonomous Full mode and log the reason in `DECISIONS.md`.
+3. If any check fails: do not continue unattended. Fix it or switch to a supervised Full workflow, and log the decision in `DECISIONS.md`.
 
 ## Manual Launch
 

@@ -15,9 +15,13 @@ import sys
 _RUNTIME_DIR = os.path.dirname(os.path.abspath(__file__))
 if _RUNTIME_DIR not in sys.path:
     sys.path.insert(0, _RUNTIME_DIR)
+_CLI_DIR = os.path.join(os.path.dirname(_RUNTIME_DIR), "cli")
+if _CLI_DIR not in sys.path:
+    sys.path.insert(0, _CLI_DIR)
 
 from orchestrator import run  # noqa: E402
 from config import load_config  # noqa: E402
+from preflight_concurrent import check_brief  # type: ignore[import-not-found]  # noqa: E402
 
 
 def main():
@@ -40,9 +44,9 @@ def main():
         print(f"Error: Not a harness project (AGENTS.md missing): {project}")
         sys.exit(1)
 
-    brief_md = os.path.join(project, "BRIEF.md")
-    if not os.path.isfile(brief_md):
-        print(f"Error: BRIEF.md missing — fill it in before starting concurrent mode: {project}")
+    brief_check = check_brief(project)
+    if not brief_check.passed:
+        print(f"Error: Concurrent BRIEF.md preflight failed: {brief_check.detail}")
         sys.exit(1)
 
     config_path = args.config or os.path.join(project, "runtime", "config.yaml")

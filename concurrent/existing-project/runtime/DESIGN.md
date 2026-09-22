@@ -356,7 +356,7 @@ Agents with shell access can self-launch concurrent mode instead of requiring a 
 
 1. Preflight check: `python3 cli/preflight_concurrent.py --project .` (verifies Python, Claude CLI, git, runtime/, config, deps, BRIEF.md)
 2. Launch: `python3 cli/harness_cli.py --project . launch-concurrent` (installs deps, starts orchestrator as background process, prints PID and monitoring instructions)
-3. If preflight fails: the agent falls back to solo-autonomous Full mode and logs the reason in `DECISIONS.md`.
+3. If preflight fails: the agent does not continue unattended. It fixes the failure or switches to a supervised Full workflow and logs the decision in `DECISIONS.md`.
 
 See `AGENTS.md` Mode Selection for the decision protocol.
 

@@ -134,20 +134,20 @@ Purpose: Verify all prerequisites for concurrent mode before launching.
 
 **Executable:** `python3 cli/preflight_concurrent.py --project .` (add `--json` for structured output)
 
-Checks: Python 3.10+, Claude CLI on PATH, git repo with commits, `runtime/` present, `runtime/config.yaml` valid, Python deps installed, `BRIEF.md` filled in.
+Checks: Python 3.10+, Claude CLI on PATH, git repo with commits, `runtime/` present, `runtime/config.yaml` valid, Python deps installed, and `BRIEF.md` filled in, including its completed Verification Map.
 
 ### `/launch-concurrent`
 Purpose: Run preflight checks and launch the concurrent orchestrator as a background process.
 
 **Executable:** `python3 cli/harness_cli.py --project . launch-concurrent`
 
-Runs preflight, installs deps if needed, launches `runtime/run.py` in background, prints PID and monitoring instructions. If preflight fails, prints what's missing and exits with code 1 (agent should fall back to Full mode).
+Runs preflight, installs deps if needed, launches `runtime/run.py` in background, prints PID and monitoring instructions. If preflight fails, prints what's missing and exits with code 1; there is no unattended fallback.
 
 ### `/run-concurrent`
 Purpose: Start a fully autonomous concurrent run with parallel Claude Code workers (manual steps).
 
 Runs:
-1. Verify `BRIEF.md` and `profiles/project-profile.yaml` are filled in.
+1. Run `/preflight-concurrent`, then verify `profiles/project-profile.yaml` is filled in.
 2. Set `runtime/config.yaml` (model, max workers, notification webhook, phases to skip).
 3. Execute: `python runtime/run.py --project /path/to/project`
 4. Orchestrator spawns workers per phase, enforces gates, merges branches.

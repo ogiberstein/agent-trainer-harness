@@ -26,6 +26,19 @@
 - Budget: <!-- Token/cost constraints, hosting limits, or "unconstrained" -->
 - Compliance/security: <!-- GDPR, HIPAA, SOC2, or "standard web app security" -->
 
+## Verification Map
+Required only for unattended Full and Concurrent runs. Do not complete this for Lite or supervised small-task workflows.
+
+Before implementation, add one row for each material code area and choose feedback loops that fit the run budget. As conditional design guidance, make impossible states unrepresentable where this simplifies correctness; this is not a mandate for extra type scaffolding.
+
+During the existing pre-build review, Codex must challenge the map for missing coverage, weak oracles, and feedback loops that exceed the run budget. Resolve material findings before the run. The existing post-build code audit remains required; this preflight is not a new review lane.
+
+- Run verification budget: [...]
+
+| Material code area | Invariant | Fastest feedback loop | Expected runtime range | Oracle | Smallest real-boundary check |
+|---|---|---|---|---|---|
+| [...] | [...] | [...] | [...] | [...] | [...] |
+
 ## Success Criteria
 <!-- How do you know this project succeeded? Use measurable outcomes where possible. -->
 - [ ] <!-- e.g., "User can complete core flow end-to-end" -->

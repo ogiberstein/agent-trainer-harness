@@ -135,8 +135,21 @@ def _load_brief(project_path: str) -> str:
         return ""
     with open(brief_path) as f:
         content = f.read()
-    if len(content) > 2000:
-        return content[:2000] + "\n...(truncated)"
+    if len(content) > 4000:
+        marker = "## Verification Map"
+        map_start = content.find(marker)
+        if map_start < 0:
+            return content[:4000] + "\n...(truncated)"
+        map_end = content.find("\n## ", map_start + len(marker))
+        if map_end < 0:
+            map_end = len(content)
+        map_section = content[map_start:map_end]
+        prefix = content[:min(map_start, 4000)]
+        if map_start > len(prefix):
+            prefix += "\n...(content before Verification Map truncated)\n"
+        if len(map_section) > 4000:
+            map_section = map_section[:4000] + "\n...(Verification Map truncated)"
+        return prefix + map_section + "\n...(remaining BRIEF.md truncated)"
     return content
 
 

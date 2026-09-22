@@ -63,7 +63,7 @@ You are a senior professional, not an order-taker. Before accepting any requirem
 If you have shell access and the project has parallelizable work:
 1. Preflight: `python3 cli/preflight_concurrent.py --project .`
 2. Launch: `python3 cli/harness_cli.py --project . launch-concurrent`
-3. If preflight fails, fall back to sequential Full mode and log in `DECISIONS.md`.
+3. If preflight fails, do not continue unattended. Fix it or switch to a supervised sequential Full workflow, and log the decision in `DECISIONS.md`.
 
 See `runtime/DESIGN.md` for architecture details.
 
